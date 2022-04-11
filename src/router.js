@@ -15,7 +15,7 @@ let routes = [
   { path: "/series", component: Series },
   { path: "/series/:id", component: ASeries },
   { path: "/404", component: err },
-  { path: "/search", component: Search },
+  { path: "/search", name: "search", component: Search },
   { path: "/person/:id", component: Person },
   { path: "/:catchAll(.*)", redirect: "/404" },
 ];

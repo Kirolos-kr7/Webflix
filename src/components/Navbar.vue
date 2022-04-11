@@ -68,70 +68,60 @@ const hideSearchDialog = () => {
         style="font-family: 'Bebas Neue'"
         >WEBFLIX</router-link
       >
-      <ul class="hidden md:flex gap-x-3 items-center text-gray-300 mb-2">
-        <li class="-mb-2">
-          <button @click="showSearchDialog">
+      <ul class="flex gap-x-3 items-center text-gray-300 mb-2 z-30 relative">
+        <li class="-mb-2" v-if="route.name !== 'search'">
+          <button
+            @click="showSearchDialog"
+            class="mb-2 text-green-300 hover:text-green-500 transition-colors"
+          >
             <svg
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               ></path>
             </svg>
           </button>
         </li>
-        <li v-for="item in listItems" :key="item.title">
+        <li class="-mb-2">
+          <button
+            class="mb-2 text-green-300 hover:text-green-500 transition-colors md:hidden"
+            ref="hamButton"
+            @click="navOpen = !navOpen"
+          >
+            <svg
+              class="w-9 h-9"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 8h16M4 16h16"
+              ></path>
+            </svg>
+          </button>
+        </li>
+        <li v-for="item in listItems" :key="item.title" class="hidden md:block">
           <router-link
+            tag="li"
             @click="navOpen = false"
             :to="`/${item.path}`"
-            class="text-lg transition-colors hover:text-gray-400"
+            class="text-xl transition-colors text-green-300 hover:text-green-500"
             >{{ item.title }}</router-link
           >
         </li>
       </ul>
-      <div class="flex gap-x-3 md:hidden">
-        <button @click="showSearchDialog" class="mb-2 text-green-300 z-30">
-          <svg
-            class="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            ></path>
-          </svg>
-        </button>
-        <button
-          class="mb-2 text-green-300 z-30"
-          ref="hamButton"
-          @click="navOpen = !navOpen"
-        >
-          <svg
-            class="w-9 h-9"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 8h16M4 16h16"
-            ></path>
-          </svg>
-        </button>
-      </div>
       <div
         v-if="navOpen"
         class="fixed top-0 left-0 h-screen w-screen"
@@ -144,13 +134,13 @@ const hideSearchDialog = () => {
           class="bg-darkblue-200 z-20 fixed top-0 right-0 min-h-screen w-9/12 overflow-hidden transition-all duration-300"
         >
           <ul
-            class="flex flex-col divide-y divide-gray-700 justify-end items-end text-gray-300 mb-2 mt-20 transition-opacity"
+            class="flex flex-col divide-y divide-gray-700 justify-end items-end mb-2 mt-20 transition-opacity"
             :class="navOpen ? '' : 'opacity-0'"
           >
             <li
               v-for="item in listItems"
               :key="item.title"
-              class="w-full text-2xl font-medium transition-colors hover:bg-darkblue-300"
+              class="w-full text-2xl font-medium hover:bg-darkblue-300 text-green-300 hover:text-green-500 transition-colors"
             >
               <router-link class="px-5 py-3 block" :to="`/${item.path}`">{{
                 item.title

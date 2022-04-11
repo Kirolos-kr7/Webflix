@@ -7,7 +7,7 @@ import { watch } from "@vue/runtime-core";
 const props = defineProps(["searchDialog"]),
   emits = defineEmits(["hideSearchDialog"]),
   router = useRouter(),
-  inputSearch = ref(null),
+  inputSearch = ref(""),
   autoFocusInput = ref(),
   resContainer = ref(),
   currIndex = ref(0),
@@ -148,7 +148,7 @@ const exit = () => {
             <span class="p-3 truncate"> {{ result.name || result.title }}</span>
           </router-link>
           <router-link
-            :to="`/search?query=${inputSearch}`"
+            :to="{ name: 'search', query: { query: inputSearch } }"
             v-if="searchResult?.length > 0"
             class="bg-darkblue-300 hover:bg-darkblue-100 p-3 w-full rounded-b-md block"
           >
