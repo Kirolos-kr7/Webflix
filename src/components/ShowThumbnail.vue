@@ -1,0 +1,113 @@
+<script setup>
+import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
+
+let overlay = ref(),
+  btmbx = ref(),
+  overlayHidden = ref(false);
+
+onMounted(() => {
+  if (!navigator.userAgentData.mobile) {
+    overlay.value.addEventListener("mouseover", () => {
+      overlayHidden.value = true;
+    });
+
+    overlay.value.addEventListener("mouseleave", () => {
+      overlayHidden.value = false;
+    });
+  } else {
+    overlay.value.addEventListener(
+      "touchstart",
+      () => {
+        overlayHidden.value = true;
+      },
+      { passive: true }
+    );
+    overlay.value.addEventListener(
+      "touchend",
+      () => {
+        overlayHidden.value = false;
+      },
+      { passive: true }
+    );
+    overlay.value.addEventListener(
+      "touchcancel",
+      () => {
+        overlayHidden.value = false;
+      },
+      { passive: true }
+    );
+  }
+});
+
+const props = defineProps({
+  show: {
+    type: Object,
+    required: true,
+  },
+});
+</script>
+
+<template>
+  <router-link
+    :to="`/${
+      show.media_type === 'person'
+        ? `person/${show.id}`
+        : show.media_type === 'movie'
+        ? `movie/${show.id}`
+        : show.media_type === 'tv'
+        ? `series/${show.id}`
+        : '404'
+    }`"
+  >
+    <div
+      class="bg-darkblue-200 relative rounded-sm overflow-hidden cursor-pointer daContainer"
+    >
+      <img
+        v-if="show.poster_path"
+        class="object-cover relative z-0"
+        :src="`https://image.tmdb.org/t/p/w500/${show.poster_path}`"
+      />
+      <img
+        v-else-if="show.profile_path"
+        class="object-cover relative z-0"
+        :src="`https://image.tmdb.org/t/p/w500/${show.profile_path}`"
+      />
+      <img v-else class="object-cover relative z-0" src="/broken.png" />
+
+      <div
+        :class="overlayHidden ? 'opacity-0' : ''"
+        ref="overlay"
+        class="absolute z-10 bottom-0 left-0 p-3 w-full h-full overlay transition-opacity"
+        style="
+          background-image: linear-gradient(to bottom, transparent, #032c37fc);
+        "
+      ></div>
+      <div
+        ref="btmbx"
+        class="flex absolute z-10 bottom-0 left-0 p-3 w-full font-medium text-lg items-end justify-between gap-x-2 transition-opacity"
+        :class="overlayHidden ? 'opacity-0' : ''"
+      >
+        <h2 class="leading-6">
+          {{ show.name || show.title }}
+        </h2>
+        <span
+          class="text-yellow-300 flex items-center"
+          v-if="show.media_type !== 'person'"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            ></path>
+          </svg>
+          {{ show.vote_average }}</span
+        >
+      </div>
+    </div>
+  </router-link>
+</template>
