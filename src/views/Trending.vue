@@ -32,9 +32,7 @@
     ref="cnt"
   >
     <transition-group name="fade" appear>
-      <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" />
-      </div>
+      <ShowThumbnail v-for="show in shows" :key="show.id" :show="show" />
     </transition-group>
     <span class="m-6" v-if="isFetching">loading...</span>
   </div>

@@ -31,9 +31,7 @@
     class="max-w-break mx-auto grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 p-5"
   >
     <transition-group name="fade" appear>
-      <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" />
-      </div>
+      <ShowThumbnail v-for="show in shows" :key="show.id" :show="show" />
     </transition-group>
     <span class="m-6" v-if="isFetching">loading...</span>
   </div>
