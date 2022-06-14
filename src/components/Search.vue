@@ -21,7 +21,9 @@ watch(props, () => {
   }
 });
 
-const searchNow = async () => {
+const searchNow = async (e) => {
+  inputSearch.value = e.target.value;
+
   currIndex.value = 0;
   if (inputSearch.value === "") {
     searchResult.value = [];
@@ -106,10 +108,10 @@ const exit = () => {
         <h2 class="text-4xl font-semibold text-left w-full mb-2">Search</h2>
         <div class="flex items-center w-full">
           <input
-            v-model="inputSearch"
+            :value="inputSearch"
             @keyup.enter="toShow"
             @keyup="handleArrows"
-            @input="searchNow"
+            @input="searchNow($event)"
             ref="autoFocusInput"
             type="text"
             class="w-full border-0 px-3 py-2.5 text-black rounded-sm outline-none font-light text-base"
