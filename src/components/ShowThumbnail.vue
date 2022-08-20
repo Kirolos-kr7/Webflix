@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
+import VImage from "./VImage.vue";
 
 let overlay = ref(),
   btmbx = ref(),
@@ -64,17 +65,17 @@ const props = defineProps({
     <div
       class="bg-darkblue-200 relative rounded-sm overflow-hidden cursor-pointer daContainer"
     >
-      <img
+      <VImage
         v-if="show.poster_path"
-        class="object-cover relative z-0"
+        class="relative z-0"
         :src="`https://image.tmdb.org/t/p/w500/${show.poster_path}`"
       />
-      <img
+      <VImage
         v-else-if="show.profile_path"
-        class="object-cover relative z-0"
+        class="relative z-0"
         :src="`https://image.tmdb.org/t/p/w500/${show.profile_path}`"
       />
-      <img v-else class="object-cover relative z-0" src="/broken.png" />
+      <VImage v-else src="/broken.png" class="relative z-0" />
 
       <div
         :class="overlayHidden ? 'opacity-0' : ''"

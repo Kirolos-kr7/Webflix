@@ -3,9 +3,9 @@ import { ref } from "@vue/reactivity";
 import { onMounted, watch } from "@vue/runtime-core";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
-import Navbar from "../components/Navbar.vue";
-import VTitle from "../components/VTitle.vue";
 import Loader from "../components/Loader.vue";
+import Navbar from "../components/Navbar.vue";
+import VImage from "../components/VImage.vue";
 
 const person = ref(null),
   credits = ref(null),
@@ -70,7 +70,7 @@ const clacAge = (age) => {
   <div class="pt-24 max-w-break mx-auto p-5 w-full">
     <div v-if="person" class="grid md:grid-cols-[350px,auto]">
       <div class="flex flex-col md:px-3">
-        <img
+        <VImage
           v-if="person.profile_path"
           class="rounded-md object-cover xs:max-w-[300px] mx-auto md:mx-px"
           :src="`https://image.tmdb.org/t/p/w500/${person.profile_path}`"
@@ -133,12 +133,12 @@ const clacAge = (age) => {
                   : '/404'
               "
             >
-              <img
+              <VImage
                 v-if="credit.poster_path"
                 class="rounded-md object-cover w-36 hover:opacity-70"
                 :src="`https://image.tmdb.org/t/p/w150_and_h225_bestv2/${credit.poster_path}`"
               />
-              <img
+              <VImage
                 v-else
                 class="rounded-md object-cover w-36 hover:opacity-70"
                 src="/broken.png"

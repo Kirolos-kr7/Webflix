@@ -3,6 +3,7 @@ import { ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { watch } from "@vue/runtime-core";
+import VImage from "./VImage.vue";
 
 const props = defineProps(["searchDialog"]),
   emits = defineEmits(["hideSearchDialog"]),
@@ -135,17 +136,17 @@ const exit = () => {
             "
             @click="exit"
           >
-            <img
+            <VImage
               v-if="result.media_type === 'person' && result.profile_path"
               :src="`https://image.tmdb.org/t/p/w200/${result.profile_path}`"
               class="h-16 object-cover w-[43px]"
             />
-            <img
+            <VImage
               v-else-if="result.poster_path"
               :src="`https://image.tmdb.org/t/p/w200/${result.poster_path}`"
               class="h-16 object-cover w-[43px]"
             />
-            <img v-else src="/broken.png" class="h-16 object-cover" />
+            <VImage v-else src="/broken.png" class="h-16 object-cover" />
 
             <span class="p-3 truncate"> {{ result.name || result.title }}</span>
           </router-link>

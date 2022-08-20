@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted } from "@vue/runtime-core";
 import Navbar from "../components/Navbar.vue";
+import VImage from "../components/VImage.vue";
 
 onMounted(() => {
   document.title = `404 - Webflix`;
@@ -10,7 +11,7 @@ onMounted(() => {
 <template>
   <Navbar />
   <div class="relative min-h-screen overflow-x-hidden bg-[#032c37] w-full">
-    <img
+    <VImage
       class="object-cover z-0 min-h-[65vh] xs:min-h-[75vh] md:!min-h-screen max-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80 absolute !left-1/2 !-translate-x-1/2"
       src="/the-matrix-resurrections.jpg"
     />

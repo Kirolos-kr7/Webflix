@@ -1,5 +1,9 @@
+<script setup>
+import VImage from "./VImage.vue";
+</script>
+
 <template>
   <div class="w-screen h-screen flex items-center justify-center">
-    <img src="/Loader.gif" alt="" />
+    <VImage imgSrc="/Loader.gif" alt="loader" />
   </div>
 </template>
