@@ -8,6 +8,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar.vue";
 import Recomendations from "./Recomendations.vue";
 import Loader from "./Loader.vue";
+import VImage from "./VImage.vue";
 
 gsap.registerPlugin(scrollTrigger);
 
@@ -16,7 +17,6 @@ const route = useRoute(),
   show = ref(null),
   cast = ref(null),
   totalCast = ref(null),
-  recomendations = ref(null),
   isLoading = ref(false),
   nowAt = ref(null),
   playingTrailer = ref(false),
@@ -58,7 +58,6 @@ const fetchData = async () => {
   show.value = null;
   cast.value = [];
   totalCast.value = [];
-  recomendations.value = null;
   trailer.value = null;
   nowAt.value = route.params.id;
   isLoading.value = true;
@@ -82,11 +81,6 @@ const fetchData = async () => {
   totalCast.value = castRes.data.cast;
   incremeantCast();
   cast.value = castRes.data.cast.slice(0, 12);
-
-  let recRes = await axios.get(
-    `https://api.themoviedb.org/3/${props.type}/${route.params.id}/recommendations?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-  );
-  recomendations.value = await recRes.data;
 
   let vidRes = await axios.get(
     `https://api.themoviedb.org/3/${props.type}/${route.params.id}/videos?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
@@ -154,10 +148,9 @@ const getDuration = (n) => {
         class="relative min-h-screen overflow-hidden bg-[#032c37]"
         v-if="show !== null"
       >
-        <img
+        <VImage
           ref="background"
           v-if="show.backdrop_path"
-          @load="getCP"
           class="object-cover overflow-hidden z-0 min-h-[65vh] xs:min-h-[75vh] md:!min-h-screen max-h-screen translate-x-0 md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80 absolute top-0"
           :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
         />
@@ -265,13 +258,13 @@ const getDuration = (n) => {
               class="max-w-[9rem] min-w-[9rem] bg-darkblue-200 rounded-md overflow-hidden"
             >
               <router-link :to="`/person/${member.id}`">
-                <img
+                <VImage
                   v-if="member.profile_path"
                   class="w-36 h-52 object-cover hover:opacity-75 transition-opacity"
                   :src="`https://image.tmdb.org/t/p/w200/${member.profile_path}`"
                   :alt="member.name"
                 />
-                <img
+                <VImage
                   v-else
                   class="w-36 h-52 object-cover"
                   :src="
@@ -345,10 +338,7 @@ const getDuration = (n) => {
       </div>
     </div>
 
-    <Recomendations
-      :recomendations="recomendations"
-      v-if="recomendations?.results.length > 0"
-    />
+    <Recomendations :type="type"/>
   </div>
 
   <transition name="fade">
