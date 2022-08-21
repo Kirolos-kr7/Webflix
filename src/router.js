@@ -9,15 +9,15 @@ import Search from "./views/Search.vue";
 import Person from "./views/Person.vue";
 
 let routes = [
-  { path: "/", component: Trending },
-  { path: "/movies", component: Movies },
-  { path: "/movie/:id", component: AMovie },
-  { path: "/series", component: Series },
-  { path: "/series/:id", component: ASeries },
-  { path: "/404", component: err },
-  { path: "/search", name: "search", component: Search },
-  { path: "/person/:id", component: Person },
-  { path: "/:catchAll(.*)", redirect: "/404" },
+  { name: "Home", path: "/", component: Trending },
+  { name: "Movies", path: "/movies", component: Movies },
+  { name: "AMovie", path: "/movie/:id", component: AMovie },
+  { name: "Series", path: "/series", component: Series },
+  { name: "ASeries", path: "/series/:id", component: ASeries },
+  { name: "Home", path: "/404", component: err },
+  { name: "Search", path: "/search", name: "search", component: Search },
+  { name: "Person", path: "/person/:id", component: Person },
+  { name: "404", path: "/:catchAll(.*)", redirect: "/404" },
 ];
 
 const router = createRouter({
