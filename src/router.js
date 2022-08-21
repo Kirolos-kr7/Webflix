@@ -9,7 +9,7 @@ import Search from "./views/Search.vue";
 import Person from "./views/Person.vue";
 
 let routes = [
-  { name: "Home", path: "/", component: Trending },
+  { name: "Trending", path: "/", component: Trending },
   { name: "Movies", path: "/movies", component: Movies },
   { name: "AMovie", path: "/movie/:id", component: AMovie },
   { name: "Series", path: "/series", component: Series },
