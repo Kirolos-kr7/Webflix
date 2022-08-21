@@ -16,10 +16,9 @@
       </button>
     </div>
     <select
-      v-model="mode"
+      :value="mode"
       class="text-white bg-darkblue-200/50 px-2 py-1 rounded-sm md:hidden flex text-sm outline-none relative z-[1]"
-      ref="selectMode"
-      @change="changeMode()"
+      @change="changeMode($event.target.value)"
     >
       <option v-for="by in showModes" :key="by" :value="by.mode">
         {{ by.title }}
@@ -28,94 +27,95 @@
   </div>
   <div
     class="max-w-break mx-auto grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 p-5"
-    ref="cnt"
   >
     <transition-group name="fade" appear>
       <div v-for="show in shows" :key="show.id" class="transition-all">
         <ShowThumbnail :show="show" />
       </div>
     </transition-group>
-    <span class="m-6" v-if="isFetching">loading...</span>
   </div>
+  <Pagination
+    v-show="shows.length > 0"
+    :currPage="page"
+    :totalPages="totalPages"
+    @pageChange="handlePageChange"
+  />
+  <span class="m-6" v-if="isFetching">loading...</span>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "@vue/runtime-core";
-import { useRouter, useRoute } from "vue-router";
-import axios from "axios";
-import ShowThumbnail from "../components/ShowThumbnail.vue";
+import { computed, onMounted, ref, watch } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
 import Navbar from "../components/Navbar.vue";
+import Pagination from "../components/Pagination.vue";
+import ShowThumbnail from "../components/ShowThumbnail.vue";
 import VTitle from "../components/VTitle.vue";
+import useAxios from "../composables/useAxios";
 
 const shows = ref([]),
   page = ref(1),
+  totalPages = ref(1),
   router = useRouter(),
   route = useRoute(),
-  mode = ref(""),
-  cnt = ref(),
   isFetching = ref(false),
-  selectMode = ref(""),
   showModes = ref([
     { mode: "popular", title: "Popular" },
     { mode: "on_the_air", title: "On The Air" },
     { mode: "top_rated", title: "Top Rated" },
   ]);
 
-watch(route, () => {
-  getMode();
-  getMovies();
+const mode = computed(() => {
+  let modeExists = showModes.value.filter(
+    (show) => show.mode === route.query.mode
+  );
+
+  return modeExists[0]?.mode ? modeExists[0].mode : showModes.value[0].mode;
 });
+
+watch(route, () => getMovies());
 
 onMounted(async () => {
   document.title = `Series on Webflix`;
-  getMode();
+  page.value = !isNaN(route.query.p) ? parseInt(route.query.p) : 1;
   getMovies();
-
-  window.addEventListener("scroll", async (e) => {
-    if (
-      cnt.value?.getBoundingClientRect().bottom <= 700 &&
-      isFetching.value != true
-    ) {
-      getMovies();
-    }
-  });
 });
 
 const getMovies = async () => {
   isFetching.value = true;
-  let { data } = await axios.get(
-    `https://api.themoviedb.org/3/tv/${mode.value}?api_key=18cfdbd5b22952a0c5c289fbbf02c827&page=${page.value}`
-  );
-  await data.results.forEach((show) => {
+  shows.value = [];
+
+  let { data } = await useAxios({
+    url: `tv/${mode.value}?api_key=18cfdbd5b22952a0c5c289fbbf02c827&page=${page.value}`,
+  });
+
+  totalPages.value = await data.total_pages;
+  shows.value = await data.results.map((show) => {
     show.media_type = "tv";
-    shows.value.push(show);
-    page.value += 1;
+    return show;
   });
   isFetching.value = false;
 };
 
-const getMode = () => {
-  let isFound = false;
-  showModes.value.forEach((by) => {
-    if (by.mode === route.query.mode) {
-      isFound = true;
-    }
+const handlePageChange = (p) => {
+  if (p === "+") return page.value++;
+  if (p === "-") return page.value--;
+  page.value = p;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  router.push({
+    name: "Series",
+    query: { mode: mode.value, p: p !== 1 ? p : undefined },
   });
-
-  if (isFound) mode.value = route.query.mode;
-  else {
-    mode.value = "popular";
-    router.push(route.path);
-  }
+  getMovies();
 };
 
-const changeMode = (x) => {
-  shows.value = [];
+const changeMode = (newMode) => {
   page.value = 1;
-  if (!x) x = selectMode.value.value;
-  let url = new URL(window.location);
-  let usp = new URLSearchParams(url);
-  usp.set("mode", x);
-  router.push(route.path + "?mode=" + usp.get("mode"));
+
+  router.push({
+    name: "Series",
+    query: {
+      mode: newMode !== showModes.value[0].mode ? newMode : undefined,
+    },
+  });
 };
 </script>
