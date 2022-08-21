@@ -51,7 +51,7 @@ const props = defineProps({
 
 <template>
   <router-link
-    class="aspect-[2/3] min-w-[200px]"
+    class="aspect-[2/3] min-w-[200px] min-h-[300px] block relative"
     :to="`/${
       show.media_type === 'person'
         ? `person/${show.id}`
