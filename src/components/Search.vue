@@ -1,113 +1,110 @@
 <script setup>
-import { ref } from "@vue/reactivity";
-import { useRouter } from "vue-router";
-import axios from "axios";
-import { watch } from "@vue/runtime-core";
-import VImage from "./VImage.vue";
+import axios from 'axios'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import VImage from './VImage.vue'
 
-const props = defineProps(["searchDialog"]),
-  emits = defineEmits(["hideSearchDialog"]),
+const props = defineProps(['searchDialog']),
+  emits = defineEmits(['hideSearchDialog']),
   router = useRouter(),
-  inputSearch = ref(""),
+  inputSearch = ref(''),
   autoFocusInput = ref(),
   resContainer = ref(),
   currIndex = ref(0),
-  searchResult = ref([]);
+  searchResult = ref([])
 
 watch(props, () => {
   if (props.searchDialog) {
     setTimeout(() => {
-      autoFocusInput.value?.focus();
-    }, 100);
+      autoFocusInput.value?.focus()
+    }, 100)
   }
-});
+})
 
 const searchNow = async (e) => {
-  inputSearch.value = e.target.value;
+  inputSearch.value = e.target.value
 
-  currIndex.value = 0;
-  if (inputSearch.value === "") {
-    searchResult.value = [];
-    return;
+  currIndex.value = 0
+  if (inputSearch.value === '') {
+    searchResult.value = []
+    return
   }
   await axios
     .get(
       `https://api.themoviedb.org/3/search/multi?api_key=18cfdbd5b22952a0c5c289fbbf02c827&query=${inputSearch.value}`
     )
     .then((res) => {
-      searchResult.value = res.data?.results.splice(0, 5);
-    });
-};
+      searchResult.value = res.data?.results.splice(0, 5)
+    })
+}
 
 const handleArrows = (e) => {
-  let itemsLength = resContainer.value?.children.length - 1;
+  let itemsLength = resContainer.value?.children.length - 1
 
-  if (itemsLength <= 0 || !searchResult.value) return;
+  if (itemsLength <= 0 || !searchResult.value) return
 
   if (currIndex.value >= 0)
     resContainer.value.children[currIndex.value].classList.remove(
-      "!bg-darkblue-200"
-    );
+      '!bg-darkblue-200'
+    )
 
-  if (e.key === "ArrowUp")
-    if (currIndex.value == 0) currIndex.value = itemsLength;
-    else if (currIndex.value > 0) currIndex.value--;
+  if (e.key === 'ArrowUp')
+    if (currIndex.value == 0) currIndex.value = itemsLength
+    else if (currIndex.value > 0) currIndex.value--
 
-  if (e.key === "ArrowDown")
-    if (currIndex.value == itemsLength) currIndex.value = 0;
-    else if (currIndex.value < itemsLength) currIndex.value++;
+  if (e.key === 'ArrowDown')
+    if (currIndex.value == itemsLength) currIndex.value = 0
+    else if (currIndex.value < itemsLength) currIndex.value++
 
-  resContainer.value.children[currIndex.value].classList.add(
-    "!bg-darkblue-200"
-  );
-};
+  resContainer.value.children[currIndex.value].classList.add('!bg-darkblue-200')
+}
 
 const toShow = () => {
-  if (searchResult.value.length == 0) return;
+  if (searchResult.value.length == 0) return
   if (resContainer.value?.children.length > searchResult.value.length)
-    router.push("/404");
+    router.push('/404')
 
   if (navigator.userAgentData.mobile)
-    router.push(`/search?query=${inputSearch.value}`);
+    router.push(`/search?query=${inputSearch.value}`)
   else {
-    let result = searchResult.value[currIndex.value];
+    let result = searchResult.value[currIndex.value]
 
     if (result)
-      result.media_type === "person"
+      result.media_type === 'person'
         ? router.push(`/person/${result.id}`)
-        : result.media_type === "movie"
+        : result.media_type === 'movie'
         ? router.push(`/movie/${result.id}`)
-        : result.media_type === "tv"
+        : result.media_type === 'tv'
         ? router.push(`/series/${result.id}`)
-        : router.push("/404");
-    else router.push(`/search?query=${inputSearch.value}`);
+        : router.push('/404')
+    else router.push(`/search?query=${inputSearch.value}`)
   }
 
-  exit();
-};
+  exit()
+}
 
 const exit = () => {
-  inputSearch.value = null;
-  searchResult.value = [];
-  emits("hideSearchDialog");
-};
+  inputSearch.value = null
+  searchResult.value = []
+  emits('hideSearchDialog')
+}
 </script>
 
 <template>
   <transition name="fadeIn">
     <div
-      class="w-full min-h-screen bg-transparent fixed inset-0 z-40 backdrop-blur-sm"
+      class="fixed inset-0 z-40 min-h-screen w-full bg-transparent backdrop-blur-sm"
       v-if="searchDialog"
     >
       <div
-        class="w-full h-full bg-black/60 absolute inset-0 transition-all"
+        class="absolute inset-0 h-full w-full bg-black/60 transition-all"
         @click="exit"
       ></div>
       <div
-        class="relative z-[41] w-11/12 sm:w-[400px] md:w-[500px] lg:w-[600px] mx-auto mt-32 flex flex-col items-center"
+        class="relative z-[41] mx-auto mt-32 flex w-11/12 flex-col items-center sm:w-[400px] md:w-[500px] lg:w-[600px]"
       >
-        <h2 class="text-4xl font-semibold text-left w-full mb-2">Search</h2>
-        <div class="flex items-center w-full">
+        <h2 class="mb-2 w-full text-left text-4xl font-semibold">Search</h2>
+        <div class="flex w-full items-center">
           <input
             :value="inputSearch"
             @keyup.enter="toShow"
@@ -115,7 +112,7 @@ const exit = () => {
             @input="searchNow($event)"
             ref="autoFocusInput"
             type="text"
-            class="w-full border-0 px-3 py-2.5 text-black rounded-sm outline-none font-light text-base"
+            class="w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none"
             style="background-image: linear-gradient(#00000020, transparent)"
             placeholder="search a movie, series or a person..."
           />
@@ -124,7 +121,7 @@ const exit = () => {
           <router-link
             v-for="result in searchResult"
             :key="result.id"
-            class="bg-darkblue-200/80 hover:bg-darkblue-300/80 w-full flex items-center overflow-hidden"
+            class="flex w-full items-center overflow-hidden bg-darkblue-200/80 hover:bg-darkblue-300/80"
             :to="
               result.media_type === 'person'
                 ? `/person/${result.id}`
@@ -139,21 +136,21 @@ const exit = () => {
             <VImage
               v-if="result.media_type === 'person' && result.profile_path"
               :src="`https://image.tmdb.org/t/p/w200/${result.profile_path}`"
-              class="h-16 object-cover w-[43px]"
+              class="h-16 w-[43px] object-cover"
             />
             <VImage
               v-else-if="result.poster_path"
               :src="`https://image.tmdb.org/t/p/w200/${result.poster_path}`"
-              class="h-16 object-cover w-[43px]"
+              class="h-16 w-[43px] object-cover"
             />
             <VImage v-else src="/broken.png" class="h-16 object-cover" />
 
-            <span class="p-3 truncate"> {{ result.name || result.title }}</span>
+            <span class="truncate p-3"> {{ result.name || result.title }}</span>
           </router-link>
           <router-link
             :to="{ name: 'search', query: { query: inputSearch } }"
             v-if="searchResult?.length > 0"
-            class="bg-darkblue-300 hover:bg-darkblue-100 p-3 w-full rounded-b-md block"
+            class="block w-full rounded-b-md bg-darkblue-300 p-3 hover:bg-darkblue-100"
           >
             Watch More
           </router-link>
@@ -161,10 +158,10 @@ const exit = () => {
       </div>
       <button
         @click="exit"
-        class="p-3 rounded-sm bg-red-600 hover:bg-red-500 absolute right-5 top-5"
+        class="absolute right-5 top-5 rounded-sm bg-red-600 p-3 hover:bg-red-500"
       >
         <svg
-          class="w-5 h-5"
+          class="h-5 w-5"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"

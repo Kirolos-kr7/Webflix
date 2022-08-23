@@ -1,13 +1,13 @@
 <script setup>
-const props = defineProps(["title"]);
+defineProps(['title'])
 </script>
 
 <template>
   <div class="relative">
-    <h1 class="text-4xl font-semibold relative z-10">{{ title }}</h1>
+    <h1 class="relative z-10 text-4xl font-semibold">{{ title }}</h1>
     <transition name="fadeIn" appear>
       <h1
-        class="z-0 text-9xl top-2 -translate-y-12 -translate-x-14 font-black absolute text-black/30 select-none pointer-events-none w-screen overflow-hidden py-3"
+        class="pointer-events-none absolute top-2 z-0 w-screen -translate-y-12 -translate-x-14 select-none overflow-hidden py-3 text-9xl font-black text-black/30"
       >
         {{ title }}
       </h1>

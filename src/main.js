@@ -1,13 +1,10 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import "../tailwind.css";
+import { createApp } from 'vue'
+import '../tailwind.css'
+import App from './App.vue'
+import router from './router'
 
-import { registerSW } from "virtual:pwa-register";
+import { registerSW } from 'virtual:pwa-register'
 
-const updateSW = registerSW({
-  // onNeedRefresh() {},
-  // onOfflineReady() {},
-});
+registerSW({})
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).mount('#app')

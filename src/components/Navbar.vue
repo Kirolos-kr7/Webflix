@@ -1,81 +1,80 @@
 <script setup>
-import { ref } from "@vue/reactivity";
-import { onMounted, watch } from "@vue/runtime-core";
-import Search from "./Search.vue";
-import { useRoute } from "vue-router";
+import { ref, onMounted, watch } from 'vue'
+import Search from './Search.vue'
+import { useRoute } from 'vue-router'
 
 const listItems = ref([
     {
-      title: "Trending",
-      path: "",
+      title: 'Trending',
+      path: ''
     },
     {
-      title: "Movies",
-      path: "movies",
+      title: 'Movies',
+      path: 'movies'
     },
     {
-      title: "Series",
-      path: "series",
-    },
+      title: 'Series',
+      path: 'series'
+    }
   ]),
   navOpen = ref(false),
   nav = ref(),
-  route = useRoute();
+  route = useRoute()
 
 watch(navOpen, () => {
-  if (navOpen.value) document.body.style.overflow = "hidden";
-  else document.body.style.overflow = "overlay";
-});
+  if (navOpen.value) document.body.style.overflow = 'hidden'
+  else document.body.style.overflow = 'overlay'
+})
 
 onMounted(() => {
   if (
-    route.path === "/" ||
-    route.path === "/movies" ||
-    route.path === "/series"
+    route.path === '/' ||
+    route.path === '/movies' ||
+    route.path === '/series'
   ) {
-    nav.value?.classList.add("bg-darkblue-300/80");
-    nav.value?.classList.add("backdrop-blur-lg");
+    nav.value?.classList.add('bg-darkblue-300/80')
+    nav.value?.classList.add('backdrop-blur-lg')
   } else {
-    window.addEventListener("scroll", (e) => {
+    window.addEventListener('scroll', () => {
       if (window.scrollY > 500) {
-        nav.value?.classList.add("bg-darkblue-300/80");
-        nav.value?.classList.add("backdrop-blur-lg");
+        nav.value?.classList.add('bg-darkblue-300/80')
+        nav.value?.classList.add('backdrop-blur-lg')
       } else {
-        nav.value?.classList.remove("bg-darkblue-300/80");
-        nav.value?.classList.remove("backdrop-blur-lg");
+        nav.value?.classList.remove('bg-darkblue-300/80')
+        nav.value?.classList.remove('backdrop-blur-lg')
       }
-    });
+    })
   }
-});
+})
 
-const searchDialog = ref(false);
+const searchDialog = ref(false)
 
 const showSearchDialog = () => {
-  searchDialog.value = true;
-};
+  searchDialog.value = true
+}
 
 const hideSearchDialog = () => {
-  searchDialog.value = false;
-};
+  searchDialog.value = false
+}
 </script>
 
 <template>
-  <nav class="px-5 pt-3 pb-2 fixed top-0 z-30 w-full transition-all" ref="nav">
-    <div class="mx-auto flex items-center justify-between max-w-break w-full">
+  <nav class="fixed top-0 z-30 w-full px-5 pt-3 pb-2 transition-all" ref="nav">
+    <div class="mx-auto flex w-full max-w-break items-center justify-between">
       <router-link
         to="/"
-        class="text-5xl md:text-6xl text-green-300 hover:text-green-400 clear transition-colors"
+        class="clear text-5xl text-green-300 transition-colors hover:text-green-400 md:text-6xl"
         style="font-family: 'Bebas Neue'"
         >WEBFLIX</router-link
       >
-      <ul class="flex gap-x-3 items-center text-gray-300 mb-2 z-30 relative">
+      <ul class="relative z-30 mb-2 flex items-center gap-x-3 text-gray-300">
         <li class="-mb-2" v-if="route.name !== 'search'">
           <button
             @click="showSearchDialog"
-            class="mb-2 text-green-300 hover:text-green-500 transition-colors"
+            class="mb-2 text-green-300 transition-colors hover:text-green-500"
           >
             <svg
-              class="w-7 h-7"
+              class="h-7 w-7"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -92,12 +91,12 @@ const hideSearchDialog = () => {
         </li>
         <li class="-mb-2">
           <button
-            class="mb-2 text-green-300 hover:text-green-500 transition-colors md:hidden"
+            class="mb-2 text-green-300 transition-colors hover:text-green-500 md:hidden"
             ref="hamButton"
             @click="navOpen = !navOpen"
           >
             <svg
-              class="w-9 h-9"
+              class="h-9 w-9"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -114,10 +113,9 @@ const hideSearchDialog = () => {
         </li>
         <li v-for="item in listItems" :key="item.title" class="hidden md:block">
           <router-link
-            tag="li"
             @click="navOpen = false"
             :to="`/${item.path}`"
-            class="text-xl transition-colors text-green-300 hover:text-green-500"
+            class="text-xl text-green-300 transition-colors hover:text-green-500"
             >{{ item.title }}</router-link
           >
         </li>
@@ -131,18 +129,18 @@ const hideSearchDialog = () => {
         <div
           v-if="navOpen"
           ref="overlayMenu"
-          class="bg-darkblue-200 z-20 fixed top-0 right-0 min-h-screen w-9/12 overflow-hidden transition-all duration-300"
+          class="fixed top-0 right-0 z-20 min-h-screen w-9/12 overflow-hidden bg-darkblue-200 transition-all duration-300"
         >
           <ul
-            class="flex flex-col divide-y divide-gray-700 justify-end items-end mb-2 mt-20 transition-opacity"
+            class="mb-2 mt-20 flex flex-col items-end justify-end divide-y divide-gray-700 transition-opacity"
             :class="navOpen ? '' : 'opacity-0'"
           >
             <li
               v-for="item in listItems"
               :key="item.title"
-              class="w-full text-2xl font-medium hover:bg-darkblue-300 text-green-300 hover:text-green-500 transition-colors"
+              class="w-full text-2xl font-medium text-green-300 transition-colors hover:bg-darkblue-300 hover:text-green-500"
             >
-              <router-link class="px-5 py-3 block" :to="`/${item.path}`">{{
+              <router-link class="block px-5 py-3" :to="`/${item.path}`">{{
                 item.title
               }}</router-link>
             </li>

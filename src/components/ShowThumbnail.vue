@@ -1,57 +1,56 @@
 <script setup>
-import { ref } from "@vue/reactivity";
-import { onMounted } from "@vue/runtime-core";
-import VImage from "./VImage.vue";
+import { onMounted, ref } from 'vue'
+import VImage from './VImage.vue'
 
 let overlay = ref(),
   btmbx = ref(),
-  overlayHidden = ref(false);
+  overlayHidden = ref(false)
 
 onMounted(() => {
   if (!navigator.userAgentData.mobile) {
-    overlay.value.addEventListener("mouseover", () => {
-      overlayHidden.value = true;
-    });
+    overlay.value.addEventListener('mouseover', () => {
+      overlayHidden.value = true
+    })
 
-    overlay.value.addEventListener("mouseleave", () => {
-      overlayHidden.value = false;
-    });
+    overlay.value.addEventListener('mouseleave', () => {
+      overlayHidden.value = false
+    })
   } else {
     overlay.value.addEventListener(
-      "touchstart",
+      'touchstart',
       () => {
-        overlayHidden.value = true;
+        overlayHidden.value = true
       },
       { passive: true }
-    );
+    )
     overlay.value.addEventListener(
-      "touchend",
+      'touchend',
       () => {
-        overlayHidden.value = false;
+        overlayHidden.value = false
       },
       { passive: true }
-    );
+    )
     overlay.value.addEventListener(
-      "touchcancel",
+      'touchcancel',
       () => {
-        overlayHidden.value = false;
+        overlayHidden.value = false
       },
       { passive: true }
-    );
+    )
   }
-});
+})
 
-const props = defineProps({
+defineProps({
   show: {
     type: Object,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 </script>
 
 <template>
   <router-link
-    class="aspect-[2/3] min-w-[200px] min-h-[300px] block relative"
+    class="relative block aspect-[2/3] min-h-[300px] min-w-[200px]"
     :to="`/${
       show.media_type === 'person'
         ? `person/${show.id}`
@@ -63,7 +62,7 @@ const props = defineProps({
     }`"
   >
     <div
-      class="bg-darkblue-200 relative rounded-sm overflow-hidden cursor-pointer daContainer"
+      class="daContainer relative cursor-pointer overflow-hidden rounded-sm bg-darkblue-200"
     >
       <VImage
         v-if="show.poster_path"
@@ -80,25 +79,25 @@ const props = defineProps({
       <div
         :class="overlayHidden ? 'opacity-0' : ''"
         ref="overlay"
-        class="absolute z-10 bottom-0 left-0 p-3 w-full h-full overlay transition-opacity"
+        class="overlay absolute bottom-0 left-0 z-10 h-full w-full p-3 transition-opacity"
         style="
           background-image: linear-gradient(to bottom, transparent, #032c37fc);
         "
       ></div>
       <div
         ref="btmbx"
-        class="flex absolute z-10 bottom-0 left-0 p-3 w-full font-medium text-lg items-end justify-between gap-x-2 transition-opacity"
+        class="absolute bottom-0 left-0 z-10 flex w-full items-end justify-between gap-x-2 p-3 text-lg font-medium transition-opacity"
         :class="overlayHidden ? 'opacity-0' : ''"
       >
         <h2 class="leading-6">
           {{ show.name || show.title }}
         </h2>
         <span
-          class="text-yellow-300 flex items-center"
+          class="flex items-center text-yellow-300"
           v-if="show.media_type !== 'person'"
         >
           <svg
-            class="w-6 h-6"
+            class="h-6 w-6"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

@@ -1,16 +1,15 @@
 <script setup>
-import { ref } from "@vue/reactivity";
-import { useRoute, useRouter } from "vue-router";
-import { onMounted, watch } from "@vue/runtime-core";
-import { gsap } from "gsap";
-import scrollTrigger from "gsap/ScrollTrigger";
-import axios from "axios";
-import Navbar from "../components/Navbar.vue";
-import Recomendations from "./Recomendations.vue";
-import Loader from "./Loader.vue";
-import VImage from "./VImage.vue";
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { gsap } from 'gsap'
+import scrollTrigger from 'gsap/ScrollTrigger'
+import axios from 'axios'
+import Navbar from '../components/Navbar.vue'
+import Recomendations from './Recomendations.vue'
+import Loader from './Loader.vue'
+import VImage from './VImage.vue'
 
-gsap.registerPlugin(scrollTrigger);
+gsap.registerPlugin(scrollTrigger)
 
 const route = useRoute(),
   router = useRouter(),
@@ -21,24 +20,24 @@ const route = useRoute(),
   nowAt = ref(null),
   playingTrailer = ref(false),
   trailer = ref(null),
-  props = defineProps(["type"]),
+  props = defineProps(['type']),
   background = ref(),
-  castToShow = ref(0);
+  castToShow = ref(0)
 
 onMounted(() => {
-  fetchData();
-});
+  fetchData()
+})
 
 watch(route, () => {
-  let currPath = route.matched[0].path;
-  console.log();
+  let currPath = route.matched[0].path
+  console.log()
   if (
     route.params.id !== nowAt.value &&
-    (currPath === "/movie/:id" || currPath === "/series/:id")
+    (currPath === '/movie/:id' || currPath === '/series/:id')
   ) {
-    fetchData();
+    fetchData()
   }
-});
+})
 
 // watch(background, () => {
 //   if (background.value) {
@@ -55,86 +54,80 @@ watch(route, () => {
 // });
 
 const fetchData = async () => {
-  show.value = null;
-  cast.value = [];
-  totalCast.value = [];
-  trailer.value = null;
-  nowAt.value = route.params.id;
-  isLoading.value = true;
+  show.value = null
+  cast.value = []
+  totalCast.value = []
+  trailer.value = null
+  nowAt.value = route.params.id
+  isLoading.value = true
   await axios
     .get(
       `https://api.themoviedb.org/3/${props.type}/${route.params.id}?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
     )
     .then((res) => {
-      show.value = res.data;
-      document.title = `${res.data?.name || res.data?.title} - Webflix`;
-      isLoading.value = false;
+      show.value = res.data
+      document.title = `${res.data?.name || res.data?.title} - Webflix`
+      isLoading.value = false
     })
     .catch((err) => {
-      console.error(err);
-      router.push("/404");
-    });
+      console.error(err)
+      router.push('/404')
+    })
 
   let castRes = await axios.get(
     `https://api.themoviedb.org/3/${props.type}/${route.params.id}/credits?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-  );
-  totalCast.value = castRes.data.cast;
-  incremeantCast();
-  cast.value = castRes.data.cast.slice(0, 12);
+  )
+  totalCast.value = castRes.data.cast
+  incremeantCast()
+  cast.value = castRes.data.cast.slice(0, 12)
 
   let vidRes = await axios.get(
     `https://api.themoviedb.org/3/${props.type}/${route.params.id}/videos?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-  );
-  trailer.value = await vidRes.data.results[0];
-};
+  )
+  trailer.value = await vidRes.data.results[0]
+}
 
 const getMoreCast = () => {
   if (cast.value.length < totalCast.value.length) {
-    incremeantCast();
-    cast.value = totalCast.value?.slice(0, castToShow.value);
+    incremeantCast()
+    cast.value = totalCast.value?.slice(0, castToShow.value)
   }
-};
+}
 
 const incremeantCast = () => {
   if (totalCast.value.length - cast.value.length < 12)
-    castToShow.value += totalCast.value.length - cast.value.length;
-  else castToShow.value += 12;
-};
+    castToShow.value += totalCast.value.length - cast.value.length
+  else castToShow.value += 12
+}
 
 const getReleaseDate = (str) => {
-  return str?.slice(0, 4);
-};
+  return str?.slice(0, 4)
+}
 
 const getLanguage = (str) => {
-  return str?.toUpperCase();
-};
+  return str?.toUpperCase()
+}
 
 const getNumebrOf = (n, type) => {
-  if (n === 1) return n + " " + type;
-  else return n + " " + type + "s";
-};
-
-const replaceWithPlaceholder = (gender, e) => {
-  if (gender === 1) {
-    e.target.src = "/female-placeholder.jpeg";
-  } else e.target.src = "/male-placeholder.jpg";
-};
+  if (n === 1) return n + ' ' + type
+  else return n + ' ' + type + 's'
+}
 
 const getDuration = (n) => {
-  if (n > 360) return "4hrs " + (n - 360) + "min";
-  if (n === 360) return "4hrs ";
+  if (n > 360) return '4hrs ' + (n - 360) + 'min'
+  if (n === 360) return '4hrs '
 
-  if (n > 240) return "3hrs " + (n - 240) + "min";
-  if (n === 240) return "3hrs ";
+  if (n > 240) return '3hrs ' + (n - 240) + 'min'
+  if (n === 240) return '3hrs '
 
-  if (n > 120) return "2hrs " + (n - 120) + "min";
-  if (n === 120) return "2hrs ";
+  if (n > 120) return '2hrs ' + (n - 120) + 'min'
+  if (n === 120) return '2hrs '
 
-  if (n > 60) return "1hr " + (n - 60) + "min";
-  if (n === 60) return "1hr ";
+  if (n > 60) return '1hr ' + (n - 60) + 'min'
+  if (n === 60) return '1hr '
 
-  if (n < 60) return n + "mins";
-};
+  if (n < 60) return n + 'mins'
+}
 </script>
 
 <template>
@@ -151,17 +144,17 @@ const getDuration = (n) => {
         <VImage
           ref="background"
           v-if="show.backdrop_path"
-          class="object-cover overflow-hidden z-0 min-h-[65vh] xs:min-h-[75vh] md:!min-h-screen max-h-screen translate-x-0 md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80 absolute top-0"
+          class="absolute top-0 z-0 max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
           :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
         />
         <div
           ref="overlay"
-          class="overlay absolute z-10 top-0 left-0 p-3 w-full h-full transition-opacity max-h-screen pointer-events-none"
+          class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
         ></div>
 
-        <div class="max-w-break mx-auto relative mt-[50vh]">
+        <div class="relative mx-auto mt-[50vh] max-w-break">
           <div
-            class="relative z-10 mt-[50vh] flex flex-col justify-end md:justify-center min-h-[50vh] md:absolute bottom-8 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:mt-auto mx-8 md:mx-16 lg:mx-32 md:max-w-[48%] lg:max-w-[38%]"
+            class="relative bottom-8 z-10 mx-8 mt-[50vh] flex min-h-[50vh] flex-col justify-end md:absolute md:bottom-auto md:top-1/2 md:mx-16 md:mt-auto md:max-w-[48%] md:-translate-y-1/2 md:justify-center lg:mx-32 lg:max-w-[38%]"
           >
             <em
               ><h3 class="text-gray-400">
@@ -169,7 +162,7 @@ const getDuration = (n) => {
               </h3></em
             >
             <h2
-              class="text-5xl font-semibold mt-3 break-words"
+              class="mt-3 break-words text-5xl font-semibold"
               style="hyphens: auto"
               :class="
                 show.name?.length > 40 || show.title?.length > 40
@@ -179,53 +172,53 @@ const getDuration = (n) => {
             >
               {{ show.name || show.title }}
             </h2>
-            <p class="mt-4 flex items-center flex-wrap" v-if="type === 'movie'">
+            <p class="mt-4 flex flex-wrap items-center" v-if="type === 'movie'">
               <span>
                 {{ getReleaseDate(show?.release_date) }}
               </span>
-              <span class="rounded-full w-1 h-1 mx-1.5 bg-white inline-block">
+              <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
               </span>
               <span>
                 {{ getDuration(show?.runtime) }}
               </span>
               <span
-                class="rounded-full w-1 h-1 mx-1.5 bg-white inline-block"
+                class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
               ></span>
               <span>
                 {{ getLanguage(show?.original_language) }}
               </span>
             </p>
-            <p class="mt-4 flex items-center flex-wrap" v-else>
+            <p class="mt-4 flex flex-wrap items-center" v-else>
               <span>
                 {{ getReleaseDate(show?.first_air_date) }}
               </span>
-              <span class="rounded-full w-1 h-1 mx-1.5 bg-white inline-block">
+              <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
               </span>
               <span>
-                {{ getNumebrOf(show?.number_of_seasons, "Season") }}
+                {{ getNumebrOf(show?.number_of_seasons, 'Season') }}
               </span>
               <span
-                class="rounded-full w-1 h-1 mx-1.5 bg-white inline-block"
+                class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
               ></span>
               <span>
-                {{ getNumebrOf(show?.number_of_episodes, "Episode") }}
+                {{ getNumebrOf(show?.number_of_episodes, 'Episode') }}
               </span>
               <span
-                class="rounded-full w-1 h-1 mx-1.5 bg-white inline-block"
+                class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
               ></span>
               <span>
                 {{ getLanguage(show?.original_language) }}
               </span>
             </p>
-            <p class="text-gray-300 mt-2">
+            <p class="mt-2 text-gray-300">
               {{ show?.overview }}
             </p>
             <button
               @click="playingTrailer = true"
-              class="relative mt-6 flex items-center gap-x-2 font-extralight text-sm w-max bg-darkblue-100 hover:bg-darkblue-100/75 transition-colors px-3 py-1 rounded-sm"
+              class="relative mt-6 flex w-max items-center gap-x-2 rounded-sm bg-darkblue-100 px-3 py-1 text-sm font-extralight transition-colors hover:bg-darkblue-100/75"
             >
               <svg
-                class="w-5 h-5 text-gray-400 cursor-pointer"
+                class="h-5 w-5 cursor-pointer text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -244,29 +237,29 @@ const getDuration = (n) => {
     </div>
 
     <div
-      class="grid md:grid-cols-4 gap-x-5 px-5 py-10 w-full max-w-break mx-auto"
+      class="mx-auto grid w-full max-w-break gap-x-5 px-5 py-10 md:grid-cols-4"
     >
-      <div class="col-span-3 order-2 md:order-1" v-if="cast?.length > 0">
+      <div class="order-2 col-span-3 md:order-1" v-if="cast?.length > 0">
         <h2 class="text-3xl font-semibold">Cast</h2>
         <div class="!relative">
           <div
-            class="flex gap-x-3 mt-4 overflow-x-auto pb-2 max-w-[calc(100vw-2.5rem)]"
+            class="mt-4 flex max-w-[calc(100vw-2.5rem)] gap-x-3 overflow-x-auto pb-2"
           >
             <div
               v-for="member in cast"
               :key="member.cast_id"
-              class="max-w-[9rem] min-w-[9rem] bg-darkblue-200 rounded-md overflow-hidden"
+              class="min-w-[9rem] max-w-[9rem] overflow-hidden rounded-md bg-darkblue-200"
             >
               <router-link :to="`/person/${member.id}`">
                 <VImage
                   v-if="member.profile_path"
-                  class="w-36 h-52 object-cover hover:opacity-75 transition-opacity"
+                  class="h-52 w-36 object-cover transition-opacity hover:opacity-75"
                   :src="`https://image.tmdb.org/t/p/w200/${member.profile_path}`"
                   :alt="member.name"
                 />
                 <VImage
                   v-else
-                  class="w-36 h-52 object-cover"
+                  class="h-52 w-36 object-cover"
                   :src="
                     member.gender === 1
                       ? '/female-placeholder.jpeg'
@@ -278,7 +271,7 @@ const getDuration = (n) => {
               <div class="p-2">
                 <router-link
                   :to="`/person/${member.id}`"
-                  class="font-semibold block hover:text-gray-400"
+                  class="block font-semibold hover:text-gray-400"
                   >{{ member.name }}</router-link
                 >
                 <span class="text-green-400">AS</span>
@@ -288,41 +281,41 @@ const getDuration = (n) => {
             <button
               v-if="cast?.length < totalCast?.length"
               @click="getMoreCast()"
-              class="bg-darkblue-200 rounded-md px-10 hover:bg-darkblue-200/60 transition-colors relative"
+              class="relative rounded-md bg-darkblue-200 px-10 transition-colors hover:bg-darkblue-200/60"
             >
               <span
-                class="absolute rotate-90 -translate-x-1/2 -translate-y-1/2 text-5xl font-black text-darkblue-300"
+                class="absolute -translate-x-1/2 -translate-y-1/2 rotate-90 text-5xl font-black text-darkblue-300"
                 >More</span
               >
             </button>
           </div>
         </div>
       </div>
-      <div class="order-1 md:order-2 mb-8">
+      <div class="order-1 mb-8 md:order-2">
         <h2 class="text-3xl font-semibold">Facts</h2>
-        <div class="grid gap-3 mt-3">
+        <div class="mt-3 grid gap-3">
           <div v-if="show?.status">
             <h3 class="text-lg font-medium">Status</h3>
-            <p class="text-gray-400 text-sm">{{ show?.status }}</p>
+            <p class="text-sm text-gray-400">{{ show?.status }}</p>
           </div>
           <div v-if="show?.budget">
             <h3 class="text-lg font-medium">Budget</h3>
-            <p class="text-gray-400 text-sm">
+            <p class="text-sm text-gray-400">
               {{
-                new Intl.NumberFormat("us-EN", {
-                  style: "currency",
-                  currency: "USD",
+                new Intl.NumberFormat('us-EN', {
+                  style: 'currency',
+                  currency: 'USD'
                 }).format(show?.budget)
               }}
             </p>
           </div>
           <div v-if="show?.revenue">
             <h3 class="text-lg font-medium">Revenue</h3>
-            <p class="text-gray-400 text-sm">
+            <p class="text-sm text-gray-400">
               {{
-                new Intl.NumberFormat("us-EN", {
-                  style: "currency",
-                  currency: "USD",
+                new Intl.NumberFormat('us-EN', {
+                  style: 'currency',
+                  currency: 'USD'
                 }).format(show?.revenue)
               }}
             </p>
@@ -330,7 +323,7 @@ const getDuration = (n) => {
 
           <div v-if="show?.type">
             <h3 class="text-lg font-medium">Type</h3>
-            <p class="text-gray-400 text-sm">
+            <p class="text-sm text-gray-400">
               {{ show?.type }}
             </p>
           </div>
@@ -338,21 +331,21 @@ const getDuration = (n) => {
       </div>
     </div>
 
-    <Recomendations :type="type"/>
+    <Recomendations :type="type" />
   </div>
 
   <transition name="fade">
     <div
       v-if="playingTrailer"
       @click="playingTrailer = false"
-      class="fixed inset-0 w-full h-screen bg-darkblue-300/80 backdrop-blur-lg z-30"
+      class="fixed inset-0 z-30 h-screen w-full bg-darkblue-300/80 backdrop-blur-lg"
     >
       <div v-if="trailer?.site === 'YouTube'">
         <div
-          class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-9/12 pb-[56.25%] xl:h-[600px] xl:pb-0"
+          class="absolute inset-1/2 w-9/12 -translate-x-1/2 -translate-y-1/2 pb-[56.25%] xl:h-[600px] xl:pb-0"
         >
           <iframe
-            class="w-full h-full absolute top-1/2 left-0 -translate-y-1/2"
+            class="absolute top-1/2 left-0 h-full w-full -translate-y-1/2"
             style="aspect-ratio: 16/9"
             :src="`https://www.youtube.com/embed/${trailer?.key}`"
             title="YouTube video player"

@@ -1,14 +1,14 @@
 const useIntersectionObserver = (el, cb, { once = false }) => {
-  if (!el) return;
+  if (!el) return
 
   let observer = new IntersectionObserver((entries) => {
-    if (!entries[0].isIntersecting) return;
+    if (!entries[0].isIntersecting) return
 
-    cb();
-    if (once) observer.unobserve(el);
-  });
+    cb()
+    if (once) observer.unobserve(el)
+  })
 
-  observer.observe(el);
-};
+  observer.observe(el)
+}
 
-export default useIntersectionObserver;
+export default useIntersectionObserver
