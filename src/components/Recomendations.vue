@@ -1,8 +1,8 @@
 <script setup>
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import useIntersectionObserver from '../composables/IntersectionObserver'
+import useAxios from '../composables/useAxios'
 import ShowThumbnail from './ShowThumbnail.vue'
 
 const recs = ref()
@@ -14,10 +14,10 @@ onMounted(async () => {
   useIntersectionObserver(
     recs.value,
     async () => {
-      let recRes = await axios.get(
-        `https://api.themoviedb.org/3/${props.type}/${route.params.id}/recommendations?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-      )
-      recomendations.value = await recRes.data
+      let { data } = await useAxios({
+        url: `${props.type}/${route.params.id}/recommendations`
+      })
+      recomendations.value = data
     },
     { once: true }
   )

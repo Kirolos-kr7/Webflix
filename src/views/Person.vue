@@ -1,10 +1,10 @@
 <script setup>
-import axios from 'axios'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Loader from '../components/Loader.vue'
 import Navbar from '../components/Navbar.vue'
 import VImage from '../components/VImage.vue'
+import useAxios from '../composables/useAxios'
 
 const person = ref(null),
   credits = ref(null),
@@ -28,28 +28,22 @@ const fetchData = async () => {
   isLoading.value = true
   if (route.params.id) {
     nowAt.value = route.params.id
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/person/${route.params.id}?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-      )
-      .then((res) => {
-        person.value = res.data
-      })
-      .catch((err) => {
-        console.error(err)
-        router.push('/404')
-      })
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/person/${route.params.id}/combined_credits?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-      )
-      .then((res) => {
-        credits.value = res.data.cast
-        credits.value.sort((a, b) => {
-          if (a.popularity < b.popularity) return 1
-          else return -1
-        })
-      })
+    let { data, error } = await useAxios({
+      url: `person/${route.params.id}`
+    })
+    if (error && !error.response.data.success) return router.replace('/404')
+
+    person.value = data
+
+    let { data: work } = await useAxios({
+      url: `person/${route.params.id}/combined_credits`
+    })
+    credits.value = work.cast
+
+    credits.value.sort((a, b) => {
+      if (a.popularity < b.popularity) return 1
+      else return -1
+    })
   }
   isLoading.value = false
 }

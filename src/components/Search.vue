@@ -1,7 +1,7 @@
 <script setup>
-import axios from 'axios'
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import useAxios from '../composables/useAxios'
 import VImage from './VImage.vue'
 
 const props = defineProps(['searchDialog']),
@@ -29,13 +29,11 @@ const searchNow = async (e) => {
     searchResult.value = []
     return
   }
-  await axios
-    .get(
-      `https://api.themoviedb.org/3/search/multi?api_key=18cfdbd5b22952a0c5c289fbbf02c827&query=${inputSearch.value}`
-    )
-    .then((res) => {
-      searchResult.value = res.data?.results.splice(0, 5)
-    })
+  let { data } = await useAxios({
+    url: `search/multi?query=${inputSearch.value}`
+  })
+
+  searchResult.value = data?.results.splice(0, 5)
 }
 
 const handleArrows = (e) => {
@@ -65,7 +63,7 @@ const toShow = () => {
     router.push('/404')
 
   if (navigator.userAgentData.mobile)
-    router.push(`/search?query=${inputSearch.value}`)
+    router.push({ name: 'Search', query: { query: inputSearch.value } })
   else {
     let result = searchResult.value[currIndex.value]
 
@@ -77,7 +75,7 @@ const toShow = () => {
         : result.media_type === 'tv'
         ? router.push(`/series/${result.id}`)
         : router.push('/404')
-    else router.push(`/search?query=${inputSearch.value}`)
+    else router.push({ name: 'Search', query: { query: inputSearch.value } })
   }
 
   exit()
@@ -148,7 +146,7 @@ const exit = () => {
             <span class="truncate p-3"> {{ result.name || result.title }}</span>
           </router-link>
           <router-link
-            :to="{ name: 'search', query: { query: inputSearch } }"
+            :to="{ name: 'Search', query: { query: inputSearch } }"
             v-if="searchResult?.length > 0"
             class="block w-full rounded-b-md bg-darkblue-300 p-3 hover:bg-darkblue-100"
           >

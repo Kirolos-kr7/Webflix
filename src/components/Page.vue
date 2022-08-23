@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { gsap } from 'gsap'
 import scrollTrigger from 'gsap/ScrollTrigger'
-import axios from 'axios'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
-import Recomendations from './Recomendations.vue'
+import useAxios from '../composables/useAxios'
 import Loader from './Loader.vue'
+import Recomendations from './Recomendations.vue'
 import VImage from './VImage.vue'
 
 gsap.registerPlugin(scrollTrigger)
@@ -60,31 +60,27 @@ const fetchData = async () => {
   trailer.value = null
   nowAt.value = route.params.id
   isLoading.value = true
-  await axios
-    .get(
-      `https://api.themoviedb.org/3/${props.type}/${route.params.id}?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-    )
-    .then((res) => {
-      show.value = res.data
-      document.title = `${res.data?.name || res.data?.title} - Webflix`
-      isLoading.value = false
-    })
-    .catch((err) => {
-      console.error(err)
-      router.push('/404')
-    })
 
-  let castRes = await axios.get(
-    `https://api.themoviedb.org/3/${props.type}/${route.params.id}/credits?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-  )
-  totalCast.value = castRes.data.cast
+  let { data, error } = await useAxios({
+    url: `${props.type}/${route.params.id}`
+  })
+  if (error && !error.response.data.success) return router.replace('/404')
+
+  show.value = data
+  document.title = `${data?.name || data?.title} - Webflix`
+  isLoading.value = false
+
+  let { data: showCast } = await useAxios({
+    url: `${props.type}/${route.params.id}/credits`
+  })
+  totalCast.value = showCast.cast
   incremeantCast()
-  cast.value = castRes.data.cast.slice(0, 12)
+  cast.value = showCast.cast.slice(0, 12)
 
-  let vidRes = await axios.get(
-    `https://api.themoviedb.org/3/${props.type}/${route.params.id}/videos?api_key=18cfdbd5b22952a0c5c289fbbf02c827`
-  )
-  trailer.value = await vidRes.data.results[0]
+  let { data: showTrailer } = await useAxios({
+    url: `${props.type}/${route.params.id}/videos`
+  })
+  trailer.value = await showTrailer.results[0]
 }
 
 const getMoreCast = () => {
@@ -304,7 +300,8 @@ const getDuration = (n) => {
               {{
                 new Intl.NumberFormat('us-EN', {
                   style: 'currency',
-                  currency: 'USD'
+                  currency: 'USD',
+                  maximumFractionDigits: 0
                 }).format(show?.budget)
               }}
             </p>
@@ -315,7 +312,8 @@ const getDuration = (n) => {
               {{
                 new Intl.NumberFormat('us-EN', {
                   style: 'currency',
-                  currency: 'USD'
+                  currency: 'USD',
+                  maximumFractionDigits: 0
                 }).format(show?.revenue)
               }}
             </p>

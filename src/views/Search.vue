@@ -32,12 +32,12 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VTitle from '../components/VTitle.vue'
+import useAxios from '../composables/useAxios'
 
 const shows = ref([]),
   router = useRouter(),
@@ -46,29 +46,26 @@ const shows = ref([]),
 
 onMounted(async () => {
   inputSearch.value = route.query.query || ''
-  router.replace({ name: 'search', query: { query: inputSearch.value } })
+  router.replace({ name: route.name, query: { query: inputSearch.value } })
   await getMovies()
 })
 
 const getMovies = async () => {
   if (inputSearch.value.trim() !== '') {
-    await axios
-      .get(
-        `https://api.themoviedb.org/3/search/multi?api_key=18cfdbd5b22952a0c5c289fbbf02c827&query=${inputSearch.value}`
-      )
-      .then((res) => {
-        shows.value = res.data?.results
-      })
+    let { data } = await useAxios({
+      url: `search/multi?query=${inputSearch.value}`
+    })
+    shows.value = data.results
   }
 }
 
 const searchNow = async () => {
   if (inputSearch.value === '') {
-    router.replace({ name: 'search', query: null })
+    router.replace({ name: route.name, query: null })
     shows.value = []
     return
   }
-  router.replace({ name: 'search', query: { query: inputSearch.value } })
+  router.replace({ name: route.name, query: { query: inputSearch.value } })
   getMovies()
 }
 </script>

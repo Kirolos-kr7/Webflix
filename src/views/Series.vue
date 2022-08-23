@@ -85,7 +85,7 @@ const getMovies = async () => {
   shows.value = []
 
   let { data } = await useAxios({
-    url: `tv/${mode.value}?api_key=18cfdbd5b22952a0c5c289fbbf02c827&page=${page.value}`
+    url: `tv/${mode.value}?page=${page.value}`
   })
 
   totalPages.value = await data.total_pages
