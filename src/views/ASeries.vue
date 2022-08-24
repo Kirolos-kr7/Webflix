@@ -1,7 +1,7 @@
 <script setup>
-import Page from '../components/Page.vue'
+import ShowPage from '../components/ShowPage.vue'
 </script>
 
 <template>
-  <Page type="tv" />
+  <ShowPage type="tv" />
 </template>
