@@ -2,7 +2,7 @@
   "name": "movieapp",
   "version": "1.2.4",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host --port 3000",
     "build": "vite build",
     "deploy": "vite build && firebase deploy",
     "serve": "vite preview",
