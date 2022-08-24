@@ -1,5 +1,5 @@
 <script setup>
-import { gsap } from 'gsap'
+import gsap from 'gsap'
 import scrollTrigger from 'gsap/ScrollTrigger'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -21,12 +21,23 @@ const route = useRoute(),
   playingTrailer = ref(false),
   trailer = ref(null),
   props = defineProps(['type']),
-  background = ref(),
   castToShow = ref(0)
 
 onMounted(() => {
   fetchData()
 })
+
+const enter = (el) => {
+  gsap.to(el, {
+    top: 650,
+    scrollTrigger: {
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true
+    }
+  })
+}
 
 watch(route, () => {
   let currPath = route.matched[0].path
@@ -38,20 +49,6 @@ watch(route, () => {
     fetchData()
   }
 })
-
-// watch(background, () => {
-//   if (background.value) {
-//     gsap.to(background.value, {
-//       y: 500,
-//       scrollTrigger: {
-//         trigger: "body",
-//         start: "top top",
-//         end: "bottom top",
-//         scrub: true,
-//       },
-//     });
-//   }
-// });
 
 const fetchData = async () => {
   show.value = null
@@ -137,12 +134,13 @@ const getDuration = (n) => {
         class="relative min-h-screen overflow-hidden bg-[#032c37]"
         v-if="show !== null"
       >
-        <VImage
-          ref="background"
-          v-if="show.backdrop_path"
-          class="absolute top-0 z-0 max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
-          :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
-        />
+        <transition appear @enter="enter">
+          <VImage
+            v-if="show.backdrop_path"
+            class="gsap-bg absolute top-0 z-0 max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
+            :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
+          />
+        </transition>
         <div
           ref="overlay"
           class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
