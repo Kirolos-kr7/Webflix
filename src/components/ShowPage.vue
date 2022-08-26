@@ -39,6 +39,14 @@ const enter = (el) => {
   })
 }
 
+const getTrailer = async () => {
+  playingTrailer.value = true
+  let { data: showTrailer } = await useAxios({
+    url: `${props.type}/${route.params.id}/videos`
+  })
+  trailer.value = await showTrailer.results[0]
+}
+
 watch(route, () => {
   let currPath = route.matched[0].path
   console.log()
@@ -73,11 +81,6 @@ const fetchData = async () => {
   totalCast.value = showCast.cast
   incremeantCast()
   cast.value = showCast.cast.slice(0, 12)
-
-  let { data: showTrailer } = await useAxios({
-    url: `${props.type}/${route.params.id}/videos`
-  })
-  trailer.value = await showTrailer.results[0]
 }
 
 const getMoreCast = () => {
@@ -208,7 +211,7 @@ const getDuration = (n) => {
               {{ show?.overview }}
             </p>
             <button
-              @click="playingTrailer = true"
+              @click="getTrailer()"
               class="relative mt-6 flex w-max items-center gap-x-2 rounded-sm bg-wf-100 px-3 py-1 text-sm font-extralight transition-colors hover:bg-wf-100/75"
             >
               <svg
