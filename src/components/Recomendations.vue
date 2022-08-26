@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import useIntersectionObserver from '../composables/IntersectionObserver'
 import useAxios from '../composables/useAxios'
@@ -10,7 +10,14 @@ const recomendations = ref()
 const props = defineProps(['type'])
 const route = useRoute()
 
-onMounted(async () => {
+onMounted(async () => getRecommended())
+watch(route, async () => {
+  if (route.params.id) {
+    getRecommended()
+  }
+})
+
+const getRecommended = () => {
   useIntersectionObserver(
     recs.value,
     async () => {
@@ -21,7 +28,7 @@ onMounted(async () => {
     },
     { once: true }
   )
-})
+}
 </script>
 
 <template>
