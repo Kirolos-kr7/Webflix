@@ -14,6 +14,10 @@ module.exports = {
       },
       minWidth: {
         break: '1600px'
+      },
+      fontFamily: {
+        bebasNeue: 'Bebas Neue',
+        stMono: 'Share Tech Mon'
       }
     },
     screens: {
