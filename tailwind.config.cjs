@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'darkblue-300': '#001e26',
-        'darkblue-200': '#012a35',
-        'darkblue-100': '#255461'
+        'wf-300': '#001e26',
+        'wf-200': '#012a35',
+        'wf-100': '#255461'
       },
       maxWidth: {
         break: '1600px'

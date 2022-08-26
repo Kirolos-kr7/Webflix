@@ -209,7 +209,7 @@ const getDuration = (n) => {
             </p>
             <button
               @click="playingTrailer = true"
-              class="relative mt-6 flex w-max items-center gap-x-2 rounded-sm bg-darkblue-100 px-3 py-1 text-sm font-extralight transition-colors hover:bg-darkblue-100/75"
+              class="relative mt-6 flex w-max items-center gap-x-2 rounded-sm bg-wf-100 px-3 py-1 text-sm font-extralight transition-colors hover:bg-wf-100/75"
             >
               <svg
                 class="h-5 w-5 cursor-pointer text-gray-400"
@@ -242,7 +242,7 @@ const getDuration = (n) => {
             <div
               v-for="member in cast"
               :key="member.cast_id"
-              class="min-w-[9rem] max-w-[9rem] overflow-hidden rounded-md bg-darkblue-200"
+              class="min-w-[9rem] max-w-[9rem] overflow-hidden rounded-md bg-wf-200"
             >
               <router-link :to="`/person/${member.id}`">
                 <VImage
@@ -275,10 +275,10 @@ const getDuration = (n) => {
             <button
               v-if="cast?.length < totalCast?.length"
               @click="getMoreCast()"
-              class="relative rounded-md bg-darkblue-200 px-10 transition-colors hover:bg-darkblue-200/60"
+              class="relative rounded-md bg-wf-200 px-10 transition-colors hover:bg-wf-200/60"
             >
               <span
-                class="absolute -translate-x-1/2 -translate-y-1/2 rotate-90 text-5xl font-black text-darkblue-300"
+                class="absolute -translate-x-1/2 -translate-y-1/2 rotate-90 text-5xl font-black text-wf-300"
                 >More</span
               >
             </button>
@@ -334,7 +334,7 @@ const getDuration = (n) => {
     <div
       v-if="playingTrailer"
       @click="playingTrailer = false"
-      class="fixed inset-0 z-30 h-screen w-full bg-darkblue-300/80 backdrop-blur-lg"
+      class="fixed inset-0 z-30 h-screen w-full bg-wf-300/80 backdrop-blur-lg"
     >
       <div v-if="trailer?.site === 'YouTube'">
         <div

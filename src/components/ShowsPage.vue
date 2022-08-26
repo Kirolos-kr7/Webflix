@@ -86,7 +86,7 @@ const changeMode = (newMode) => {
       <button
         v-for="by in showModes"
         :key="by"
-        class="bg-darkblue-200 px-3 py-1.5 text-sm transition-colors hover:bg-darkblue-100/80"
+        class="bg-wf-200 px-3 py-1.5 text-sm transition-colors hover:bg-wf-100/80"
         :class="by.mode === mode ? 'bg-green-600 hover:!bg-green-800' : ''"
         @click="changeMode(by.mode)"
       >
@@ -95,7 +95,7 @@ const changeMode = (newMode) => {
     </div>
     <select
       :value="mode"
-      class="relative z-[1] flex rounded-sm bg-darkblue-200/50 px-2 py-1 text-sm text-white outline-none md:hidden"
+      class="relative z-[1] flex rounded-sm bg-wf-200/50 px-2 py-1 text-sm text-white outline-none md:hidden"
       @change="changeMode($event.target.value)"
     >
       <option v-for="by in showModes" :key="by" :value="by.mode">

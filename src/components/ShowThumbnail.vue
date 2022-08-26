@@ -62,7 +62,7 @@ defineProps({
     }`"
   >
     <div
-      class="daContainer relative cursor-pointer overflow-hidden rounded-sm bg-darkblue-200"
+      class="daContainer relative cursor-pointer overflow-hidden rounded-sm bg-wf-200"
     >
       <VImage
         v-if="show.poster_path"

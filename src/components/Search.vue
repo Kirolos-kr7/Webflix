@@ -42,9 +42,7 @@ const handleArrows = (e) => {
   if (itemsLength <= 0 || !searchResult.value) return
 
   if (currIndex.value >= 0)
-    resContainer.value.children[currIndex.value].classList.remove(
-      '!bg-darkblue-200'
-    )
+    resContainer.value.children[currIndex.value].classList.remove('!bg-wf-200')
 
   if (e.key === 'ArrowUp')
     if (currIndex.value == 0) currIndex.value = itemsLength
@@ -54,7 +52,7 @@ const handleArrows = (e) => {
     if (currIndex.value == itemsLength) currIndex.value = 0
     else if (currIndex.value < itemsLength) currIndex.value++
 
-  resContainer.value.children[currIndex.value].classList.add('!bg-darkblue-200')
+  resContainer.value.children[currIndex.value].classList.add('!bg-wf-200')
 }
 
 const toShow = () => {
@@ -119,7 +117,7 @@ const exit = () => {
           <router-link
             v-for="result in searchResult"
             :key="result.id"
-            class="flex w-full items-center overflow-hidden bg-darkblue-200/80 hover:bg-darkblue-300/80"
+            class="flex w-full items-center overflow-hidden bg-wf-200/80 hover:bg-wf-300/80"
             :to="
               result.media_type === 'person'
                 ? `/person/${result.id}`
@@ -148,7 +146,7 @@ const exit = () => {
           <router-link
             :to="{ name: 'Search', query: { query: inputSearch } }"
             v-if="searchResult?.length > 0"
-            class="block w-full rounded-b-md bg-darkblue-300 p-3 hover:bg-darkblue-100"
+            class="block w-full rounded-b-md bg-wf-300 p-3 hover:bg-wf-100"
           >
             Watch More
           </router-link>
