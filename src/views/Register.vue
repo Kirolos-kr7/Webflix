@@ -43,10 +43,12 @@ import VInput from '../components/VInput.vue'
 import VButton from '../components/VButton.vue'
 import VError from '../components/VError.vue'
 import { useStore } from '../store'
+import { useRouter } from 'vue-router'
 
 const err = ref('')
 const isLoading = ref(false)
 const store = useStore()
+const router = useRouter()
 
 const signup = async (e) => {
   let name = e.target.querySelector('[name="name"]').value
@@ -56,13 +58,20 @@ const signup = async (e) => {
   try {
     err.value = ''
     isLoading.value = true
-    const { user, error } = await supabase.auth.signUp({
-      name,
-      email,
-      password
-    })
+    const { user, error } = await supabase.auth.signUp(
+      {
+        email,
+        password
+      },
+      {
+        data: { name }
+      }
+    )
     if (error) err.value = error
-    if (user) store.user = user
+    if (user) {
+      store.user = user
+      router.push('/')
+    }
   } catch (error) {
     err.value = error
   }
