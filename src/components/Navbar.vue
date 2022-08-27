@@ -6,6 +6,7 @@ import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VButton from './VButton.vue'
 import VImage from './VImage.vue'
+import VSvg from './VSvg.vue'
 
 const listItems = ref([
     {
@@ -187,25 +188,50 @@ const logout = () => {
             <transition name="fade">
               <div
                 v-if="optionsMenu"
-                class="absolute top-14 right-0 w-[250px] rounded-md bg-wf-200 shadow-xl"
+                class="absolute top-14 right-0 w-[280px] rounded-md bg-wf-200 shadow-xl"
               >
                 <ul
-                  class="overflow-hidden rounded-md [&>*>button:hover]:bg-wf-100 [&>*>button]:w-full [&>*>button]:bg-wf-200 [&>*>button]:px-3 [&>*>button]:py-1.5 [&>*>button]:text-left [&>*>button]:ring-inset [&>*>button:focus]:outline-none [&>*>button:focus]:ring-2 [&>*:first-child>button]:rounded-t-md [&>*:last-child>button]:rounded-b-md"
+                  class="overflow-hidden rounded-md [&>*>a:hover]:bg-wf-100 [&>*>a]:flex [&>*>a]:w-full [&>*>a]:items-center [&>*>a]:gap-1 [&>*>a]:bg-wf-200 [&>*>a]:px-3 [&>*>a]:py-1.5 [&>*>a]:text-left [&>*>a]:!text-white [&>*>a]:ring-inset [&>*>a:focus]:outline-none [&>*>a:focus]:ring-2 [&>*:first-child>a]:rounded-t-md [&>*:last-child>a]:rounded-b-md"
                 >
                   <li>
-                    <button class="truncate">
-                      @{{ store.user.user_metadata.name }}
-                    </button>
-                  </li>
-                  <li><button>Favourites</button></li>
-                  <li><button>Watchlist</button></li>
-                  <li>
-                    <button
-                      @click="logout()"
-                      class="!bg-red-900 hover:!bg-red-800"
+                    <router-link
+                      to="/me"
+                      class="truncate border-b border-wf-100/50 !py-3"
                     >
+                      <VSvg
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      />
+                      @{{ store.user.user_metadata.name }}
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/me/fav">
+                      <VSvg
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                      />
+                      Favourite
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/me/watchlist">
+                      <VSvg
+                        d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"
+                        Favourites
+                      />
+                      Watchlist
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link
+                      to="/"
+                      @click="logout()"
+                      class="flex items-center gap-1 !bg-red-900 hover:!bg-red-800"
+                    >
+                      <VSvg
+                        d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                      />
                       Logout
-                    </button>
+                    </router-link>
                   </li>
                 </ul>
               </div>

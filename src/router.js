@@ -9,6 +9,10 @@ import Search from './views/Search.vue'
 import Person from './views/Person.vue'
 import Auth from './views/Auth.vue'
 import Register from './views/Register.vue'
+import User from '/src/views/User/User.vue'
+import Profile from '/src/views/User/Profile.vue'
+import Favourite from '/src/views/User/Favourite.vue'
+import Watchlist from '/src/views/User/Watchlist.vue'
 import { supabase } from './supabase'
 import { useStore } from './store'
 
@@ -21,9 +25,42 @@ let routes = [
   { name: 'Home', path: '/404', component: err },
   { name: 'Search', path: '/search', component: Search },
   { name: 'Person', path: '/person/:id', component: Person },
-  { name: 'Auth', path: '/auth', component: Auth },
-  { name: 'Register', path: '/register', component: Register },
-  { name: '404', path: '/:catchAll(.*)', redirect: '/404' }
+  {
+    name: 'Auth',
+    path: '/auth',
+    meta: { requiresUnAuth: true },
+    component: Auth
+  },
+  {
+    name: 'Register',
+    path: '/register',
+    meta: { requiresUnAuth: true },
+    component: Register
+  },
+  {
+    name: 'User',
+    path: '/me',
+    meta: { requiresAuth: true },
+    component: User,
+    children: [
+      {
+        name: 'Profile',
+        path: '',
+        component: Profile
+      },
+      {
+        name: 'Favourite',
+        path: 'fav',
+        component: Favourite
+      },
+      {
+        name: 'Watchlist',
+        path: 'watchlist',
+        component: Watchlist
+      }
+    ]
+  }
+  // { name: '404', path: '/:catchAll(.*)', redirect: '/404' }
 ]
 
 const router = createRouter({
@@ -38,11 +75,14 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((from, to, next) => {
+router.beforeEach((to, from, next) => {
   document.body.style.overflow = 'overlay'
   const store = useStore()
   const user = supabase.auth.user()
   store.user = user || null
+
+  if ((to.meta.requiresAuth && !user) || (to.meta.requiresUnAuth && user))
+    return next({ path: from.fullPath })
 
   next()
 })
