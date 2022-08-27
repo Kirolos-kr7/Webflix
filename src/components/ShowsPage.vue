@@ -113,7 +113,6 @@ const changeMode = (newMode) => {
     </transition-group>
   </div>
   <Pagination
-    v-show="shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"
