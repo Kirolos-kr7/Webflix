@@ -111,11 +111,12 @@ const changeMode = (newMode) => {
         <ShowThumbnail :show="show" />
       </div>
     </transition-group>
+    <span class="m-6" v-if="isFetching">Loading...</span>
   </div>
   <Pagination
+    v-show="shows.length > 1"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"
   />
-  <span class="m-6" v-if="isFetching">loading...</span>
 </template>
