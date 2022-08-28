@@ -6,9 +6,11 @@
       </div>
     </transition>
     <Footer />
+    <Toast />
   </router-view>
 </template>
 
 <script setup>
 import Footer from './components/Footer.vue'
+import Toast from './components/Toast.vue'
 </script>

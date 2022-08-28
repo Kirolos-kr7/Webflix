@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { supabase } from '../supabase'
+import { useStore } from '../store'
 import VImage from './VImage.vue'
 import VSvg from './VSvg.vue'
 
 let overlay = ref(),
+  store = useStore(),
   btmbx = ref(),
   overlayHidden = ref(false)
 
@@ -48,9 +49,12 @@ const props = defineProps({
     required: true
   }
 })
-
+let i = 0
 const addToFav = () => {
-  console.log(props.show)
+  store.createToast({
+    msg: 'Added to favourites ' + ++i
+  })
+  // console.log(props.show)
 }
 </script>
 

@@ -44,6 +44,10 @@ body {
   transform: translateY(10px);
 }
 
+.fade-move {
+  transition: all 0.3s ease;
+}
+
 .fadeIn-enter-active,
 .fadeIn-leave-active {
   transition: all 0.4s ease;
@@ -54,6 +58,24 @@ body {
   opacity: 0;
 }
 
-.fade-move {
-  transition: all 0.3s ease;
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.4s ease;
+}
+
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100px);
+}
+
+.toastUp-enter-active,
+.toastUp-leave-active {
+  transition: all 0.4s ease;
+}
+
+.toastUp-enter-from,
+.toastUp-leave-to {
+  opacity: 0;
+  transform: translateY(100px);
 }
