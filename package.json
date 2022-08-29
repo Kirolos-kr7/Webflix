@@ -6,8 +6,9 @@
     "build": "vite build",
     "deploy": "vite build && firebase deploy",
     "serve": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.cjs --fix --ignore-path .gitignore",
     "release": "standard-version",
-    "lint": "eslint . --ext .vue,.js,.cjs --fix --ignore-path .gitignore"
+    "publish-release ": "git push --follow-tags origin master && npm publish"
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.35.6",
