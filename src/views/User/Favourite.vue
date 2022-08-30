@@ -9,13 +9,9 @@ onMounted(async () => {
   let { data } = await supabase
     .from('favourite_shows')
     .select()
-    .eq('user_id', store.user.id)
+    .eq('user', store.user.id)
 
-  if (data.length === 0) {
-    await supabase
-      .from('favourite_shows')
-      .insert([{ user_id: store.user.id, shows: [] }])
-  }
+  console.log(data)
 })
 </script>
 

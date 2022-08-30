@@ -7,7 +7,7 @@ export const useStore = defineStore('main', {
   }),
 
   actions: {
-    createToast({ msg, redirect, status = true, timeout = 4500 }) {
+    createToast({ msg, redirect, status = true }, timeout = 1800) {
       let toast = { msg, redirect, status }
       toast.id = Date.now()
       this.toastList.push(toast)

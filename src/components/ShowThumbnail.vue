@@ -1,15 +1,24 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useStore } from '../store'
+import { supabase } from '../supabase'
 import VImage from './VImage.vue'
-import VSvg from './VSvg.vue'
 
 let overlay = ref(),
   store = useStore(),
+  isFavourite = ref(false),
   btmbx = ref(),
   overlayHidden = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
+  let { data: favourite_shows } = await supabase
+    .from('favourite_shows')
+    .select()
+    .eq('show', props.show.id)
+    .eq('user', store.user.id)
+
+  if (favourite_shows.length > 0) isFavourite.value = true
+
   if (!navigator.userAgentData.mobile) {
     overlay.value.addEventListener('mouseover', () => {
       overlayHidden.value = true
@@ -49,12 +58,28 @@ const props = defineProps({
     required: true
   }
 })
-let i = 0
-const addToFav = () => {
-  store.createToast({
-    msg: 'Added to favourites ' + ++i
-  })
-  // console.log(props.show)
+
+const addToFav = async () => {
+  if (!store.user.id) return
+
+  if (!isFavourite.value) {
+    isFavourite.value = true
+    store.createToast({
+      msg: 'Added to favourites'
+    })
+    supabase
+      .from('favourite_shows')
+      .insert([{ user: store.user.id, show: props.show.id }])
+  } else {
+    isFavourite.value = false
+    store.createToast({
+      msg: 'Removed from favourites'
+    })
+    supabase
+      .from('favourite_shows')
+      .delete()
+      .match({ user: store.user.id, show: props.show.id })
+  }
 }
 </script>
 
@@ -123,12 +148,24 @@ const addToFav = () => {
     <div class="absolute right-0 top-0 z-[11] p-2">
       <button
         @click="addToFav()"
-        class="rounded-md bg-wf-200/40 p-1 shadow-2xl hover:bg-wf-200/80"
+        class="rounded-md bg-wf-200/70 p-2 shadow-2xl transition-colors hover:bg-wf-200/90"
       >
-        <VSvg
-          class="text-red-100"
-          d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-        />
+        <svg
+          class="-m-0.5 h-6 w-6 transition-all"
+          id="laCpN2WlIFj2knljfi6zR"
+          :class="isFavourite ? 'text-red-500' : 'text-white/80'"
+          fill="currentColor"
+          stroke="#000000"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          ></path>
+        </svg>
       </button>
     </div>
   </div>
