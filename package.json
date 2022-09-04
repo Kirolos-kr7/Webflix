@@ -1,13 +1,13 @@
 {
   "name": "movieapp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "vite build",
     "deploy": "vite build && firebase deploy",
     "serve": "vite preview",
     "lint": "eslint . --ext .vue,.js,.cjs --fix --ignore-path .gitignore",
-    "release": "standard-version",
+    "release": "standard-version -- --release-as minor",
     "publish": "git push --follow-tags origin master"
   },
   "dependencies": {
