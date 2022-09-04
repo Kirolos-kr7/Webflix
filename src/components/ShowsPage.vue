@@ -6,12 +6,15 @@ import Pagination from '../components/Pagination.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
+import LoginToContinue from './LoginToContinue.vue'
+import vTooltip from '../composables/useTooltip'
 
 const shows = ref([]),
   page = ref(1),
   totalPages = ref(1),
   router = useRouter(),
   route = useRoute(),
+  litc = ref(false),
   isFetching = ref(false)
 
 const props = defineProps(['name', 'resource', 'showModes'])
@@ -82,7 +85,10 @@ const changeMode = (newMode) => {
     class="mx-auto flex w-full max-w-break items-center justify-between p-5 pt-24"
   >
     <VTitle :title="name" />
-    <div class="relative z-[1] hidden overflow-hidden rounded-md md:flex">
+    <div
+      class="relative z-[1] hidden overflow-hidden rounded-md md:flex"
+      v-tooltip="`Filter Shows`"
+    >
       <button
         v-for="by in showModes"
         :key="by"
@@ -108,7 +114,7 @@ const changeMode = (newMode) => {
   >
     <transition-group name="fade" appear>
       <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" />
+        <ShowThumbnail :show="show" @needToLogin="litc = true" />
       </div>
     </transition-group>
     <span class="m-6" v-if="isFetching">Loading...</span>
@@ -119,4 +125,6 @@ const changeMode = (newMode) => {
     :totalPages="totalPages"
     @pageChange="handlePageChange"
   />
+
+  <LoginToContinue :litc="litc" @closeLitc="litc = false" />
 </template>

@@ -4,6 +4,7 @@ import Search from './Search.vue'
 import { useRoute } from 'vue-router'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
+import vTooltip from '../composables/useTooltip'
 import VButton from './VButton.vue'
 import VImage from './VImage.vue'
 import VSvg from './VSvg.vue'
@@ -145,7 +146,11 @@ const logout = () => {
         </ul>
       </div>
       <ul class="relative z-30 mb-1 flex items-center gap-3 text-gray-300">
-        <li class="-mb-2" v-if="route.name !== 'search'">
+        <li
+          class="-mb-2"
+          v-if="route.name !== 'search'"
+          v-tooltip="`Search Shows`"
+        >
           <button
             @click="showSearchDialog"
             class="group mb-2 flex items-center gap-2 p-2"

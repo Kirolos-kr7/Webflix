@@ -49,7 +49,6 @@ const getTrailer = async () => {
 
 watch(route, () => {
   let currPath = route.matched[0].path
-  console.log()
   if (
     route.params.id !== nowAt.value &&
     (currPath === '/movie/:id' || currPath === '/series/:id')

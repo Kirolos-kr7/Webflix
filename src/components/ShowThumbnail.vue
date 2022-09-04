@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VImage from './VImage.vue'
+import VTooltip from '../composables/useTooltip'
 
 let overlay = ref(),
   store = useStore(),
@@ -10,16 +11,27 @@ let overlay = ref(),
   btmbx = ref(),
   overlayHidden = ref(false)
 
+const props = defineProps({
+  show: {
+    type: Object,
+    required: true
+  }
+})
+
+const emits = defineEmits(['needToLogin'])
+
 onMounted(async () => {
-  let { data: favourite_shows } = await supabase
-    .from('favourite_shows')
-    .select()
-    .eq('show', props.show.id)
-    .eq('user', store.user.id)
+  if (store.user) {
+    let { data: favourite_shows } = await supabase
+      .from('favourite_shows')
+      .select()
+      .eq('show', props.show.id)
+      .eq('user', store.user.id)
 
-  if (favourite_shows.length > 0) isFavourite.value = true
+    if (favourite_shows?.length > 0) isFavourite.value = true
+  }
 
-  if (!navigator.userAgentData.mobile) {
+  if (!navigator.userAgentData?.mobile) {
     overlay.value.addEventListener('mouseover', () => {
       overlayHidden.value = true
     })
@@ -52,15 +64,11 @@ onMounted(async () => {
   }
 })
 
-const props = defineProps({
-  show: {
-    type: Object,
-    required: true
-  }
-})
-
 const addToFav = async () => {
-  if (!store.user.id) return
+  if (!store.user) {
+    emits('needToLogin')
+    return
+  }
 
   if (!isFavourite.value) {
     isFavourite.value = true
@@ -148,6 +156,7 @@ const addToFav = async () => {
     <div class="absolute right-0 top-0 z-[11] p-2">
       <button
         @click="addToFav()"
+        v-tooltip="`Add to Favourite`"
         class="rounded-md bg-wf-200/70 p-2 shadow-2xl transition-colors hover:bg-wf-200/90"
       >
         <svg
