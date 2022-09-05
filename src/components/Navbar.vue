@@ -218,15 +218,6 @@ const logout = () => {
                     </router-link>
                   </li>
                   <li>
-                    <router-link to="/me/watchlist">
-                      <VSvg
-                        d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"
-                        Favourites
-                      />
-                      Watchlist
-                    </router-link>
-                  </li>
-                  <li>
                     <router-link
                       to="/"
                       @click="logout()"

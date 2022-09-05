@@ -75,15 +75,19 @@ const addToFav = async () => {
     store.createToast({
       msg: 'Added to favourites'
     })
-    supabase
-      .from('favourite_shows')
-      .insert([{ user: store.user.id, show: props.show.id }])
+    await supabase.from('favourite_shows').insert([
+      {
+        user: store.user.id,
+        show: props.show.id,
+        type: props.show.media_type
+      }
+    ])
   } else {
     isFavourite.value = false
     store.createToast({
       msg: 'Removed from favourites'
     })
-    supabase
+    await supabase
       .from('favourite_shows')
       .delete()
       .match({ user: store.user.id, show: props.show.id })

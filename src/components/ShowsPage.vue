@@ -82,7 +82,7 @@ const changeMode = (newMode) => {
 <template>
   <Navbar />
   <div
-    class="mx-auto flex w-full max-w-break items-center justify-between p-5 pt-24"
+    class="mx-auto flex w-full max-w-break items-center justify-between px-5 pt-24"
   >
     <VTitle :title="name" />
     <div

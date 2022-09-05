@@ -12,7 +12,6 @@ import Register from './views/Register.vue'
 import User from '/src/views/User/User.vue'
 import Profile from '/src/views/User/Profile.vue'
 import Favourite from '/src/views/User/Favourite.vue'
-import Watchlist from '/src/views/User/Watchlist.vue'
 import { supabase } from './supabase'
 import { useStore } from './store'
 
@@ -52,11 +51,6 @@ let routes = [
         name: 'Favourite',
         path: 'fav',
         component: Favourite
-      },
-      {
-        name: 'Watchlist',
-        path: 'watchlist',
-        component: Watchlist
       }
     ]
   }
