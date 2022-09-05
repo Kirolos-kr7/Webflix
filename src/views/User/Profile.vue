@@ -18,8 +18,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-5">
-    <div class="col-span-2 flex items-center gap-3 rounded-md bg-wf-200 p-5">
+  <div class="grid gap-5 md:grid-cols-3">
+    <div class="flex items-center gap-3 rounded-md bg-wf-200 p-5 md:col-span-2">
       <VImage
         class="h-20 w-20 rounded-full"
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ79GjtRSlnYnEiHzWrOj29US2HRtXI_olH1A&usqp=CAU"
