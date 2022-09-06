@@ -120,7 +120,7 @@ const changeMode = (newMode) => {
     <span class="m-6" v-if="isFetching">Loading...</span>
   </div>
   <Pagination
-    v-show="shows.length > 1"
+    v-show="shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"
