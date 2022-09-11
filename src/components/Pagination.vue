@@ -7,33 +7,28 @@ const props = defineProps(['currPage', 'totalPages'])
 let { width } = useWindowWidth()
 
 const pageRange = computed(() => {
-  const len = 9
-  let pages = Array(len)
+  const LEN = 5
+  let pages = Array(LEN)
 
-  if (props.currPage < len / 2) {
-    for (let i = 0; i < len; i++) {
-      pages[i] = i + 1
-    }
+  pages[0] = parseInt(props.currPage) - 2
+  pages[1] = parseInt(props.currPage) - 1
+  pages[2] = parseInt(props.currPage)
+  pages[3] = parseInt(props.currPage) + 1
+  pages[4] = parseInt(props.currPage) + 2
 
-    pages[len - 2] = '..'
-    pages[len - 1] = props.totalPages
-  } else if (props.currPage > props.totalPages - len / 2) {
-    for (let i = len, j = 0; i > 0; i--, j++) {
-      pages[i] = props.totalPages - j
-    }
+  pages = pages.filter((page) => page >= 1 && page <= props.totalPages)
 
-    pages[1] = '..'
-    pages[0] = 1
-  } else {
-    pages[0] = 1
-    pages[1] = '..'
-    pages[2] = props.currPage - 2
-    pages[3] = props.currPage - 1
-    pages[4] = props.currPage
-    pages[5] = props.currPage + 1
-    pages[6] = props.currPage + 2
-    pages[7] = '..'
-    pages[8] = props.totalPages
+  if (
+    pages[pages.length - 1] < props.totalPages &&
+    !pages.includes(props.totalPages)
+  ) {
+    pages.push('..')
+    pages.push(props.totalPages)
+  }
+
+  if (!pages.includes(1)) {
+    pages.unshift('..')
+    pages.unshift(1)
   }
 
   return pages
