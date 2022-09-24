@@ -17,11 +17,15 @@ body {
   );
 }
 
-.router-link-active {
+.link {
+  @apply inline-block text-sm font-extralight text-blue-500 transition-colors hover:text-blue-600;
+}
+
+.router-link-active.green-link {
   @apply !text-green-400/80;
 }
 
-.router-link-active.clear {
+.router-link-active.clear.green-link {
   @apply !text-green-300;
 }
 
@@ -31,6 +35,27 @@ body {
 
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-wf-100 hover:bg-gray-500;
+}
+
+.show-backdrop {
+  @apply relative min-h-screen overflow-hidden bg-no-repeat;
+  background-attachment: fixed;
+  background-size: auto 100vh;
+  background-position: right -160px bottom;
+}
+
+@media only screen and (max-width: 768px) {
+  .show-backdrop {
+    background-size: auto 80vh;
+    background-position: center top;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .show-backdrop {
+    background-size: auto 65vh;
+    background-position: center top;
+  }
 }
 
 .fade-enter-active,

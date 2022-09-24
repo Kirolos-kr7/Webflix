@@ -139,7 +139,7 @@ const logout = () => {
             <router-link
               @click="navOpen = false"
               :to="`/${item.path}`"
-              class="text-xl text-green-300 transition-colors hover:text-green-500"
+              class="green-link text-xl text-green-300 transition-colors hover:text-green-500"
               >{{ item.title }}</router-link
             >
           </li>
