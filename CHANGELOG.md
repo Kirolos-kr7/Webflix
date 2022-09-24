@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.1.4...v1.2.0) (2022-09-24)
+
+
+### Features
+
+* Merged auth and register pages and added minions img ([5d2f7a2](https://github.com/Kirolos-kr7/Webflix/commit/5d2f7a203fbc77c4bc260538ea0dc00e930a8351))
+
+
+### Bug Fixes
+
+* gsap removed and added seasons ([7a9c379](https://github.com/Kirolos-kr7/Webflix/commit/7a9c3790dfb881f067af446138a208baa03a31c0))
+* router link colors ([4eece48](https://github.com/Kirolos-kr7/Webflix/commit/4eece4823231d05be16f92bc7c4152d8c77fafa1))
+
 ### [1.1.4](https://github.com/Kirolos-kr7/Webflix/compare/v1.1.3...v1.1.4) (2022-09-11)
 
 ### [1.1.3](https://github.com/Kirolos-kr7/Webflix/compare/v1.1.2...v1.1.3) (2022-09-06)
