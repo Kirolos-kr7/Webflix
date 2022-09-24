@@ -8,7 +8,6 @@ import err from './views/404.vue'
 import Search from './views/Search.vue'
 import Person from './views/Person.vue'
 import Auth from './views/Auth.vue'
-import Register from './views/Register.vue'
 import User from '/src/views/User/User.vue'
 import Profile from '/src/views/User/Profile.vue'
 import Favourite from '/src/views/User/Favourite.vue'
@@ -31,12 +30,6 @@ let routes = [
     component: Auth
   },
   {
-    name: 'Register',
-    path: '/register',
-    meta: { requiresUnAuth: true },
-    component: Register
-  },
-  {
     name: 'User',
     path: '/me',
     meta: { requiresAuth: true },
@@ -53,8 +46,8 @@ let routes = [
         component: Favourite
       }
     ]
-  }
-  // { name: '404', path: '/:catchAll(.*)', redirect: '/404' }
+  },
+  { name: '404', path: '/:catchAll(.*)', redirect: '/404' }
 ]
 
 const router = createRouter({

@@ -7,7 +7,9 @@ import VError from '../components/VError.vue'
 import VInput from '../components/VInput.vue'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
+import VImage from '../components/VImage.vue'
 
+const isNewUser = ref(false)
 const err = ref('')
 const isLoading = ref(false)
 const store = useStore()
@@ -31,35 +33,85 @@ const login = async (e) => {
   }
   isLoading.value = false
 }
+
+const signup = async (e) => {
+  let name = e.target.querySelector('[name="name"]').value
+  let email = e.target.querySelector('[name="email"]').value
+  let password = e.target.querySelector('[name="password"]').value
+
+  try {
+    err.value = ''
+    isLoading.value = true
+    const { user, error } = await supabase.auth.signUp(
+      {
+        email,
+        password
+      },
+      {
+        data: { name }
+      }
+    )
+    if (error) err.value = error
+    if (user) {
+      store.user = user
+      router.push('/')
+    }
+  } catch (error) {
+    err.value = error
+  }
+  isLoading.value = false
+}
 </script>
 
 <template>
   <Navbar />
 
   <div class="mx-auto w-full max-w-break p-5 pt-24">
-    <div class="mx-auto mt-20 max-w-[500px] rounded-md bg-wf-200 p-5">
-      <h1 class="mb-6 text-4xl font-semibold">Login</h1>
-      <VError v-if="err">
-        {{ err.message }}
-      </VError>
-      <form
-        @submit.prevent="login"
-        class="relative mt-5 flex flex-col items-end gap-3"
-      >
-        <VInput
-          type="email"
-          name="email"
-          placeholder="Your email"
-          class="!w-full"
-        />
-        <VInput
-          type="password"
-          name="password"
-          placeholder="Your password"
-          class="!w-full"
-        />
-        <VButton :disabled="isLoading">Submit</VButton>
-      </form>
+    <div
+      class="mx-auto mt-8 grid max-w-[800px] items-stretch gap-3 overflow-hidden rounded-md bg-wf-200 md:h-[550px] md:grid-cols-2"
+    >
+      <div class="my-auto p-5">
+        <h1 class="mb-6 text-4xl font-semibold">
+          {{ isNewUser ? 'Register' : 'Login' }}
+        </h1>
+        <VError v-if="err">
+          {{ err.message }}
+        </VError>
+        <form
+          @submit.prevent="
+            (e) => {
+              isNewUser ? signup(e) : login(e)
+            }
+          "
+          class="relative mt-5 flex flex-col gap-3"
+        >
+          <VInput
+            type="text"
+            name="name"
+            placeholder="Your name"
+            class="!w-full"
+            v-if="isNewUser"
+          />
+          <VInput
+            type="email"
+            name="email"
+            placeholder="Your email"
+            class="!w-full"
+          />
+          <VInput
+            type="password"
+            name="password"
+            placeholder="Your password"
+            class="!w-full"
+          />
+          <VButton class="self-end" :disabled="isLoading">Submit</VButton>
+
+          <RouterLink to="/auth" class="link" @click="isNewUser = !isNewUser">{{
+            isNewUser ? 'Already have an account?' : 'New here?'
+          }}</RouterLink>
+        </form>
+      </div>
+      <VImage src="/minions.jpg" class="hidden h-[inherit] !w-full md:block" />
     </div>
   </div>
 </template>
