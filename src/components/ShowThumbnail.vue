@@ -98,7 +98,7 @@ const addToFav = async () => {
 <template>
   <div class="relative">
     <router-link
-      class="relative block aspect-[2/3] min-h-[300px] min-w-[200px]"
+      class="relative block aspect-[2/3] w-[220px] md:w-[260px]"
       :to="`/${
         show.media_type === 'person'
           ? `person/${show.id}`
@@ -114,15 +114,15 @@ const addToFav = async () => {
       >
         <VImage
           v-if="show.poster_path"
-          class="relative z-0"
+          class="relative z-0 aspect-[2/3]"
           :src="`https://image.tmdb.org/t/p/w500/${show.poster_path}`"
         />
         <VImage
           v-else-if="show.profile_path"
-          class="relative z-0"
+          class="relative z-0 aspect-[2/3]"
           :src="`https://image.tmdb.org/t/p/w500/${show.profile_path}`"
         />
-        <VImage v-else src="/broken.png" class="relative z-0" />
+        <VImage v-else src="/broken.png" class="relative z-0 aspect-[2/3]" />
 
         <div
           :class="overlayHidden ? 'opacity-0' : ''"

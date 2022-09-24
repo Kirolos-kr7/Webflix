@@ -1,6 +1,4 @@
 <script setup>
-import gsap from 'gsap'
-import scrollTrigger from 'gsap/ScrollTrigger'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
@@ -8,8 +6,7 @@ import useAxios from '../composables/useAxios'
 import Loader from './Loader.vue'
 import Recomendations from './Recomendations.vue'
 import VImage from './VImage.vue'
-
-gsap.registerPlugin(scrollTrigger)
+import Seasons from './Seasons.vue'
 
 const route = useRoute(),
   router = useRouter(),
@@ -26,18 +23,6 @@ const route = useRoute(),
 onMounted(() => {
   fetchData()
 })
-
-const enter = (el) => {
-  gsap.to(el, {
-    top: 650,
-    scrollTrigger: {
-      trigger: 'body',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true
-    }
-  })
-}
 
 const getTrailer = async () => {
   playingTrailer.value = true
@@ -71,6 +56,7 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
+  console.log(data)
   document.title = `${data?.name || data?.title} - Webflix`
   isLoading.value = false
 
@@ -136,13 +122,11 @@ const getDuration = (n) => {
         class="relative min-h-screen overflow-hidden bg-[#032c37]"
         v-if="show !== null"
       >
-        <transition appear @enter="enter">
-          <VImage
-            v-if="show.backdrop_path"
-            class="gsap-bg absolute top-0 z-0 max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
-            :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
-          />
-        </transition>
+        <VImage
+          v-if="show.backdrop_path"
+          class="fixed top-0 z-[0] max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
+          :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
+        />
         <div
           ref="overlay"
           class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
@@ -233,7 +217,7 @@ const getDuration = (n) => {
     </div>
 
     <div
-      class="mx-auto grid w-full max-w-break gap-x-5 px-5 py-10 md:grid-cols-4"
+      class="relative mx-auto grid w-full max-w-break gap-x-5 bg-wf-300 px-5 py-10 md:grid-cols-4"
     >
       <div class="order-2 col-span-3 md:order-1" v-if="cast?.length > 0">
         <h2 class="text-3xl font-semibold">Cast</h2>
@@ -328,6 +312,8 @@ const getDuration = (n) => {
         </div>
       </div>
     </div>
+
+    <Seasons v-if="!isLoading" :seasons="show?.seasons" />
 
     <Recomendations :type="type" />
   </div>

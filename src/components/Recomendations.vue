@@ -6,7 +6,7 @@ import useAxios from '../composables/useAxios'
 import ShowThumbnail from './ShowThumbnail.vue'
 
 const recs = ref()
-const recomendations = ref()
+const recommendations = ref()
 const props = defineProps(['type'])
 const route = useRoute()
 
@@ -24,7 +24,7 @@ const getRecommended = () => {
       let { data } = await useAxios({
         url: `${props.type}/${route.params.id}/recommendations`
       })
-      recomendations.value = data
+      recommendations.value = data
     },
     { once: true }
   )
@@ -32,14 +32,17 @@ const getRecommended = () => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-break px-5 py-10" ref="recs">
-    <h2 class="text-3xl font-semibold">Recomendations</h2>
+  <div
+    class="relative mx-auto w-full max-w-break bg-wf-300 px-5 py-10"
+    ref="recs"
+  >
+    <h2 class="text-3xl font-semibold">Recommendations</h2>
     <div class="scroller mt-4 flex gap-x-3 overflow-x-auto pb-2">
       <transition-group name="fade" appear>
         <ShowThumbnail
-          v-for="recomendation in recomendations?.results.slice(0, 8)"
-          :key="recomendation.id"
-          :show="recomendation"
+          v-for="recommendation in recommendations?.results.slice(0, 8)"
+          :key="recommendation.id"
+          :show="recommendation"
         />
       </transition-group>
     </div>

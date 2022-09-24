@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-wf-200 py-8 px-6">
+  <div class="relative bg-wf-200 py-8 px-6">
     <h2>&copy; Copyright Webflix 2021.</h2>
   </div>
 </template>
