@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/Kirolos-kr7/Webflix/compare/v1.2.1...v1.2.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* footer text, loader ([a81c416](https://github.com/Kirolos-kr7/Webflix/commit/a81c416ac01bd146f4f5985724487e579e218192))
+
 ### [1.2.1](https://github.com/Kirolos-kr7/Webflix/compare/v1.2.0...v1.2.1) (2022-09-26)
 
 ## [1.2.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.1.4...v1.2.0) (2022-09-24)
