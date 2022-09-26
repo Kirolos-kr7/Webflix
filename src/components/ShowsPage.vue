@@ -8,6 +8,7 @@ import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
 import LoginToContinue from './LoginToContinue.vue'
 import vTooltip from '../composables/useTooltip'
+import Loader from './Loader.vue'
 
 const shows = ref([]),
   page = ref(1),
@@ -109,6 +110,9 @@ const changeMode = (newMode) => {
       </option>
     </select>
   </div>
+
+  <Loader v-if="isFetching" />
+
   <div
     class="mx-auto grid max-w-break grid-cols-1 gap-5 p-5 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
   >
@@ -117,7 +121,6 @@ const changeMode = (newMode) => {
         <ShowThumbnail :show="show" @needToLogin="litc = true" />
       </div>
     </transition-group>
-    <span class="m-6" v-if="isFetching">Loading...</span>
   </div>
   <Pagination
     v-show="shows.length > 0"

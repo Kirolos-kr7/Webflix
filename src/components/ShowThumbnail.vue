@@ -98,7 +98,7 @@ const addToFav = async () => {
 <template>
   <div class="relative">
     <router-link
-      class="relative block aspect-[2/3] w-[220px] md:w-[260px]"
+      class="relative block aspect-[2/3] min-w-[180px] sm:min-w-[220px]"
       :to="`/${
         show.media_type === 'person'
           ? `person/${show.id}`

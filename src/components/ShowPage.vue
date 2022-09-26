@@ -56,7 +56,6 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
-  console.log(data)
   document.title = `${data?.name || data?.title} - Webflix`
   isLoading.value = false
 
@@ -313,7 +312,7 @@ const getDuration = (n) => {
       </div>
     </div>
 
-    <Seasons v-if="!isLoading" :seasons="show?.seasons" />
+    <Seasons v-if="show?.seasons?.length > 0" :seasons="show?.seasons" />
 
     <Recomendations :type="type" />
   </div>
