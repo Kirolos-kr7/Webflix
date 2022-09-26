@@ -7,6 +7,7 @@ import ShowThumbnail from '../../components/ShowThumbnail.vue'
 import useAxios from '../../composables/useAxios'
 import { useRoute, useRouter } from 'vue-router'
 import Pagination from '../../components/Pagination.vue'
+import Loader from '../../components/Loader.vue'
 
 const store = useStore()
 const router = useRouter()
@@ -14,7 +15,7 @@ const route = useRoute()
 const shows = ref([])
 const page = ref(1)
 const totalPages = ref(1)
-const isFetching = ref(false)
+const isLoading = ref(false)
 const perPage = 12
 
 onMounted(async () => {
@@ -32,7 +33,7 @@ onMounted(async () => {
 })
 
 const getFavShows = async () => {
-  isFetching.value = true
+  isLoading.value = true
   shows.value = []
 
   let { data } = await supabase
@@ -50,7 +51,7 @@ const getFavShows = async () => {
     showData.media_type = show.type
     shows.value.push(showData)
   })
-  isFetching.value = false
+  isLoading.value = false
 }
 
 const handlePageChange = (p) => {
@@ -78,7 +79,8 @@ const handlePageChange = (p) => {
       </div>
     </transition-group>
   </div>
-  <span class="m-6" v-if="isFetching">Loading...</span>
+
+  <Loader v-if="isLoading" />
 
   <Pagination
     v-show="shows.length > 0"

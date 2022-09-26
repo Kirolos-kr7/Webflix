@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-[75vh] w-screen items-center justify-center">
+  <div class="mt-14 flex h-[75vh] w-screen items-center justify-center">
     <span class="loader" />
   </div>
 </template>
