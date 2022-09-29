@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
@@ -7,18 +7,18 @@ import Loader from './Loader.vue'
 import Recomendations from './Recomendations.vue'
 import VImage from './VImage.vue'
 import Seasons from './Seasons.vue'
+import type { ShowDetails, CastMember, Trailer } from '../types'
 
 const route = useRoute(),
   router = useRouter(),
-  show = ref(null),
-  cast = ref(null),
-  totalCast = ref(null),
+  show = ref<ShowDetails | null>(),
+  cast = ref<CastMember[] | null>(),
+  trailer = ref<Trailer | null>(),
   isLoading = ref(false),
-  nowAt = ref(null),
+  nowAt = ref(''),
   playingTrailer = ref(false),
-  trailer = ref(null),
-  props = defineProps(['type']),
-  castToShow = ref(0)
+  props = defineProps<{ type: string }>(),
+  castToShow = ref<number>(12)
 
 onMounted(() => {
   fetchData()
@@ -44,10 +44,9 @@ watch(route, () => {
 
 const fetchData = async () => {
   show.value = null
-  cast.value = []
-  totalCast.value = []
+  cast.value = null
   trailer.value = null
-  nowAt.value = route.params.id
+  nowAt.value = route.params.id as string
   isLoading.value = true
 
   let { data, error } = await useAxios({
@@ -62,38 +61,34 @@ const fetchData = async () => {
   let { data: showCast } = await useAxios({
     url: `${props.type}/${route.params.id}/credits`
   })
-  totalCast.value = showCast.cast
-  incremeantCast()
-  cast.value = showCast.cast.slice(0, 12)
+  cast.value = showCast.cast
 }
 
-const getMoreCast = () => {
-  if (cast.value.length < totalCast.value.length) {
-    incremeantCast()
-    cast.value = totalCast.value?.slice(0, castToShow.value)
-  }
+const showMoreCast = () => {
+  if (!cast.value) return
+
+  const diff = cast.value.length - castToShow.value
+  if (Math.sign(diff) != 1) return
+  if (diff > 12) castToShow.value += 12
+  else castToShow.value += diff
 }
 
-const incremeantCast = () => {
-  if (totalCast.value.length - cast.value.length < 12)
-    castToShow.value += totalCast.value.length - cast.value.length
-  else castToShow.value += 12
+const getReleaseDate = (d: Date) => {
+  return new Date(d).getFullYear()
 }
 
-const getReleaseDate = (str) => {
-  return str?.slice(0, 4)
+const getLanguage = (lang: string) => {
+  return lang.toUpperCase()
 }
 
-const getLanguage = (str) => {
-  return str?.toUpperCase()
-}
-
-const getNumebrOf = (n, type) => {
+const getNumebrOf = (n: number, type: string) => {
   if (n === 1) return n + ' ' + type
   else return n + ' ' + type + 's'
 }
 
-const getDuration = (n) => {
+const getDuration = (n: number | null) => {
+  if (!n) return 0
+
   if (n > 360) return '4hrs ' + (n - 360) + 'min'
   if (n === 360) return '4hrs '
 
@@ -119,7 +114,7 @@ const getDuration = (n) => {
     <div v-else>
       <div
         class="relative min-h-screen overflow-hidden bg-[#032c37]"
-        v-if="show !== null"
+        v-if="show"
       >
         <VImage
           v-if="show.backdrop_path"
@@ -153,44 +148,44 @@ const getDuration = (n) => {
             </h2>
             <p class="mt-4 flex flex-wrap items-center" v-if="type === 'movie'">
               <span>
-                {{ getReleaseDate(show?.release_date) }}
+                {{ getReleaseDate(show.release_date) }}
               </span>
               <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
               </span>
               <span>
-                {{ getDuration(show?.runtime) }}
+                {{ getDuration(show.runtime) }}
               </span>
               <span
                 class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
               ></span>
               <span>
-                {{ getLanguage(show?.original_language) }}
+                {{ getLanguage(show.original_language) }}
               </span>
             </p>
             <p class="mt-4 flex flex-wrap items-center" v-else>
               <span>
-                {{ getReleaseDate(show?.first_air_date) }}
+                {{ getReleaseDate(show.first_air_date) }}
               </span>
               <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
               </span>
               <span>
-                {{ getNumebrOf(show?.number_of_seasons, 'Season') }}
+                {{ getNumebrOf(show.number_of_seasons, 'Season') }}
               </span>
               <span
                 class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
               ></span>
               <span>
-                {{ getNumebrOf(show?.number_of_episodes, 'Episode') }}
+                {{ getNumebrOf(show.number_of_episodes, 'Episode') }}
               </span>
               <span
                 class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
               ></span>
               <span>
-                {{ getLanguage(show?.original_language) }}
+                {{ getLanguage(show.original_language) }}
               </span>
             </p>
             <p class="mt-2 text-gray-300">
-              {{ show?.overview }}
+              {{ show.overview }}
             </p>
             <button
               @click="getTrailer()"
@@ -218,15 +213,15 @@ const getDuration = (n) => {
     <div
       class="relative mx-auto grid w-full max-w-break gap-x-5 bg-wf-300 px-5 py-10 md:grid-cols-4"
     >
-      <div class="order-2 col-span-3 md:order-1" v-if="cast?.length > 0">
+      <div class="order-2 col-span-3 md:order-1" v-if="cast && cast.length > 0">
         <h2 class="text-3xl font-semibold">Cast</h2>
         <div class="!relative">
           <div
             class="mt-4 flex max-w-[calc(100vw-2.5rem)] gap-x-3 overflow-x-auto pb-2"
           >
             <div
-              v-for="member in cast"
-              :key="member.cast_id"
+              v-for="member in cast.slice(0, castToShow)"
+              :key="member.credit_id"
               class="min-w-[9rem] max-w-[9rem] overflow-hidden rounded-md bg-wf-200"
             >
               <router-link :to="`/person/${member.id}`">
@@ -258,8 +253,8 @@ const getDuration = (n) => {
               </div>
             </div>
             <button
-              v-if="cast?.length < totalCast?.length"
-              @click="getMoreCast()"
+              v-if="cast.length > castToShow"
+              @click="showMoreCast()"
               class="relative rounded-md bg-wf-200 px-10 transition-colors hover:bg-wf-200/60"
             >
               <span
@@ -312,7 +307,10 @@ const getDuration = (n) => {
       </div>
     </div>
 
-    <Seasons v-if="show?.seasons?.length > 0" :seasons="show?.seasons" />
+    <Seasons
+      v-if="show?.seasons && show.seasons.length > 0"
+      :seasons="show?.seasons"
+    />
 
     <Recomendations :type="type" />
   </div>

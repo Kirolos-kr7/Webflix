@@ -1,17 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import useAxios from '../composables/useAxios'
+import type { Show } from '../types'
 import VImage from './VImage.vue'
 
-const props = defineProps(['searchDialog']),
+const props = defineProps<{ searchDialog: boolean }>(),
   emits = defineEmits(['hideSearchDialog']),
   router = useRouter(),
-  inputSearch = ref(''),
-  autoFocusInput = ref(),
-  resContainer = ref(),
-  currIndex = ref(0),
-  searchResult = ref([])
+  inputSearch = ref<string>(''),
+  autoFocusInput = ref<HTMLInputElement>(),
+  resContainer = ref<HTMLElement>(),
+  currIndex = ref<number>(0),
+  searchResult = ref<Show[]>([])
 
 watch(props, () => {
   if (props.searchDialog) {
@@ -21,8 +22,8 @@ watch(props, () => {
   }
 })
 
-const searchNow = async (e) => {
-  inputSearch.value = e.target.value
+const searchNow = async (e: Event) => {
+  inputSearch.value = (e.target as HTMLInputElement).value
 
   currIndex.value = 0
   if (inputSearch.value === '') {
@@ -36,7 +37,8 @@ const searchNow = async (e) => {
   searchResult.value = data?.results.splice(0, 5)
 }
 
-const handleArrows = (e) => {
+const handleArrows = (e: KeyboardEvent) => {
+  if (!resContainer.value) return
   let itemsLength = resContainer.value?.children.length - 1
 
   if (itemsLength <= 0 || !searchResult.value) return
@@ -56,14 +58,14 @@ const handleArrows = (e) => {
 }
 
 const toShow = () => {
-  if (searchResult.value.length == 0) return
+  if (searchResult.value.length == 0 || !resContainer.value) return
   if (resContainer.value?.children.length > searchResult.value.length)
     router.push('/404')
 
-  if (navigator.userAgentData.mobile)
+  if (navigator.userAgentData?.mobile)
     router.push({ name: 'Search', query: { query: inputSearch.value } })
   else {
-    let result = searchResult.value[currIndex.value]
+    let result: Show = searchResult.value[currIndex.value]
 
     if (result)
       result.media_type === 'person'
@@ -80,7 +82,7 @@ const toShow = () => {
 }
 
 const exit = () => {
-  inputSearch.value = null
+  inputSearch.value = ''
   searchResult.value = []
   emits('hideSearchDialog')
 }

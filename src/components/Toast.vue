@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import VSvg from './VSvg.vue'
 import { useStore } from '../store'
 import useWindowWidth from '../composables/useWindowWidth'

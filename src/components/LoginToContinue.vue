@@ -1,13 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import VButton from './VButton.vue'
 
-defineProps({
-  litc: Boolean
-})
-
-const emits = defineEmits(['closeLitc'])
-
-const exit = () => emits('closeLitc')
+defineProps<{ litc: Boolean }>()
+defineEmits(['closeLitc'])
 </script>
 
 <template>
@@ -18,7 +13,7 @@ const exit = () => emits('closeLitc')
     >
       <div
         class="absolute inset-0 h-full w-full bg-black/60 transition-all"
-        @click="exit"
+        @click="$emit('closeLitc')"
       />
       <div
         class="relative grid min-w-[340px] gap-5 rounded-md border border-wf-100/50 bg-wf-300 p-5"

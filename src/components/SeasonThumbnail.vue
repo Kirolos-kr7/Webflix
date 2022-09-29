@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import VImage from './VImage.vue'
 
@@ -14,6 +14,8 @@ defineProps({
 })
 
 onMounted(async () => {
+  if ('userAgentData' in navigator === false) return
+
   if (!navigator.userAgentData?.mobile) {
     overlay.value.addEventListener('mouseover', () => {
       overlayHidden.value = true
@@ -51,7 +53,7 @@ onMounted(async () => {
 <template>
   <div class="relative">
     <router-link
-      class="relative block aspect-[2/3] min-w-[180px] sm:min-w-[220px]"
+      class="relative block aspect-[2/3] w-[200px] sm:w-[260px]"
       to="/"
     >
       <!-- :to="`/${

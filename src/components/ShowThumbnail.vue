@@ -1,21 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VImage from './VImage.vue'
-import VTooltip from '../composables/useTooltip'
+import type { Show } from '../types'
 
-let overlay = ref(),
+let overlay = ref<HTMLElement | null>(),
   store = useStore(),
   isFavourite = ref(false),
   btmbx = ref(),
   overlayHidden = ref(false)
 
-const props = defineProps({
-  show: {
-    type: Object,
-    required: true
-  }
+const props = withDefaults(defineProps<{ show: Show; isFluid?: boolean }>(), {
+  isFluid: false
 })
 
 const emits = defineEmits(['needToLogin'])
@@ -28,8 +25,10 @@ onMounted(async () => {
       .eq('show', props.show.id)
       .eq('user', store.user.id)
 
-    if (favourite_shows?.length > 0) isFavourite.value = true
+    if (favourite_shows && favourite_shows?.length > 0) isFavourite.value = true
   }
+
+  if ('userAgentData' in navigator === false || !overlay.value) return
 
   if (!navigator.userAgentData?.mobile) {
     overlay.value.addEventListener('mouseover', () => {
@@ -98,7 +97,8 @@ const addToFav = async () => {
 <template>
   <div class="relative">
     <router-link
-      class="relative block aspect-[2/3] min-w-[180px] sm:min-w-[220px]"
+      class="relative block aspect-[2/3]"
+      :class="isFluid ? 'w-full' : 'w-[200px] sm:w-[260px]'"
       :to="`/${
         show.media_type === 'person'
           ? `person/${show.id}`
@@ -160,7 +160,6 @@ const addToFav = async () => {
     <div class="absolute right-0 top-0 z-[11] p-2">
       <button
         @click="addToFav()"
-        v-tooltip="`Add to Favourite`"
         class="rounded-md bg-wf-200/70 p-2 shadow-2xl transition-colors hover:bg-wf-200/90"
       >
         <svg

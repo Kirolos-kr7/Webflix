@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import Navbar from '../components/Navbar.vue'
 import VImage from '../components/VImage.vue'
@@ -27,7 +27,7 @@ onMounted(() => {
       <h1 class="text-9xl font-black">404</h1>
       <router-link
         to="/"
-        class="bg-wf-300 hover:bg-wf-300/60 rounded-md px-4 py-1.5 transition-colors"
+        class="rounded-md bg-wf-300 px-4 py-1.5 transition-colors hover:bg-wf-300/60"
       >
         Check Trending Shows
       </router-link>

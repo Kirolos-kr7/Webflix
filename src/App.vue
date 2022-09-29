@@ -10,7 +10,7 @@
   </router-view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Footer from './components/Footer.vue'
 import Toast from './components/Toast.vue'
 </script>

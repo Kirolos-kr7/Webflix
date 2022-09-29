@@ -1,7 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch, onUnmounted } from 'vue'
+import type { Ref } from 'vue'
 import Search from './Search.vue'
 import { useRoute } from 'vue-router'
+import type { ListItem } from '../types'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
 import vTooltip from '../composables/useTooltip'
@@ -9,7 +11,7 @@ import VButton from './VButton.vue'
 import VImage from './VImage.vue'
 import VSvg from './VSvg.vue'
 
-const listItems = ref([
+const listItems: Ref<ListItem[]> = ref([
     {
       title: 'Trending',
       path: ''
@@ -25,7 +27,7 @@ const listItems = ref([
   ]),
   navOpen = ref(false),
   optionsMenu = ref(false),
-  nav = ref(),
+  nav = ref<HTMLInputElement | null>(null),
   store = useStore(),
   route = useRoute()
 
@@ -71,7 +73,7 @@ const hideSearchDialog = () => {
   searchDialog.value = false
 }
 
-const handleSearchShortcuts = (e) => {
+const handleSearchShortcuts = (e: KeyboardEvent) => {
   if ((e.ctrlKey && e.key === 'k') || e.key === '/') {
     e.preventDefault()
     searchDialog.value = !searchDialog.value
@@ -82,8 +84,8 @@ const toggleOptionsMenu = () => {
   if (!optionsMenu.value) {
     window.addEventListener(
       'mouseup',
-      (e) => {
-        if (e.target.dataset.optionsmenu === 'x') return
+      (e: MouseEvent) => {
+        if ((e.target as HTMLElement).dataset.optionsmenu === 'x') return
         optionsMenu.value = false
       },
       { once: true }

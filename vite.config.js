@@ -3,8 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  experimentalDisableTemplateSupport: true,
   plugins: [
-    vue(),
+    vue({}),
     VitePWA({
       registerType: 'autoUpdate',
 

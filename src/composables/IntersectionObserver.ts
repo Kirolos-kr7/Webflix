@@ -1,7 +1,11 @@
-const useIntersectionObserver = (el, cb, { once = false }) => {
+const useIntersectionObserver = (
+  el: HTMLElement,
+  cb: Function,
+  { once = false }
+) => {
   if (!el) return
 
-  let observer = new IntersectionObserver((entries) => {
+  const observer = new IntersectionObserver((entries) => {
     if (!entries[0].isIntersecting) return
 
     cb()

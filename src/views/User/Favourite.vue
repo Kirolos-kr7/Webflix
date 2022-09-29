@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import VTitle from '../../components/VTitle.vue'
 import { useStore } from '../../store'
@@ -8,33 +8,34 @@ import useAxios from '../../composables/useAxios'
 import { useRoute, useRouter } from 'vue-router'
 import Pagination from '../../components/Pagination.vue'
 import Loader from '../../components/Loader.vue'
+import type { Show } from '@/src/types'
 
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
-const shows = ref([])
-const page = ref(1)
-const totalPages = ref(1)
-const isLoading = ref(false)
+const shows = ref<Show[]>([])
+const page = ref<number>(1)
+const totalPages = ref<number>(1)
+const isLoading = ref<boolean>(false)
 const perPage = 12
 
 onMounted(async () => {
-  page.value = route.query.p || 1
+  page.value = route.query.p as any
 
-  totalPages.value = Math.ceil(
-    (
-      await supabase
-        .from('favourite_shows')
-        .select('show', { count: 'exact', head: true })
-    ).count / perPage
-  )
+  const favShows = await supabase
+    .from('favourite_shows')
+    .select('show', { count: 'exact', head: true })
 
+  if (!favShows.count) return
+  totalPages.value = Math.ceil(favShows.count / perPage)
   getFavShows()
 })
 
 const getFavShows = async () => {
   isLoading.value = true
   shows.value = []
+
+  if (!store.user) return
 
   let { data } = await supabase
     .from('favourite_shows')
@@ -43,7 +44,7 @@ const getFavShows = async () => {
     .range((page.value - 1) * perPage, page.value * perPage - 1)
     .order('created_at', { ascending: false })
 
-  data.forEach(async (show) => {
+  data?.forEach(async (show) => {
     let { data: showData } = await useAxios({
       url: `${show.type}/${show.show}`
     })
@@ -54,10 +55,10 @@ const getFavShows = async () => {
   isLoading.value = false
 }
 
-const handlePageChange = (p) => {
+const handlePageChange = (p: string | number) => {
   if (p === '+') return page.value++
   if (p === '-') return page.value--
-  page.value = p
+  page.value = p as number
   window.scrollTo({ top: 0, behavior: 'smooth' })
   router.push({
     path: '/me/fav',
@@ -75,7 +76,7 @@ const handlePageChange = (p) => {
   >
     <transition-group name="fade" appear>
       <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" @needToLogin="litc = true" />
+        <ShowThumbnail :show="show" />
       </div>
     </transition-group>
   </div>

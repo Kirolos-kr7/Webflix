@@ -8,13 +8,13 @@ import err from './views/404.vue'
 import Search from './views/Search.vue'
 import Person from './views/Person.vue'
 import Auth from './views/Auth.vue'
-import User from '/src/views/User/User.vue'
-import Profile from '/src/views/User/Profile.vue'
-import Favourite from '/src/views/User/Favourite.vue'
+import User from './views/User/User.vue'
+import Profile from './views/User/Profile.vue'
+import Favourite from './views/User/Favourite.vue'
 import { supabase } from './supabase'
 import { useStore } from './store'
 
-let routes = [
+const routes = [
   { name: 'Trending', path: '/', component: Trending },
   { name: 'Movies', path: '/movies', component: Movies },
   { name: 'AMovie', path: '/movie/:id', component: AMovie },
@@ -66,7 +66,7 @@ router.beforeEach((to, from, next) => {
   document.body.style.overflow = 'overlay'
   const store = useStore()
   const user = supabase.auth.user()
-  store.user = user || null
+  if (user) store.user = user
 
   if ((to.meta.requiresAuth && !user) || (to.meta.requiresUnAuth && user))
     return next({ path: from.fullPath })

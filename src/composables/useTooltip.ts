@@ -1,9 +1,9 @@
 const vTooltip = {
-  mounted(el, binding) {
+  mounted(el: HTMLElement, binding: { value: string }) {
     el.addEventListener('mouseenter', () => getTooltip(el, binding))
-    el.addEventListener('mouseleave', () => removeTooltip(el))
+    el.addEventListener('mouseleave', () => removeTooltip())
   },
-  unmounted(el) {
+  unmounted(el: HTMLElement) {
     el.removeEventListener('mouseenter', () => getTooltip())
     el.removeEventListener('mouseleave', () => removeTooltip())
   }
@@ -11,7 +11,11 @@ const vTooltip = {
 
 export default vTooltip
 
-const getTooltip = (el, binding) => {
+const getTooltip = (
+  el?: HTMLElement | undefined,
+  binding?: { value: string }
+) => {
+  if (!el || !binding) return
   const rect = el.getBoundingClientRect()
 
   const styles = `v-tooltip bg-[#00141a] p-2 rounded-md z-[100] absolute text-xs shadow-xl border border-wf-200/80 transition-opacity opacity-0`
@@ -45,6 +49,6 @@ const getTooltip = (el, binding) => {
 }
 
 const removeTooltip = () => {
-  const tooltip = document.body.querySelector('.v-tooltip')
-  tooltip.remove()
+  const tooltip: HTMLElement | null = document.body.querySelector('.v-tooltip')
+  if (tooltip) tooltip.remove()
 }

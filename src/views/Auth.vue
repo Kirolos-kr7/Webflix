@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
@@ -9,20 +9,23 @@ import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VImage from '../components/VImage.vue'
 
-const isNewUser = ref(false)
-const err = ref('')
-const isLoading = ref(false)
-const store = useStore()
-const router = useRouter()
+const isNewUser = ref(false),
+  err = ref<any>(''),
+  isLoading = ref(false),
+  store = useStore(),
+  router = useRouter(),
+  name = ref(''),
+  email = ref(''),
+  password = ref('')
 
-const login = async (e) => {
-  let email = e.target.querySelector('[name="email"]').value
-  let password = e.target.querySelector('[name="password"]').value
-
+const login = async (e: Event) => {
   try {
     err.value = ''
     isLoading.value = true
-    const { user, error } = await supabase.auth.signIn({ email, password })
+    const { user, error } = await supabase.auth.signIn({
+      email: email.value,
+      password: password.value
+    })
     if (error) err.value = error
     if (user) {
       store.user = user
@@ -34,18 +37,14 @@ const login = async (e) => {
   isLoading.value = false
 }
 
-const signup = async (e) => {
-  let name = e.target.querySelector('[name="name"]').value
-  let email = e.target.querySelector('[name="email"]').value
-  let password = e.target.querySelector('[name="password"]').value
-
+const signup = async (e: Event) => {
   try {
     err.value = ''
     isLoading.value = true
     const { user, error } = await supabase.auth.signUp(
       {
-        email,
-        password
+        email: email.value,
+        password: password.value
       },
       {
         data: { name }
@@ -79,7 +78,7 @@ const signup = async (e) => {
         </VError>
         <form
           @submit.prevent="
-            (e) => {
+            (e: Event) => {
               isNewUser ? signup(e) : login(e)
             }
           "

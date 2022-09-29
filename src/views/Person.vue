@@ -1,17 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Loader from '../components/Loader.vue'
 import Navbar from '../components/Navbar.vue'
 import VImage from '../components/VImage.vue'
 import useAxios from '../composables/useAxios'
+import type { Person, Show } from '../types'
 
-const person = ref(null),
-  credits = ref(null),
+const person = ref<Person>(),
+  credits = ref<Show[]>(),
   route = useRoute(),
-  nowAt = ref(null),
-  isLoading = ref(false),
-  router = useRouter()
+  router = useRouter(),
+  nowAt = ref<string>(''),
+  isLoading = ref<boolean>(false)
 
 onMounted(async () => {
   fetchData()
@@ -27,7 +28,7 @@ watch(route, () => {
 const fetchData = async () => {
   isLoading.value = true
   if (route.params.id) {
-    nowAt.value = route.params.id
+    nowAt.value = route.params.id as string
     let { data, error } = await useAxios({
       url: `person/${route.params.id}`
     })
@@ -40,7 +41,8 @@ const fetchData = async () => {
     })
     credits.value = work.cast
 
-    credits.value.sort((a, b) => {
+    if (!credits.value) return
+    credits.value.sort((a: Show, b: Show) => {
       if (a.popularity < b.popularity) return 1
       else return -1
     })
@@ -48,8 +50,10 @@ const fetchData = async () => {
   isLoading.value = false
 }
 
-const clacAge = (age) => {
-  let birthAt = new Date(age)
+const clacAge = (birthday: string | null) => {
+  if (!birthday) return birthday
+
+  let birthAt = new Date(birthday)
   let now = new Date()
   return `${now.getFullYear() - birthAt.getFullYear()} Years Old`
 }
@@ -109,7 +113,7 @@ const clacAge = (age) => {
             {{ person.biography }}
           </p>
         </div>
-        <div v-if="credits?.length > 0">
+        <div v-if="credits && credits?.length > 0">
           <h2 class="mt-5 text-xl font-medium">Known For</h2>
           <div class="mt-3 flex gap-x-3 overflow-x-auto pb-2">
             <router-link

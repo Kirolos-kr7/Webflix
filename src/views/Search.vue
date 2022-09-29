@@ -1,3 +1,50 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
+import ShowThumbnail from '../components/ShowThumbnail.vue'
+import VTitle from '../components/VTitle.vue'
+import useAxios from '../composables/useAxios'
+import type { Show } from '../types'
+
+const shows = ref<Show[]>([]),
+  router = useRouter(),
+  route = useRoute(),
+  inputSearch = ref<string>('')
+
+onMounted(async () => {
+  inputSearch.value =
+    typeof route.query.query == 'string' ? route.query.query : ''
+  router.replace({
+    name: route.name as string,
+    query: { query: inputSearch.value }
+  })
+  await getMovies()
+})
+
+const getMovies = async () => {
+  if (inputSearch.value.trim() !== '') {
+    let { data } = await useAxios({
+      url: `search/multi?query=${inputSearch.value}`
+    })
+    shows.value = data.results
+  }
+}
+
+const searchNow = async () => {
+  if (inputSearch.value === '') {
+    router.replace({ name: route.name as string, query: undefined })
+    shows.value = []
+    return
+  }
+  router.replace({
+    name: route.name as string,
+    query: { query: inputSearch.value }
+  })
+  getMovies()
+}
+</script>
+
 <template>
   <Navbar />
   <div
@@ -21,7 +68,7 @@
     </transition-group>
   </div>
   <transition name="fade" appear>
-    <h2 v-if="!shows.length > 0" class="mt-6 text-center text-3xl">
+    <h2 v-if="shows.length === 0" class="mt-6 text-center text-3xl">
       {{
         inputSearch.trim() !== ''
           ? `No result found for "${inputSearch}"`
@@ -30,42 +77,3 @@
     </h2>
   </transition>
 </template>
-
-<script setup>
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import Navbar from '../components/Navbar.vue'
-import ShowThumbnail from '../components/ShowThumbnail.vue'
-import VTitle from '../components/VTitle.vue'
-import useAxios from '../composables/useAxios'
-
-const shows = ref([]),
-  router = useRouter(),
-  route = useRoute(),
-  inputSearch = ref('')
-
-onMounted(async () => {
-  inputSearch.value = route.query.query || ''
-  router.replace({ name: route.name, query: { query: inputSearch.value } })
-  await getMovies()
-})
-
-const getMovies = async () => {
-  if (inputSearch.value.trim() !== '') {
-    let { data } = await useAxios({
-      url: `search/multi?query=${inputSearch.value}`
-    })
-    shows.value = data.results
-  }
-}
-
-const searchNow = async () => {
-  if (inputSearch.value === '') {
-    router.replace({ name: route.name, query: null })
-    shows.value = []
-    return
-  }
-  router.replace({ name: route.name, query: { query: inputSearch.value } })
-  getMovies()
-}
-</script>

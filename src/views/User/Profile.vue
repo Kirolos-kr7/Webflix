@@ -1,25 +1,30 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import VImage from '../../components/VImage.vue'
 import { useStore } from '../../store'
 import { supabase } from '../../supabase'
 const store = useStore()
 
-const favShowsCount = ref('..')
+const favShowsCount = ref<string | number>('..')
 
 onMounted(async () => {
+  if (!store.user) return
+
   let { data } = await supabase
     .from('favourite_shows')
     .select()
     .eq('user', store.user.id)
 
-  favShowsCount.value = data.length
+  favShowsCount.value = data?.length || 0
 })
 </script>
 
 <template>
   <div class="grid gap-5 md:grid-cols-3">
-    <div class="flex items-center gap-3 rounded-md bg-wf-200 p-5 md:col-span-2">
+    <div
+      class="flex items-center gap-3 rounded-md bg-wf-200 p-5 md:col-span-2"
+      v-if="store.user"
+    >
       <VImage
         class="h-20 w-20 rounded-full"
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ79GjtRSlnYnEiHzWrOj29US2HRtXI_olH1A&usqp=CAU"

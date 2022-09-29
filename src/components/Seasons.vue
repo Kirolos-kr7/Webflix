@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import SeasonThumbnail from './SeasonThumbnail.vue'
 
 defineProps(['seasons'])

@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, type RouteLocationNormalized } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import Pagination from '../components/Pagination.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
@@ -9,16 +9,21 @@ import useAxios from '../composables/useAxios'
 import LoginToContinue from './LoginToContinue.vue'
 import vTooltip from '../composables/useTooltip'
 import Loader from './Loader.vue'
+import type { ShowMode, Show } from '../types'
 
-const shows = ref([]),
-  page = ref(1),
-  totalPages = ref(1),
+const shows = ref<Show[]>(),
+  page = ref<number>(1),
+  totalPages = ref<number>(1),
   router = useRouter(),
-  route = useRoute(),
-  litc = ref(false),
-  isFetching = ref(false)
+  route: RouteLocationNormalized = useRoute(),
+  litc = ref<boolean>(false),
+  isFetching = ref<boolean>(false)
 
-const props = defineProps(['name', 'resource', 'showModes'])
+const props = defineProps<{
+  name: string
+  resource: string
+  showModes: ShowMode[]
+}>()
 
 const mode = computed(() => {
   let modeExists = props?.showModes.filter(
@@ -28,15 +33,15 @@ const mode = computed(() => {
   return modeExists[0]?.mode ? modeExists[0].mode : props?.showModes[0].mode
 })
 
-watch(route, () => getMovies())
+watch(route, () => getShows())
 
 onMounted(async () => {
   document.title = `${props.name} on Webflix`
-  page.value = !isNaN(route.query.p) ? parseInt(route.query.p) : 1
-  getMovies()
+  page.value = !isNaN(route.query.p as any) ? parseInt(route.query.p as any) : 1
+  getShows()
 })
 
-const getMovies = async () => {
+const getShows = async () => {
   isFetching.value = true
   shows.value = []
 
@@ -45,10 +50,11 @@ const getMovies = async () => {
       props.name === 'Trending' ? '/week' : ''
     }?page=${page.value}`
   })
+  console.log(data)
 
   totalPages.value = await data.total_pages
   if (props.resource !== 'trending')
-    shows.value = await data.results.map((show) => {
+    shows.value = await data.results.map((show: Show) => {
       show.media_type = props.resource
       return show
     })
@@ -56,19 +62,19 @@ const getMovies = async () => {
   isFetching.value = false
 }
 
-const handlePageChange = (p) => {
+const handlePageChange = (p: number | string) => {
   if (p === '+') return page.value++
   if (p === '-') return page.value--
-  page.value = p
+  page.value = typeof p === 'number' ? p : 0
   window.scrollTo({ top: 0, behavior: 'smooth' })
   router.push({
     name: props.name,
     query: { mode: mode.value, p: p !== 1 ? p : undefined }
   })
-  getMovies()
+  getShows()
 }
 
-const changeMode = (newMode) => {
+const changeMode = (newMode: string) => {
   page.value = 1
 
   router.push({
@@ -91,22 +97,22 @@ const changeMode = (newMode) => {
       v-tooltip="`Filter Shows`"
     >
       <button
-        v-for="by in showModes"
-        :key="by"
+        v-for="{ title, mode } in showModes"
+        :key="mode"
         class="bg-wf-200 px-3 py-1.5 text-sm transition-colors hover:bg-wf-100/80"
-        :class="by.mode === mode ? 'bg-green-600 hover:!bg-green-800' : ''"
-        @click="changeMode(by.mode)"
+        :class="mode === mode ? 'bg-green-600 hover:!bg-green-800' : ''"
+        @click="changeMode(mode)"
       >
-        {{ by.title }}
+        {{ title }}
       </button>
     </div>
     <select
       :value="mode"
       class="relative z-[1] flex rounded-sm bg-wf-200/50 px-2 py-1 text-sm text-white outline-none md:hidden"
-      @change="changeMode($event.target.value)"
+      @change="changeMode(($event.target as HTMLSelectElement).value)"
     >
-      <option v-for="by in showModes" :key="by" :value="by.mode">
-        {{ by.title }}
+      <option v-for="{ title, mode } in showModes" :key="mode" :value="mode">
+        {{ title }}
       </option>
     </select>
   </div>
@@ -118,12 +124,16 @@ const changeMode = (newMode) => {
   >
     <transition-group name="fade" appear>
       <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" @needToLogin="litc = true" />
+        <ShowThumbnail
+          :show="show"
+          @needToLogin="litc = true"
+          :isFluid="true"
+        />
       </div>
     </transition-group>
   </div>
   <Pagination
-    v-show="shows.length > 0"
+    v-show="shows && shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"
