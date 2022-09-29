@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.2.2...v1.3.0) (2022-09-29)
+
+
+### Features
+
+* Migrated to typescript ([336648e](https://github.com/Kirolos-kr7/Webflix/commit/336648e63ddcbe678a848fd58975923c6b332671))
+
 ### [1.2.2](https://github.com/Kirolos-kr7/Webflix/compare/v1.2.1...v1.2.2) (2022-09-26)
 
 
