@@ -106,112 +106,105 @@ const getDuration = (n: number | null) => {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <Navbar />
+  <Navbar />
 
-    <Loader v-if="isLoading" />
+  <div class="relative min-h-screen overflow-hidden" v-if="!isLoading && show">
+    <VImage
+      v-if="show.backdrop_path"
+      class="fixed top-0 z-[0] max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
+      :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
+    />
+    <div
+      ref="overlay"
+      class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
+    ></div>
 
-    <div v-else>
+    <div class="relative mx-auto mt-[50vh] max-w-break">
       <div
-        class="relative min-h-screen overflow-hidden bg-[#032c37]"
-        v-if="show"
+        class="relative bottom-8 z-10 mx-8 mt-[50vh] flex min-h-[50vh] flex-col justify-end md:absolute md:bottom-auto md:top-1/2 md:mx-16 md:mt-auto md:max-w-[48%] md:-translate-y-1/2 md:justify-center lg:mx-32 lg:max-w-[38%]"
       >
-        <VImage
-          v-if="show.backdrop_path"
-          class="fixed top-0 z-[0] max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
-          :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
-        />
-        <div
-          ref="overlay"
-          class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
-        ></div>
-
-        <div class="relative mx-auto mt-[50vh] max-w-break">
-          <div
-            class="relative bottom-8 z-10 mx-8 mt-[50vh] flex min-h-[50vh] flex-col justify-end md:absolute md:bottom-auto md:top-1/2 md:mx-16 md:mt-auto md:max-w-[48%] md:-translate-y-1/2 md:justify-center lg:mx-32 lg:max-w-[38%]"
+        <em
+          ><h3 class="text-gray-400">
+            {{ show.tagline }}
+          </h3></em
+        >
+        <h2
+          class="mt-3 break-words text-5xl font-semibold"
+          style="hyphens: auto"
+          :class="
+            show.name?.length > 40 || show.title?.length > 40
+              ? '!text-4xl '
+              : ''
+          "
+        >
+          {{ show.name || show.title }}
+        </h2>
+        <p class="mt-4 flex flex-wrap items-center" v-if="type === 'movie'">
+          <span>
+            {{ getReleaseDate(show.release_date) }}
+          </span>
+          <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
+          </span>
+          <span>
+            {{ getDuration(show.runtime) }}
+          </span>
+          <span
+            class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
+          ></span>
+          <span>
+            {{ getLanguage(show.original_language) }}
+          </span>
+        </p>
+        <p class="mt-4 flex flex-wrap items-center" v-else>
+          <span>
+            {{ getReleaseDate(show.first_air_date) }}
+          </span>
+          <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
+          </span>
+          <span>
+            {{ getNumebrOf(show.number_of_seasons, 'Season') }}
+          </span>
+          <span
+            class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
+          ></span>
+          <span>
+            {{ getNumebrOf(show.number_of_episodes, 'Episode') }}
+          </span>
+          <span
+            class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
+          ></span>
+          <span>
+            {{ getLanguage(show.original_language) }}
+          </span>
+        </p>
+        <p class="mt-2 text-gray-300">
+          {{ show.overview }}
+        </p>
+        <button
+          @click="getTrailer()"
+          class="relative mt-6 flex w-max items-center gap-x-2 rounded-sm bg-wf-100 px-3 py-1 text-sm font-extralight transition-colors hover:bg-wf-100/75"
+        >
+          <svg
+            class="h-5 w-5 cursor-pointer text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <em
-              ><h3 class="text-gray-400">
-                {{ show.tagline }}
-              </h3></em
-            >
-            <h2
-              class="mt-3 break-words text-5xl font-semibold"
-              style="hyphens: auto"
-              :class="
-                show.name?.length > 40 || show.title?.length > 40
-                  ? '!text-4xl '
-                  : ''
-              "
-            >
-              {{ show.name || show.title }}
-            </h2>
-            <p class="mt-4 flex flex-wrap items-center" v-if="type === 'movie'">
-              <span>
-                {{ getReleaseDate(show.release_date) }}
-              </span>
-              <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
-              </span>
-              <span>
-                {{ getDuration(show.runtime) }}
-              </span>
-              <span
-                class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
-              ></span>
-              <span>
-                {{ getLanguage(show.original_language) }}
-              </span>
-            </p>
-            <p class="mt-4 flex flex-wrap items-center" v-else>
-              <span>
-                {{ getReleaseDate(show.first_air_date) }}
-              </span>
-              <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
-              </span>
-              <span>
-                {{ getNumebrOf(show.number_of_seasons, 'Season') }}
-              </span>
-              <span
-                class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
-              ></span>
-              <span>
-                {{ getNumebrOf(show.number_of_episodes, 'Episode') }}
-              </span>
-              <span
-                class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
-              ></span>
-              <span>
-                {{ getLanguage(show.original_language) }}
-              </span>
-            </p>
-            <p class="mt-2 text-gray-300">
-              {{ show.overview }}
-            </p>
-            <button
-              @click="getTrailer()"
-              class="relative mt-6 flex w-max items-center gap-x-2 rounded-sm bg-wf-100 px-3 py-1 text-sm font-extralight transition-colors hover:bg-wf-100/75"
-            >
-              <svg
-                class="h-5 w-5 cursor-pointer text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span>Play Trailer</span>
-            </button>
-          </div>
-        </div>
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span>Play Trailer</span>
+        </button>
       </div>
     </div>
+  </div>
 
+  <div class="relative bg-wf-300" v-if="!isLoading">
     <div
-      class="relative mx-auto grid w-full max-w-break gap-x-5 bg-wf-300 px-5 py-10 md:grid-cols-4"
+      class="mx-auto grid w-full max-w-break gap-x-5 px-5 py-10 md:grid-cols-4"
     >
       <div class="order-2 col-span-3 md:order-1" v-if="cast && cast.length > 0">
         <h2 class="text-3xl font-semibold">Cast</h2>
@@ -314,6 +307,8 @@ const getDuration = (n: number | null) => {
 
     <Recomendations :type="type" />
   </div>
+
+  <Loader v-if="isLoading" />
 
   <transition name="fade">
     <div

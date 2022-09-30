@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ShowsPage from '../components/ShowsPage.vue'
+import ShowsGrid from '../components/ShowsGrid.vue'
 </script>
 
 <template>
-  <ShowsPage
+  <ShowsGrid
     name="Movies"
     resource="movie"
     :showModes="[

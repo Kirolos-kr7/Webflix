@@ -5,10 +5,7 @@ defineProps(['seasons'])
 </script>
 
 <template>
-  <div
-    class="relative mx-auto w-full max-w-break bg-wf-300 px-5 py-10"
-    ref="recs"
-  >
+  <div class="mx-auto w-full max-w-break px-5 py-10">
     <h2 class="text-3xl font-semibold">Seasons</h2>
     <div class="scroller mt-4 flex gap-x-3 overflow-x-auto pb-2">
       <transition-group name="fade" appear>
