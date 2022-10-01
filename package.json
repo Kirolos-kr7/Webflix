@@ -4,7 +4,6 @@
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "vite build",
-    "deploy": "vite build && firebase deploy",
     "serve": "vite preview",
     "lint": "eslint . --ext .vue,.js,.cjs --fix --ignore-path .gitignore",
     "release": "standard-version",
