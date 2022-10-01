@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.3.1...v1.4.0) (2022-10-01)
+
+
+### Features
+
+* season page w/ episodes ([4ba2416](https://github.com/Kirolos-kr7/Webflix/commit/4ba241615723c11f41a2c92c0b3d31fbfa160d52))
+
 ### [1.3.1](https://github.com/Kirolos-kr7/Webflix/compare/v1.3.0...v1.3.1) (2022-09-30)
 
 ## [1.3.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.2.2...v1.3.0) (2022-09-29)
