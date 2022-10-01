@@ -15,6 +15,7 @@ const route = useRoute(),
   show = ref<ShowDetails | null>(),
   cast = ref<CastMember[] | null>(),
   trailer = ref<Trailer | null>(),
+  complementary = ref<HTMLElement | null>(),
   isLoading = ref(false),
   nowAt = ref(''),
   playingTrailer = ref(false),
@@ -23,6 +24,8 @@ const route = useRoute(),
 
 onMounted(() => {
   fetchData()
+
+  window.addEventListener('resize', handleComplenetarysize)
 })
 
 const getTrailer = async () => {
@@ -105,6 +108,18 @@ const getDuration = (n: number | null) => {
 
   if (n < 60) return n + 'mins'
 }
+
+const handleComplenetarysize = () => {
+  if (!complementary.value?.parentElement) return
+
+  complementary.value.style.height =
+    (complementary.value.parentElement.offsetHeight - window.innerHeight || 0) +
+    'px'
+}
+
+watch(complementary, () => {
+  if (complementary.value) handleComplenetarysize()
+})
 </script>
 
 <template>
@@ -119,7 +134,8 @@ const getDuration = (n: number | null) => {
     <div
       ref="overlay"
       class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
-    ></div>
+    />
+    <div class="absolute bottom-0 w-full bg-[#032c37]" ref="complementary" />
 
     <div class="relative mx-auto mt-[50vh] max-w-break">
       <div
