@@ -8,6 +8,7 @@ import Recomendations from './Recomendations.vue'
 import VImage from './VImage.vue'
 import Seasons from './Seasons.vue'
 import type { ShowDetails, CastMember, Trailer } from '../types'
+import Collection from './Collection.vue'
 
 const route = useRoute(),
   router = useRouter(),
@@ -55,6 +56,7 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
+  console.log(data)
   document.title = `${data?.name || data?.title} - Webflix`
   isLoading.value = false
 
@@ -304,6 +306,11 @@ const getDuration = (n: number | null) => {
       v-if="show?.seasons && show.seasons.length > 0"
       :seasons="show?.seasons"
       :showId="show?.id"
+    />
+
+    <Collection
+      v-if="show?.belongs_to_collection"
+      :collectionId="show?.belongs_to_collection.id"
     />
 
     <Recomendations :type="type" />

@@ -55,7 +55,7 @@ export interface Tv extends BaseShow {
 }
 
 export interface MovieDetails extends Movie {
-  belongs_to_collection: null | object
+  belongs_to_collection: null | Collection
   budget: number
   genres: Genre[]
   homepage: string | null
@@ -208,4 +208,12 @@ export interface Episode {
   still_path: string | null
   vote_average: number
   vote_count: number
+}
+
+export interface Collection {
+  backdrop_path: string
+  id: number
+  name: string
+  poster_path: string
+  parts: Show[]
 }
