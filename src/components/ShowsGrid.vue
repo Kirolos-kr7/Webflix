@@ -7,7 +7,6 @@ import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
 import LoginToContinue from './LoginToContinue.vue'
-import vTooltip from '../composables/useTooltip'
 import Loader from './Loader.vue'
 import type { ShowMode, Show } from '../types'
 import VDropDown from './VDropDown.vue'
@@ -87,27 +86,11 @@ const changeMode = (newMode: string) => {
 <template>
   <Navbar />
   <div
-    class="mx-auto flex w-full max-w-break items-center justify-between px-5 pt-24"
+    class="mx-auto flex w-full max-w-break items-center justify-between gap-8 px-5 pt-24"
   >
     <VTitle :title="name" />
-    <div
-      class="relative z-[1] hidden overflow-hidden rounded-md md:flex"
-      v-tooltip="`Filter Shows`"
-    >
-      <button
-        v-for="{ title, mode } in showModes"
-        :key="mode"
-        class="bg-wf-200 px-3 pt-1.5 pb-1 text-sm transition-colors hover:bg-wf-100/80"
-        :class="
-          currmode.mode === mode ? 'bg-green-600 hover:!bg-green-800' : ''
-        "
-        @click="changeMode(mode)"
-      >
-        {{ title }}
-      </button>
-    </div>
     <VDropDown
-      class="w-full xs:w-[180px] md:hidden"
+      class="w-[150px] xs:w-[180px]"
       :options="showModes"
       :selected="currmode"
       textKey="title"
