@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.4.0...v1.5.0) (2022-10-01)
+
+
+### Features
+
+* movies' collections ([bfc7817](https://github.com/Kirolos-kr7/Webflix/commit/bfc78176b9793b40b10e7b2a1a2c2d7307676732))
+
+
+### Bug Fixes
+
+* bottom of header filled w/ color ([670557f](https://github.com/Kirolos-kr7/Webflix/commit/670557f85f994484fe77c240c00274e5f5708874))
+* build problems ([6b00bb9](https://github.com/Kirolos-kr7/Webflix/commit/6b00bb9de164e0b3d8256817604372bc4b6dc567))
+* filter btn size and display ([0d573fc](https://github.com/Kirolos-kr7/Webflix/commit/0d573fc2b4d4ad559a5ad7286135480e2f64fe19))
+* hide dropdown on larger screen sizes ([d02eb1f](https://github.com/Kirolos-kr7/Webflix/commit/d02eb1f6983c9a66804a43a181ddd9ebfeee0d8d))
+* netlify build ([6fcc730](https://github.com/Kirolos-kr7/Webflix/commit/6fcc7304940951cc07d9fafa362a905cff24a551))
+* typecheck command ([1d25598](https://github.com/Kirolos-kr7/Webflix/commit/1d2559898be66e269768fb9eed364a35cde590e2))
+
 ## [1.4.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.3.1...v1.4.0) (2022-10-01)
 
 
