@@ -107,7 +107,7 @@ const changeMode = (newMode: string) => {
       </button>
     </div>
     <VDropDown
-      class="w-full xs:w-[180px]"
+      class="w-full xs:w-[180px] md:hidden"
       :options="showModes"
       :selected="currmode"
       textKey="title"
