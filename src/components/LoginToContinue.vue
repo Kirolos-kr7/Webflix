@@ -19,7 +19,7 @@ defineEmits(['closeLitc'])
         class="relative grid min-w-[340px] gap-5 rounded-md border border-wf-100/50 bg-wf-300 p-5"
       >
         <h2 class="text-xl font-semibold">Please Login To Continue</h2>
-        <VButton to="/auth">Login Now</VButton>
+        <VButton to="/auth" @click="$emit('closeLitc')">Login Now</VButton>
       </div>
     </div>
   </transition>

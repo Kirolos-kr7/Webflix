@@ -37,6 +37,14 @@ body {
   @apply rounded-full bg-wf-100 hover:bg-gray-500;
 }
 
+.diff::-webkit-scrollbar {
+  @apply h-3 w-3 bg-wf-200;
+}
+
+.diff::-webkit-scrollbar-thumb {
+  @apply border-[3px] border-solid border-wf-200;
+}
+
 .show-backdrop {
   @apply relative min-h-screen overflow-hidden bg-no-repeat;
   background-attachment: fixed;

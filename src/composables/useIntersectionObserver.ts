@@ -11,7 +11,6 @@ const useIntersectionObserver = (
   const observer = new IntersectionObserver(
     (entries) => {
       if (!entries[0].isIntersecting) return
-      console.log('xxx')
 
       cb()
       if (once) observer.unobserve(el)

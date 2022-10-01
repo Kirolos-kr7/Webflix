@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import type { Season } from '../types'
 import VImage from './VImage.vue'
 
 let overlay = ref(),
   btmbx = ref(),
   overlayHidden = ref(false)
 
-defineProps({
-  season: {
-    type: Object,
-    required: true
-  }
-})
+defineProps<{
+  season: Season
+  showId: number
+}>()
 
 onMounted(async () => {
   if ('userAgentData' in navigator === false) return
@@ -54,17 +53,8 @@ onMounted(async () => {
   <div class="relative">
     <router-link
       class="relative block aspect-[2/3] w-[200px] sm:w-[260px]"
-      to="/"
+      :to="`/series/${showId}/season/${season.season_number}`"
     >
-      <!-- :to="`/${
-        show.media_type === 'person'
-          ? `person/${show.id}`
-          : show.media_type === 'movie'
-          ? `movie/${show.id}`
-          : show.media_type === 'tv'
-          ? `series/${show.id}`
-          : '404'
-      }`" -->
       <div
         class="daContainer relative cursor-pointer overflow-hidden rounded-sm bg-wf-200"
       >

@@ -141,6 +141,9 @@ export interface Season {
   poster_path: string | null
   season_number: number
   air_date: Date
+  name: string
+  overview: string
+  episodes: Episode[]
 }
 
 export interface Genre {
@@ -179,6 +182,19 @@ export interface Language {
   iso_639_1: string
   name: string
   english_name: string
+}
+
+export interface Episode {
+  air_date: string
+  episode_number: number
+  id: number
+  name: string
+  overview: string
+  production_code: string
+  season_number: number
+  still_path: string | null
+  vote_average: number
+  vote_count: number
 }
 
 export interface Episode {

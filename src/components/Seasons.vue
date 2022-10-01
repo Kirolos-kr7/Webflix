@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import type { Season } from '../types'
 import SeasonThumbnail from './SeasonThumbnail.vue'
 
-defineProps(['seasons'])
+defineProps<{
+  seasons: Season[]
+  showId: number
+}>()
 </script>
 
 <template>
@@ -13,6 +17,7 @@ defineProps(['seasons'])
           v-for="season in seasons"
           :key="season.id"
           :season="season"
+          :showId="showId"
         />
       </transition-group>
     </div>

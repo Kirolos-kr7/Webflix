@@ -303,6 +303,7 @@ const getDuration = (n: number | null) => {
     <Seasons
       v-if="show?.seasons && show.seasons.length > 0"
       :seasons="show?.seasons"
+      :showId="show?.id"
     />
 
     <Recomendations :type="type" />

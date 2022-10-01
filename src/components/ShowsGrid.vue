@@ -10,6 +10,7 @@ import LoginToContinue from './LoginToContinue.vue'
 import vTooltip from '../composables/useTooltip'
 import Loader from './Loader.vue'
 import type { ShowMode, Show } from '../types'
+import VDropDown from './VDropDown.vue'
 
 const shows = ref<Show[]>(),
   page = ref<number>(1),
@@ -26,11 +27,9 @@ const props = defineProps<{
 }>()
 
 const currmode = computed(() => {
-  let modeExists = props?.showModes.filter(
-    (show) => show.mode === route.query.mode
-  )
+  let showMode = props?.showModes.find((show) => show.mode === route.query.mode)
 
-  return modeExists[0]?.mode ? modeExists[0].mode : props?.showModes[0].mode
+  return showMode ? showMode : props?.showModes[0]
 })
 
 watch(route, () => getShows())
@@ -46,7 +45,7 @@ const getShows = async () => {
   shows.value = []
 
   let { data } = await useAxios({
-    url: `${props.resource}/${currmode.value}${
+    url: `${props.resource}/${currmode.value.mode}${
       props.name === 'Trending' ? '/week' : ''
     }?page=${page.value}`
   })
@@ -68,7 +67,7 @@ const handlePageChange = (p: number | string) => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
   router.push({
     name: props.name,
-    query: { mode: currmode.value, p: p !== 1 ? p : undefined }
+    query: { mode: currmode.value.mode, p: p !== 1 ? p : undefined }
   })
   getShows()
 }
@@ -99,21 +98,22 @@ const changeMode = (newMode: string) => {
         v-for="{ title, mode } in showModes"
         :key="mode"
         class="bg-wf-200 px-3 pt-1.5 pb-1 text-sm transition-colors hover:bg-wf-100/80"
-        :class="currmode === mode ? 'bg-green-600 hover:!bg-green-800' : ''"
+        :class="
+          currmode.mode === mode ? 'bg-green-600 hover:!bg-green-800' : ''
+        "
         @click="changeMode(mode)"
       >
         {{ title }}
       </button>
     </div>
-    <select
-      :value="currmode"
-      class="relative z-[1] flex rounded-sm bg-wf-200/50 px-2 py-1 text-sm text-white outline-none md:hidden"
-      @change="changeMode(($event.target as HTMLSelectElement).value)"
-    >
-      <option v-for="{ title, mode } in showModes" :key="mode" :value="mode">
-        {{ title }}
-      </option>
-    </select>
+    <VDropDown
+      class="w-full xs:w-[180px]"
+      :options="showModes"
+      :selected="currmode"
+      textKey="title"
+      valueKey="mode"
+      @selectionChange="changeMode"
+    />
   </div>
 
   <Loader v-if="isFetching" />
