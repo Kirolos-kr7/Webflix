@@ -118,7 +118,7 @@ const clacAge = (birthday: string | null) => {
           <div class="mt-3 flex gap-x-3 overflow-x-auto pb-2">
             <router-link
               class="flex-shrink-0"
-              v-for="credit in credits?.slice(0, 12)"
+              v-for="credit in credits?.slice(0, 20)"
               :key="credit.id"
               :to="
                 credit.media_type === 'person'
