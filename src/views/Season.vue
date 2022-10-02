@@ -58,6 +58,11 @@ const changeSeason = (sNum: number) => {
   )
   router.replace(`/series/${route.params.showId}/season/${sNum}`)
 }
+
+const getNumWZeros = (x: number) =>
+  new Intl.NumberFormat('en-us', {
+    minimumIntegerDigits: 2
+  }).format(x)
 </script>
 
 <template>
@@ -108,10 +113,12 @@ const changeSeason = (sNum: number) => {
       </div>
 
       <div v-if="season.episodes.length > 0" class="py-10">
-        <h2 class="text-3xl font-semibold">Episodes</h2>
+        <h2 class="text-3xl font-semibold">
+          Episodes [{{ season.episodes.length }}]
+        </h2>
         <div class="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2">
           <div
-            class="relative flex flex-shrink-0 flex-col rounded-md bg-wf-200 p-3 transition-colors xs:flex-row"
+            class="relative flex flex-shrink-0 flex-col overflow-hidden rounded-md bg-wf-200 p-3 transition-colors xs:flex-row"
             v-for="episode in season.episodes"
             :key="episode.id"
           >
@@ -120,10 +127,14 @@ const changeSeason = (sNum: number) => {
               class="w-full rounded-md object-cover hover:opacity-70 xs:w-[25%]"
               :src="`https://image.tmdb.org/t/p/w500/${episode.still_path}`"
             />
-            <div class="p-3">
+            <div class="relative z-[1] p-3">
               <h1 class="text-lg font-semibold">{{ episode.name }}</h1>
               <p class="mt-2 text-gray-400">{{ episode.overview }}</p>
             </div>
+            <span
+              class="absolute -right-2.5 -bottom-7 z-0 font-bebasNeue text-[7rem] font-semibold leading-none text-wf-100/30"
+              >{{ getNumWZeros(episode.episode_number) }}</span
+            >
           </div>
         </div>
       </div>
