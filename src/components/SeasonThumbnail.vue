@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import type { Season } from '../types'
 import VImage from './VImage.vue'
+import EpisodeCount from './EpisodeCount.vue'
 
 let overlay = ref(),
   btmbx = ref(),
@@ -79,9 +80,11 @@ onMounted(async () => {
           <h2 class="leading-6">
             {{ season.name }}
           </h2>
-          <span class="flex items-center rounded-md bg-wf-100 p-1.5 text-xs">
-            {{ season.episode_count }} Episodes
-          </span>
+          <div
+            class="grid grid-cols-3 rounded-md bg-wf-100 p-1.5 text-xs uppercase"
+          >
+            <EpisodeCount :count="season.episode_count" />
+          </div>
         </div>
       </div>
     </router-link>
