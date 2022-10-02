@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.5.0...v1.6.0) (2022-10-02)
+
+
+### Features
+
+* added ep number as a skin ([8b8a204](https://github.com/Kirolos-kr7/Webflix/commit/8b8a20429c10f9fccea0186d31758efeeb08cabd))
+* added new layout for episode count ([2c48ca0](https://github.com/Kirolos-kr7/Webflix/commit/2c48ca0e3e5e0d530ac4dc9e21e5a1be1586eb63))
+* increased number of credits per person ([374e3ec](https://github.com/Kirolos-kr7/Webflix/commit/374e3ec8646a1e9b7296ca543d3090700e2bf3d7))
+
 ## [1.5.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.4.0...v1.5.0) (2022-10-01)
 
 
