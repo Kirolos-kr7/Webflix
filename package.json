@@ -1,6 +1,6 @@
 {
   "name": "movieapp",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "scripts": {
     "dev": "vite --host --port 3000",
     "serve": "vite preview",
@@ -9,7 +9,7 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.cjs --fix --ignore-path .gitignore",
     "release": "standard-version",
-    "release-patch": "standard-version -- --release-as patch",
+    "release-patch": "standard-version --release-as patch",
     "publish": "git push --follow-tags origin master"
   },
   "dependencies": {
