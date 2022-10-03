@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import useAxios from '../composables/useAxios'
@@ -25,7 +25,12 @@ const route = useRoute(),
 onMounted(() => {
   fetchData()
 
+  requestAnimationFrame(handleImageOnScroll)
   window.addEventListener('resize', handleComplenetarysize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleComplenetarysize)
 })
 
 const getTrailer = async () => {
@@ -59,7 +64,6 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
-  console.log(data)
   document.title = `${data?.name || data?.title} - Webflix`
   isLoading.value = false
 
@@ -117,6 +121,14 @@ const handleComplenetarysize = () => {
     'px'
 }
 
+const handleImageOnScroll = () => {
+  requestAnimationFrame(handleImageOnScroll)
+  if (window.scrollY > window.innerHeight) return
+  const offset = (1 + window.scrollY / 5000).toString()
+  const bd: HTMLElement | null = document.querySelector('[data-backdrop]')
+  if (bd) bd.style.scale = offset
+}
+
 watch(complementary, () => {
   if (complementary.value) handleComplenetarysize()
 })
@@ -128,7 +140,8 @@ watch(complementary, () => {
   <div class="relative min-h-screen overflow-hidden" v-if="!isLoading && show">
     <VImage
       v-if="show.backdrop_path"
-      class="fixed top-0 z-[0] max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
+      data-backdrop=""
+      class="fixed top-0 z-[0] max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover transition-all xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
       :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
     />
     <div
