@@ -5,7 +5,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-defineProps(['placeholder'])
+defineProps<{ modelValue: string; placeholder: string }>()
+defineEmits(['valueChange'])
 </script>
 
 <template>
@@ -15,8 +16,8 @@ defineProps(['placeholder'])
       class="peer w-full rounded-md border-2 border-wf-300 bg-transparent px-3 pb-2 pt-3.5 font-medium placeholder:text-transparent focus:outline-none sm:w-[350px]"
       :id="placeholder"
       :placeholder="placeholder"
-      readonly
-      onfocus="this.removeAttribute('readonly');"
+      :value="modelValue"
+      @input="((e: InputEvent) => $emit('valueChange', (e.target as HTMLInputElement).value))"
     />
     <label
       class="pointer-events-none absolute top-0.5 left-1.5 -translate-y-1/2 bg-wf-200 px-1.5 text-xs font-semibold text-white transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:font-medium peer-placeholder-shown:text-gray-400 peer-focus:top-0.5 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-white"

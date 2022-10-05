@@ -87,12 +87,16 @@ const signup = async (e: Event) => {
           <VInput
             type="text"
             name="name"
+            v-model="name"
+            @valueChange="((val: string) => name = val)"
             placeholder="Your name"
             class="!w-full"
             v-if="isNewUser"
           />
           <VInput
             type="email"
+            v-model="email"
+            @valueChange="((val: string) => email = val)"
             name="email"
             placeholder="Your email"
             class="!w-full"
@@ -100,6 +104,8 @@ const signup = async (e: Event) => {
           <VInput
             type="password"
             name="password"
+            v-model="password"
+            @valueChange="((val: string) => password = val)"
             placeholder="Your password"
             class="!w-full"
           />
