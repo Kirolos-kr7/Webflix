@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.0...v1.6.2) (2022-10-05)
+
+
+### Features
+
+* scale on scroll in showpage ([5677446](https://github.com/Kirolos-kr7/Webflix/commit/567744654a007a6e289a79a25e9433e3bceae484))
+
+
+### Bug Fixes
+
+* auth input value binding ([cdda221](https://github.com/Kirolos-kr7/Webflix/commit/cdda221ad6932a77a83374502fa30b7d0f6358ba))
+
 ### [1.6.1](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.0...v1.6.1) (2022-10-03)
 
 
