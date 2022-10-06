@@ -15,7 +15,8 @@ onMounted(async () => getRecommended())
 watch(route, async () => {
   if (route.params.id) {
     getRecommended()
-    container.value?.children[1].scrollTo(0, 0)
+    if (container.value?.children[1])
+      container.value?.children[1].scrollTo(0, 0)
   }
 })
 
