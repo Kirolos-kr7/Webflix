@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.3](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.2...v1.6.3) (2022-10-06)
+
+
+### Features
+
+* added genres and networks to showpage ([8161b63](https://github.com/Kirolos-kr7/Webflix/commit/8161b639e126a8289a495d2356dc0ebad5ea6a2c))
+
+
+### Bug Fixes
+
+* scroll element undefined ([0e95c02](https://github.com/Kirolos-kr7/Webflix/commit/0e95c02bae37ac6a336154e7e945affa812d5a7b))
+
 ### [1.6.2](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.0...v1.6.2) (2022-10-05)
 
 
