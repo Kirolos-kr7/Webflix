@@ -327,12 +327,13 @@ watch(complementary, () => {
               Genre{{ show.genres.length == 1 ? '' : 's' }}
             </h3>
             <p class="flex flex-wrap gap-1 text-sm text-wf-200">
-              <span
-                v-for="genre in show.genres"
+              <router-link
+                v-for="{ name, id } in show.genres"
                 class="rounded-sm bg-gray-200 px-0.5 py-[1px] text-xs font-semibold"
+                :to="`/genre/${type == 'movie' ? 'movies' : 'series'}/${id}`"
               >
-                {{ genre.name }}
-              </span>
+                {{ name }}
+              </router-link>
             </p>
           </div>
           <div v-if="show?.networks">

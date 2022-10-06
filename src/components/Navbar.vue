@@ -23,6 +23,10 @@ const listItems: Ref<ListItem[]> = ref([
     {
       title: 'Series',
       path: 'series'
+    },
+    {
+      title: 'Genres',
+      path: 'genres'
     }
   ]),
   navOpen = ref(false),

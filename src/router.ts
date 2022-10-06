@@ -5,6 +5,8 @@ import AMovie from './views/AMovie.vue'
 import Series from './views/Series.vue'
 import ASeries from './views/ASeries.vue'
 import Season from './views/Season.vue'
+import Genres from './views/Genres.vue'
+import Genre from './views/Genre.vue'
 import err from './views/404.vue'
 import Search from './views/Search.vue'
 import Person from './views/Person.vue'
@@ -26,6 +28,9 @@ const routes = [
     path: '/series/:showId/season/:seasonNum',
     component: Season
   },
+  { name: 'Genres', path: '/genres', component: Genres },
+  { name: 'MovieGenre', path: '/genre/movies/:id', component: Genre },
+  { name: 'SeriesGenre', path: '/genre/series/:id', component: Genre },
   { name: '404', path: '/404', component: err },
   { name: 'Search', path: '/search', component: Search },
   { name: 'Person', path: '/person/:id', component: Person },
