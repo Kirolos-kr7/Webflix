@@ -113,6 +113,14 @@ const getDuration = (n: number | null) => {
   if (n < 60) return n + 'mins'
 }
 
+const getCompactCurrency = (currency: number) => {
+  return new Intl.NumberFormat('us-EN', {
+    style: 'currency',
+    notation: 'compact',
+    currency: 'USD'
+  }).format(currency)
+}
+
 const handleComplenetarysize = () => {
   if (!complementary.value?.parentElement) return
 
@@ -299,32 +307,42 @@ watch(complementary, () => {
           <div v-if="show?.budget">
             <h3 class="text-lg font-medium">Budget</h3>
             <p class="text-sm text-gray-400">
-              {{
-                new Intl.NumberFormat('us-EN', {
-                  style: 'currency',
-                  currency: 'USD',
-                  maximumFractionDigits: 0
-                }).format(show?.budget)
-              }}
+              {{ getCompactCurrency(show?.budget) }}
             </p>
           </div>
           <div v-if="show?.revenue">
             <h3 class="text-lg font-medium">Revenue</h3>
             <p class="text-sm text-gray-400">
-              {{
-                new Intl.NumberFormat('us-EN', {
-                  style: 'currency',
-                  currency: 'USD',
-                  maximumFractionDigits: 0
-                }).format(show?.revenue)
-              }}
+              {{ getCompactCurrency(show?.revenue) }}
             </p>
           </div>
-
           <div v-if="show?.type">
             <h3 class="text-lg font-medium">Type</h3>
             <p class="text-sm text-gray-400">
               {{ show?.type }}
+            </p>
+          </div>
+          <div v-if="show?.genres">
+            <h3 class="text-lg font-medium">
+              Genre{{ show.genres.length == 1 ? '' : 's' }}
+            </h3>
+            <p class="flex flex-wrap gap-1 text-sm text-wf-200">
+              <span
+                v-for="genre in show.genres"
+                class="rounded-sm bg-gray-200 px-0.5 py-[1px] text-xs font-semibold"
+              >
+                {{ genre.name }}
+              </span>
+            </p>
+          </div>
+          <div v-if="show?.networks">
+            <h3 class="mb-1 text-lg font-medium">
+              Network{{ show.networks.length == 1 ? '' : 's' }}
+            </h3>
+            <p class="flex flex-col gap-3">
+              <span v-for="{ id, logo_path } in show.networks" class="w-fit">
+                <VImage :src="`https://image.tmdb.org/t/p/h30/${logo_path}`" />
+              </span>
             </p>
           </div>
         </div>
