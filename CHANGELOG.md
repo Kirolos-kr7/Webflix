@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.4](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.3...v1.6.4) (2022-10-06)
+
+
+### Features
+
+* Genres and genre page ([32407a6](https://github.com/Kirolos-kr7/Webflix/commit/32407a6f76ad519cdbe752dd18a29fdd310d6684))
+
 ### [1.6.3](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.2...v1.6.3) (2022-10-06)
 
 
