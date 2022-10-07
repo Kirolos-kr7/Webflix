@@ -6,7 +6,7 @@ const imgLoaded = ref(false)
 <template>
   <img
     src="#"
-    class="pointer-events-none select-none object-cover transition-opacity duration-500"
+    class="select-none object-cover transition-opacity duration-500"
     :class="{ 'opacity-0': !imgLoaded }"
     loading="lazy"
     @load="imgLoaded = true"

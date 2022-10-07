@@ -21,6 +21,10 @@ body {
   @apply inline-block text-sm font-extralight text-blue-500 transition-colors hover:text-blue-600;
 }
 
+.green-link {
+  @apply text-green-300 transition-colors hover:text-green-500;
+}
+
 .router-link-active.green-link {
   @apply !text-green-400/80;
 }

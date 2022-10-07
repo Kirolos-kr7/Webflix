@@ -132,7 +132,8 @@ const getNumWZeros = (x: number) =>
               <p class="mt-2 text-gray-400">{{ episode.overview }}</p>
             </div>
             <span
-              class="absolute -right-2.5 -bottom-7 z-0 font-bebasNeue text-[7rem] font-semibold leading-none text-wf-100/30"
+              class="pointer-events-none absolute -right-2.5 -bottom-7 z-0 select-none font-bebasNeue text-[7rem] font-semibold leading-none text-wf-100/30"
+              role="none"
               >{{ getNumWZeros(episode.episode_number) }}</span
             >
           </div>
