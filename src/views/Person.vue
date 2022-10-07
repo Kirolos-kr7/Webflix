@@ -43,7 +43,8 @@ const fetchData = async () => {
 
     if (!credits.value) return
     credits.value.sort((a: Show, b: Show) => {
-      if (a.popularity < b.popularity) return 1
+      if (a.genre_ids.includes(10767) || a.genre_ids.includes(10763)) return 1
+      else if (a.popularity < b.popularity) return 1
       else return -1
     })
   }
