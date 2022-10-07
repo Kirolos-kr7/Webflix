@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.5](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.4...v1.6.5) (2022-10-07)
+
+
+### Features
+
+* exclude news and talk from person's credits ([61aae47](https://github.com/Kirolos-kr7/Webflix/commit/61aae47e0710f6eb0384424ad28f2907f33c3380))
+* network page ([cd63b01](https://github.com/Kirolos-kr7/Webflix/commit/cd63b01557eb1c2353ff4cc3d47887915ddaa697))
+* new footer design ([fc176c3](https://github.com/Kirolos-kr7/Webflix/commit/fc176c3d3bded5b71e4e41f490797cfcf50e69dd))
+
+
+### Bug Fixes
+
+* minor style changes ([eee10de](https://github.com/Kirolos-kr7/Webflix/commit/eee10deea55193ad43956c2583084ee078ba73b2))
+
 ### [1.6.4](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.3...v1.6.4) (2022-10-06)
 
 
