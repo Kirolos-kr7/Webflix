@@ -7,6 +7,7 @@ import ASeries from './views/ASeries.vue'
 import Season from './views/Season.vue'
 import Genres from './views/Genres.vue'
 import Genre from './views/Genre.vue'
+import Network from './views/Network.vue'
 import err from './views/404.vue'
 import Search from './views/Search.vue'
 import Person from './views/Person.vue'
@@ -31,6 +32,7 @@ const routes = [
   { name: 'Genres', path: '/genres', component: Genres },
   { name: 'MovieGenre', path: '/genre/movies/:id', component: Genre },
   { name: 'SeriesGenre', path: '/genre/series/:id', component: Genre },
+  { name: 'Network', path: '/network/:id', component: Network },
   { name: '404', path: '/404', component: err },
   { name: 'Search', path: '/search', component: Search },
   { name: 'Person', path: '/person/:id', component: Person },

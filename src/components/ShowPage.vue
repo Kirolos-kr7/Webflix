@@ -341,9 +341,13 @@ watch(complementary, () => {
               Network{{ show.networks.length == 1 ? '' : 's' }}
             </h3>
             <p class="flex flex-col gap-3">
-              <span v-for="{ id, logo_path } in show.networks" class="w-fit">
+              <router-link
+                v-for="{ id, logo_path } in show.networks"
+                class="w-fit"
+                :to="`/network/${id}`"
+              >
                 <VImage :src="`https://image.tmdb.org/t/p/h30/${logo_path}`" />
-              </span>
+              </router-link>
             </p>
           </div>
         </div>
