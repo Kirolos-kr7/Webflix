@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.7](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.6...v1.6.7) (2022-10-08)
+
+
+### Features
+
+* upfated loader design ([399f09b](https://github.com/Kirolos-kr7/Webflix/commit/399f09b542898e63323d71545e6f597369e86522))
+
+
+### Bug Fixes
+
+* Navbar routing w/ other design changes ([06dfb77](https://github.com/Kirolos-kr7/Webflix/commit/06dfb773b4cdb15b154ea31aae0c1a62067a2b2a))
+* pagination rendering ([4a26033](https://github.com/Kirolos-kr7/Webflix/commit/4a260339cf3204e7d4b885f8af208886de8cc861))
+* **ts:** count type err ([a72f588](https://github.com/Kirolos-kr7/Webflix/commit/a72f588cf3883070990b4d1d5b46db8e0ec4d53e))
+
 ### [1.6.6](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.5...v1.6.6) (2022-10-08)
 
 
