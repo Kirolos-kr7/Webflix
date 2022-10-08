@@ -8,15 +8,6 @@ body {
   overflow: overlay;
 }
 
-.main-btn {
-  @apply mt-4 rounded-sm px-4 py-2 font-semibold transition-all duration-500 hover:hue-rotate-180;
-  background-image: linear-gradient(
-    45deg,
-    rgba(52, 211, 153),
-    rgba(59, 130, 246)
-  );
-}
-
 .link {
   @apply inline-block text-sm font-extralight text-blue-500 transition-colors hover:text-blue-600;
 }
