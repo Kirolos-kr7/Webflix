@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.6](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.5...v1.6.6) (2022-10-08)
+
+
+### Features
+
+* change backdrop animation ([bbb5fd2](https://github.com/Kirolos-kr7/Webflix/commit/bbb5fd25066b7b88e38bc2922f9fdc375fec8bc0))
+
 ### [1.6.5](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.4...v1.6.5) (2022-10-07)
 
 
