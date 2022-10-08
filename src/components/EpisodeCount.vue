@@ -1,11 +1,14 @@
 <script lang="ts">
-import { h, type VNode } from 'vue'
+import { h, type PropType, type VNode } from 'vue'
 
 export default {
   props: {
-    count: Number
+    count: {
+      type: Number as PropType<number>,
+      default: 0
+    }
   },
-  setup(props: { count: number }) {
+  setup(props) {
     let txt: string = ''
     let num: any = 0
 
