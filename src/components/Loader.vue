@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-0 z-40 mt-14 flex h-[95vh] w-screen items-center justify-center bg-wf-300/80"
+    class="fixed top-0 z-40 mt-20 flex h-[95vh] w-screen items-center justify-center bg-wf-300/80"
   >
     <span class="loader" />
   </div>
