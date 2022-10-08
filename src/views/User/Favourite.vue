@@ -20,7 +20,7 @@ const isLoading = ref<boolean>(false)
 const perPage = 12
 
 onMounted(async () => {
-  page.value = route.query.p as any
+  page.value = (route.query.p as any) || 1
 
   const favShows = await supabase
     .from('favourite_shows')
@@ -56,14 +56,18 @@ const getFavShows = async () => {
 }
 
 const handlePageChange = (p: string | number) => {
-  if (p === '+') return page.value++
-  if (p === '-') return page.value--
-  page.value = p as number
+  if (p === '+') page.value++
+  else if (p === '-') page.value--
+  else if (typeof p === 'number') {
+    page.value = p as number
+  } else page.value = 1
+
   window.scrollTo({ top: 0, behavior: 'smooth' })
   router.push({
     path: '/me/fav',
-    query: { p: p !== 1 ? p : undefined }
+    query: { p: page.value !== 1 ? page.value : undefined }
   })
+
   getFavShows()
 }
 </script>

@@ -49,13 +49,17 @@ const getShows = async () => {
 
 const handlePageChange = (p: number | string) => {
   if (p === '+') return page.value++
-  if (p === '-') return page.value--
-  page.value = typeof p === 'number' ? p : 0
+  else if (p === '-') return page.value--
+  else if (typeof p === 'number') {
+    page.value = p as number
+  } else page.value = 1
+
   window.scrollTo({ top: 0, behavior: 'smooth' })
   router.push({
     name: 'Network',
-    query: { p: p !== 1 ? p : undefined }
+    query: { p: page.value !== 1 ? page.value : undefined }
   })
+
   getShows()
 }
 </script>

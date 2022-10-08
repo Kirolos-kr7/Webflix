@@ -38,7 +38,7 @@ const pageRange = computed(() => {
 <template>
   <div class="mb-5 flex items-center justify-center gap-2 px-4">
     <button
-      v-if="currPage !== 1"
+      v-if="currPage != 1"
       class="flex h-14 w-20 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 hover:bg-[#04232c]"
       @click="$emit('pageChange', '-')"
       :class="{
@@ -62,7 +62,7 @@ const pageRange = computed(() => {
       </button>
     </template>
     <button
-      v-if="currPage !== totalPages"
+      v-if="currPage != totalPages"
       class="flex h-14 w-20 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 hover:bg-[#04232c]"
       @click="$emit('pageChange', '+')"
       :class="{
