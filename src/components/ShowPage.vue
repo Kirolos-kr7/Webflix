@@ -134,7 +134,10 @@ const handleImageOnScroll = () => {
   if (window.scrollY > window.innerHeight) return
   const offset = (1 + window.scrollY / 5000).toString()
   const bd: HTMLElement | null = document.querySelector('[data-backdrop]')
-  if (bd) bd.style.scale = offset
+  if (bd) {
+    bd.style.scale = offset
+    bd.style.top = -window.scrollY / 3 + 'px'
+  }
 }
 
 watch(complementary, () => {
