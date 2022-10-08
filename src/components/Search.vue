@@ -44,7 +44,9 @@ const handleArrows = (e: KeyboardEvent) => {
   if (itemsLength <= 0 || !searchResult.value) return
 
   if (currIndex.value >= 0)
-    resContainer.value.children[currIndex.value].classList.remove('!bg-wf-200')
+    resContainer.value.children[currIndex.value].classList.remove(
+      '!bg-indigo-900'
+    )
 
   if (e.key === 'ArrowUp')
     if (currIndex.value == 0) currIndex.value = itemsLength
@@ -54,13 +56,11 @@ const handleArrows = (e: KeyboardEvent) => {
     if (currIndex.value == itemsLength) currIndex.value = 0
     else if (currIndex.value < itemsLength) currIndex.value++
 
-  resContainer.value.children[currIndex.value].classList.add('!bg-wf-200')
+  resContainer.value.children[currIndex.value].classList.add('!bg-indigo-900')
 }
 
 const toShow = () => {
   if (searchResult.value.length == 0 || !resContainer.value) return
-  if (resContainer.value?.children.length > searchResult.value.length)
-    router.push('/404')
 
   if (navigator.userAgentData?.mobile)
     router.push({ name: 'Search', query: { query: inputSearch.value } })
@@ -110,7 +110,7 @@ const exit = () => {
             @input="searchNow($event)"
             ref="autoFocusInput"
             type="text"
-            class="w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none"
+            class="w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none focus:ring-2"
             style="background-image: linear-gradient(#00000020, transparent)"
             placeholder="search a movie, series or a person..."
           />
