@@ -80,7 +80,7 @@ const handlePageChange = (p: string | number) => {
   >
     <transition-group name="fade" appear>
       <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" />
+        <ShowThumbnail :show="show" :isFluid="true" />
       </div>
     </transition-group>
   </div>
