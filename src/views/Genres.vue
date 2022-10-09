@@ -37,6 +37,7 @@ onMounted(async () => {
         <router-link
           class="genre"
           v-for="{ name, id } in movieGenres"
+          :key="id"
           :to="`/genre/movies/${id}`"
           >{{ name }}</router-link
         >
@@ -48,6 +49,7 @@ onMounted(async () => {
         <router-link
           class="genre"
           v-for="{ name, id } in seriesGenres"
+          :key="id"
           :to="`/genre/series/${id}`"
           >{{ name }}</router-link
         >

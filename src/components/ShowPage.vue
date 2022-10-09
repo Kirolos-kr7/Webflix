@@ -332,6 +332,7 @@ watch(complementary, () => {
             <p class="flex flex-wrap gap-1 text-sm text-wf-200">
               <router-link
                 v-for="{ name, id } in show.genres"
+                :key="id"
                 class="rounded-sm bg-gray-200 px-0.5 py-[1px] text-xs font-semibold"
                 :to="`/genre/${type == 'movie' ? 'movies' : 'series'}/${id}`"
               >
@@ -346,6 +347,7 @@ watch(complementary, () => {
             <p class="flex flex-col gap-3">
               <router-link
                 v-for="{ id, logo_path } in show.networks"
+                :key="id"
                 class="w-fit"
                 :to="`/network/${id}`"
               >

@@ -18,7 +18,7 @@ const isNewUser = ref(false),
   email = ref(''),
   password = ref('')
 
-const login = async (e: Event) => {
+const login = async () => {
   try {
     err.value = ''
     isLoading.value = true
@@ -37,7 +37,7 @@ const login = async (e: Event) => {
   isLoading.value = false
 }
 
-const signup = async (e: Event) => {
+const signup = async () => {
   try {
     err.value = ''
     isLoading.value = true
@@ -78,8 +78,8 @@ const signup = async (e: Event) => {
         </VError>
         <form
           @submit.prevent="
-            (e: Event) => {
-              isNewUser ? signup(e) : login(e)
+            () => {
+              isNewUser ? signup() : login()
             }
           "
           class="relative mt-5 flex flex-col gap-3"
