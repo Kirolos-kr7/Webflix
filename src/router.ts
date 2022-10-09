@@ -8,7 +8,7 @@ import Season from './views/Season.vue'
 import Genres from './views/Genres.vue'
 import Genre from './views/Genre.vue'
 import Network from './views/Network.vue'
-import err from './views/404.vue'
+import FOUROFOUR from './views/404.vue'
 import Search from './views/Search.vue'
 import Person from './views/Person.vue'
 import Auth from './views/Auth.vue'
@@ -33,7 +33,6 @@ const routes = [
   { name: 'MovieGenre', path: '/genre/movies/:id', component: Genre },
   { name: 'SeriesGenre', path: '/genre/series/:id', component: Genre },
   { name: 'Network', path: '/network/:id', component: Network },
-  { name: '404', path: '/404', component: err },
   { name: 'Search', path: '/search', component: Search },
   { name: 'Person', path: '/person/:id', component: Person },
   {
@@ -60,7 +59,8 @@ const routes = [
       }
     ]
   },
-  { name: '404', path: '/:catchAll(.*)', redirect: '/404' }
+  { name: '404', path: '/404', component: FOUROFOUR },
+  { path: '/:catchAll(.*)', redirect: '/404' }
 ]
 
 const router = createRouter({
