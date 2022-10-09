@@ -1,6 +1,6 @@
 {
   "name": "movieapp",
-  "version": "1.6.7",
+  "version": "1.6.8",
   "scripts": {
     "dev": "vite --host --port 3000",
     "serve": "vite preview",

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.8](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.7...v1.6.8) (2022-10-09)
+
+
+### Features
+
+* changed shows per fav page ([3113e08](https://github.com/Kirolos-kr7/Webflix/commit/3113e08cff6c2baf6f7a8d15fa45ae1cf51ac5fa))
+
+
+### Bug Fixes
+
+* 404 fallback ([3a04a4b](https://github.com/Kirolos-kr7/Webflix/commit/3a04a4b2931ad21d8fef489ebf8f84b6014dda1a))
+* fluid thumb style for fav thumbs ([b0c769b](https://github.com/Kirolos-kr7/Webflix/commit/b0c769beeab0c4df64857389274bfc0864a58617))
+* **ts:** use local version ([e0f79ee](https://github.com/Kirolos-kr7/Webflix/commit/e0f79ee577ed609173a0efbd1bd99b4f4c93a230))
+
 ### [1.6.7](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.6...v1.6.7) (2022-10-08)
 
 
