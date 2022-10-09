@@ -11,9 +11,12 @@ let overlay = ref<HTMLElement | null>(),
   btmbx = ref(),
   overlayHidden = ref(false)
 
-const props = withDefaults(defineProps<{ show: Show; isFluid?: boolean }>(), {
-  isFluid: false
-})
+const props = withDefaults(
+  defineProps<{ show: Show; isFullWidth?: boolean }>(),
+  {
+    isFullWidth: true
+  }
+)
 
 const emits = defineEmits(['needToLogin'])
 
@@ -98,7 +101,7 @@ const addToFav = async () => {
   <div class="relative">
     <router-link
       class="relative block aspect-[2/3]"
-      :class="isFluid ? 'w-full' : 'w-[200px] sm:w-[260px]'"
+      :class="isFullWidth ? 'w-full' : 'w-[200px] sm:w-[260px]'"
       :to="`/${
         show.media_type === 'person'
           ? `person/${show.id}`

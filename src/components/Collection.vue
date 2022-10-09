@@ -54,6 +54,7 @@ const getRecommended = () => {
           v-for="recommendation in collection.parts"
           :key="recommendation.id"
           :show="recommendation"
+          :isFullWidth="false"
         />
       </transition-group>
     </div>

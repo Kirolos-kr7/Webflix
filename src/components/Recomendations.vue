@@ -51,6 +51,7 @@ const getRecommended = () => {
           v-for="recommendation in recommendations.slice(0, 10)"
           :key="recommendation.id"
           :show="recommendation"
+          :isFullWidth="false"
         />
       </transition-group>
     </div>

@@ -79,9 +79,13 @@ const handlePageChange = (p: string | number) => {
     class="mx-auto grid max-w-break grid-cols-1 gap-5 py-5 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
   >
     <transition-group name="fade" appear>
-      <div v-for="show in shows" :key="show.id" class="transition-all">
-        <ShowThumbnail :show="show" :isFluid="true" />
-      </div>
+      <ShowThumbnail
+        v-for="show in shows"
+        :key="show.id"
+        :show="show"
+        class="transition-all"
+      >
+      </ShowThumbnail>
     </transition-group>
   </div>
 
