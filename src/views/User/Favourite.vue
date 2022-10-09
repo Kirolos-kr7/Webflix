@@ -17,7 +17,7 @@ const shows = ref<Show[]>([])
 const page = ref<number>(1)
 const totalPages = ref<number>(1)
 const isLoading = ref<boolean>(false)
-const perPage = 12
+const perPage = 15
 
 onMounted(async () => {
   page.value = (route.query.p as any) || 1
