@@ -36,40 +36,38 @@ const pageRange = computed(() => {
 </script>
 
 <template>
-  <div class="mb-5 flex items-center justify-center gap-2 px-4">
+  <div
+    class="mx-auto mb-5 grid w-fit grid-cols-2 items-center justify-center gap-2 px-4 xs:flex"
+    :class="{ '!flex': currPage == 1 || currPage == totalPages }"
+  >
     <button
       v-if="currPage != 1"
-      class="flex h-14 w-20 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 hover:bg-[#04232c]"
+      class="flex h-10 w-auto items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-8 hover:bg-[#04232c] sm:h-14 sm:w-20"
       @click="$emit('pageChange', '-')"
-      :class="{
-        'h-10 w-10 text-xs': width < 600
-      }"
     >
-      {{ width < 600 ? 'P' : 'Prev' }}
+      {{ 'Prev' }}
     </button>
-    <template v-for="(page, i) in pageRange" :key="i">
-      <span v-if="page === '..'"> .. </span>
-      <button
-        v-else
-        class="flex h-14 w-14 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 hover:bg-[#04232c]"
-        :class="{
-          'border-green-400': page === currPage,
-          'h-10 w-10 text-xs': width < 600
-        }"
-        @click="$emit('pageChange', page)"
-      >
-        {{ page }}
-      </button>
-    </template>
+    <div class="col-span-2 col-start-1 row-start-1 flex items-center gap-2">
+      <template v-for="(page, i) in pageRange" :key="i">
+        <span v-if="page === '..'"> .. </span>
+        <button
+          v-else
+          class="flex h-10 w-10 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 text-xs hover:bg-[#04232c] sm:h-14 sm:w-14"
+          :class="{
+            'border-green-400': page === currPage
+          }"
+          @click="$emit('pageChange', page)"
+        >
+          {{ page }}
+        </button>
+      </template>
+    </div>
     <button
       v-if="currPage != totalPages"
-      class="flex h-14 w-20 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 hover:bg-[#04232c]"
+      class="flex h-10 w-auto items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-8 hover:bg-[#04232c] sm:h-14 sm:w-20"
       @click="$emit('pageChange', '+')"
-      :class="{
-        'h-10 w-10 text-xs': width < 600
-      }"
     >
-      {{ width < 600 ? 'N' : 'Next' }}
+      {{ 'Next' }}
     </button>
   </div>
 </template>
