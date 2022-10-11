@@ -15,6 +15,7 @@ export interface Toast {
   msg: string | number
   redirect: string
   status: boolean
+  action: string
 }
 
 export interface ListItem {

@@ -5,13 +5,13 @@ import type { Toast } from './types'
 
 export const useStore = defineStore('main', () => {
   const user = ref<User | null>()
-  const toastList = ref<Toast[]>()
+  const toastList = ref<Toast[]>([])
 
   const createToast = (
-    { msg = '', redirect = '', status = true },
+    { msg = '', redirect = '', status = true, id = Date.now(), action = '' },
     timeout: number = 1800
   ) => {
-    const toast: Toast = { msg, redirect, status, id: Date.now() }
+    const toast: Toast = { msg, redirect, status, id, action }
     toastList.value?.push(toast)
 
     setTimeout(() => removeToast(toast.id), timeout)

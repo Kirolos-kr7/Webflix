@@ -13,7 +13,7 @@ const store = useStore()
   >
     <transition-group :name="width > 450 ? 'toast' : 'toastUp'">
       <div
-        v-for="{ msg, redirect, status, id } in store.toastList"
+        v-for="{ msg, redirect, status, id, action } in store.toastList"
         :key="id"
         class="flex items-center justify-between gap-3 rounded-md border border-wf-100/50 bg-[#00151bdd] px-5 py-3 shadow-xl backdrop-blur-sm"
       >
@@ -35,7 +35,7 @@ const store = useStore()
             class="text-sm text-green-400 hover:text-green-500"
             v-if="redirect"
             :to="redirect"
-            >CLICK HERE</router-link
+            >{{ action }}</router-link
           >
         </div>
         <button

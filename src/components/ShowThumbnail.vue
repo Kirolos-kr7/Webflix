@@ -74,9 +74,14 @@ const addToFav = async () => {
 
   if (!isFavourite.value) {
     isFavourite.value = true
-    store.createToast({
-      msg: 'Added to favourites'
-    })
+    store.createToast(
+      {
+        msg: 'Added to favourites',
+        redirect: '/me/fav',
+        action: 'See List'
+      },
+      2500
+    )
     await supabase.from('favourite_shows').insert([
       {
         user: store.user.id,
