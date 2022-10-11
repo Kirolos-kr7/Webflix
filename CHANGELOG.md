@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.9](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.8...v1.6.9) (2022-10-11)
+
+
+### Features
+
+* add minions (auth) img to cache ([b558ffe](https://github.com/Kirolos-kr7/Webflix/commit/b558ffe5238f41bec7be4f6ec6ba7968d5bbf970))
+* chanage pagination design on mobile ([f9aefa7](https://github.com/Kirolos-kr7/Webflix/commit/f9aefa7af5c2124f3a466186c884f8ec93308951))
+* updated toast messages ([9329903](https://github.com/Kirolos-kr7/Webflix/commit/9329903ef33fd5177d828f8eea21267d8996ad81))
+
+
+### Bug Fixes
+
+* Show Tumbnail sizes ([464a450](https://github.com/Kirolos-kr7/Webflix/commit/464a45054da37a25f0cccb2d2880e5eb3bac0b68))
+
 ### [1.6.8](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.7...v1.6.8) (2022-10-09)
 
 
