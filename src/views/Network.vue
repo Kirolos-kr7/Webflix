@@ -91,7 +91,7 @@ const handlePageChange = (p: number | string) => {
     </transition-group>
   </div>
   <Pagination
-    v-show="!isLoading && shows && shows.length > 0"
+    v-if="!isLoading && shows && shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"

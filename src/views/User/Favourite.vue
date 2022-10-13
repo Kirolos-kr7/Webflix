@@ -92,7 +92,7 @@ const handlePageChange = (p: string | number) => {
   <Loader v-if="isLoading" />
 
   <Pagination
-    v-show="!isLoading && shows && shows.length > 0"
+    v-if="!isLoading && shows && shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"
