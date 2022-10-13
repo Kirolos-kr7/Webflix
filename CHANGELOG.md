@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.10](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.9...v1.6.10) (2022-10-13)
+
+
+### Features
+
+* added tooltip origin ([4f9ed41](https://github.com/Kirolos-kr7/Webflix/commit/4f9ed412a82719fe2c14a2e37e691ab05bbb7f65))
+
+
+### Bug Fixes
+
+* navbar style on showpages ([995ad82](https://github.com/Kirolos-kr7/Webflix/commit/995ad825362511be911644d4faf4e00f6295ce39))
+
 ### [1.6.9](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.8...v1.6.9) (2022-10-11)
 
 
