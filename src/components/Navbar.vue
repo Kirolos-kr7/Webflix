@@ -41,11 +41,7 @@ watch(navOpen, () => {
 })
 
 onMounted(() => {
-  if (
-    route.path === '/' ||
-    route.path === '/movies' ||
-    route.path === '/series'
-  ) {
+  if (route.name !== 'AMovie' && route.name !== 'ASeries') {
     nav.value?.classList.add('bg-wf-300/80')
     nav.value?.classList.add('backdrop-blur-lg')
   } else {
