@@ -56,9 +56,7 @@ onMounted(async () => {
       class="relative block aspect-[2/3] w-[200px] sm:w-[260px]"
       :to="`/series/${showId}/season/${season.season_number}`"
     >
-      <div
-        class="daContainer relative cursor-pointer overflow-hidden rounded-sm bg-wf-200"
-      >
+      <div class="relative cursor-pointer overflow-hidden rounded-sm bg-wf-200">
         <VImage
           v-if="season.poster_path"
           class="relative z-0 aspect-[2/3]"

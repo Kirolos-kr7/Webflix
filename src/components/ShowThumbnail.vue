@@ -96,9 +96,7 @@ const addToFav = async () => {
           : '404'
       }`"
     >
-      <div
-        class="daContainer relative cursor-pointer overflow-hidden rounded-sm bg-wf-200"
-      >
+      <div class="relative cursor-pointer overflow-hidden rounded-sm bg-wf-200">
         <VImage
           v-if="show.poster_path"
           class="relative z-0 aspect-[2/3]"
