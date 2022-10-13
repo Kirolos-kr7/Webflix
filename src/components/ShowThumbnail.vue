@@ -42,28 +42,6 @@ onMounted(async () => {
     overlay.value.addEventListener('mouseleave', () => {
       overlayHidden.value = false
     })
-  } else {
-    overlay.value.addEventListener(
-      'touchstart',
-      () => {
-        overlayHidden.value = true
-      },
-      { passive: true }
-    )
-    overlay.value.addEventListener(
-      'touchend',
-      () => {
-        overlayHidden.value = false
-      },
-      { passive: true }
-    )
-    overlay.value.addEventListener(
-      'touchcancel',
-      () => {
-        overlayHidden.value = false
-      },
-      { passive: true }
-    )
   }
 })
 
