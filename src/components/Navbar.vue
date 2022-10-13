@@ -151,7 +151,7 @@ const logout = () => {
         <li
           class="-mb-2"
           v-if="route.name !== 'search'"
-          v-tooltip="`Search Shows`"
+          v-tooltip.center="`Search Shows`"
         >
           <button
             @click="showSearchDialog"

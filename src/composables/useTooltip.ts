@@ -1,5 +1,7 @@
+import type { DirectiveBinding } from 'vue'
+
 const vTooltip = {
-  mounted(el: HTMLElement, binding: { value: string }) {
+  mounted(el: HTMLElement, binding: DirectiveBinding) {
     el.addEventListener('mouseenter', () => getTooltip(el, binding))
     el.addEventListener('mouseleave', () => removeTooltip())
   },
@@ -13,9 +15,22 @@ export default vTooltip
 
 const getTooltip = (
   el?: HTMLElement | undefined,
-  binding?: { value: string }
+  binding?: DirectiveBinding
 ) => {
-  if (!el || !binding) return
+  if (binding && Object.keys(binding.modifiers).length > 1)
+    throw new Error('Only 1 Modifier is allowed (Left, Right or Center).')
+
+  let origin = ''
+  if (binding?.modifiers.left) origin = 'l'
+  if (binding?.modifiers.right) origin = 'r'
+  if (binding?.modifiers.center) origin = 'c'
+
+  if (!origin)
+    throw new Error(
+      'One of these modifiers (Left, Right or Center) is required.'
+    )
+
+  if (!el || !binding || navigator.userAgentData?.mobile) return
   const rect = el.getBoundingClientRect()
 
   const styles = `v-tooltip bg-[#00141a] p-2 rounded-md z-[100] absolute text-xs shadow-xl border border-wf-200/80 transition-opacity opacity-0`
@@ -28,17 +43,15 @@ const getTooltip = (
   document.body.append(tooltip)
 
   const cords = {
-    x:
-      window.innerWidth - rect.x > tooltip.offsetWidth
-        ? rect.x + rect.width / 2 - tooltip.offsetWidth / 2
-        : rect.x - rect.width / 2 - tooltip.offsetWidth / 2,
+    x: rect.x + rect.width / 2 - tooltip.offsetWidth / 2,
     y:
       window.innerHeight - rect.bottom < tooltip.offsetHeight
         ? window.scrollY + rect.top - tooltip.offsetHeight - 5
-        : window.scrollY + rect.top + rect.height + 5
+        : window.scrollY + rect.top + rect.height
   }
 
-  if (cords.x < tooltip.offsetWidth) cords.x = 25
+  if (origin === 'r') cords.x = rect.x - tooltip.offsetWidth / 2 - 2
+  if (origin === 'l') cords.x = rect.right - tooltip.offsetWidth / 2 + 2
 
   tooltip.style.top = cords.y + 'px'
   tooltip.style.left = cords.x + 'px'

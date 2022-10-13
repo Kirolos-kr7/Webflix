@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VImage from './VImage.vue'
+import vTooltip from '../composables/useTooltip'
 import type { Show } from '../types'
 
 let overlay = ref<HTMLElement | null>(),
@@ -165,7 +166,10 @@ const addToFav = async () => {
         </div>
       </div>
     </router-link>
-    <div class="absolute right-0 top-0 z-[11] p-2">
+    <div
+      class="absolute right-0 top-0 z-[11] p-2"
+      v-tooltip.right="`Search Shows`"
+    >
       <button
         @click="addToFav()"
         class="rounded-md bg-wf-200/70 p-2 shadow-2xl transition-colors hover:bg-wf-200/90"
