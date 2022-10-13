@@ -16,7 +16,7 @@ const route = useRoute()
 const shows = ref<Show[]>([])
 const page = ref<number>(1)
 const totalPages = ref<number>(1)
-const isLoading = ref<boolean>(false)
+const isLoading = ref<boolean>(true)
 const perPage = 15
 
 onMounted(async () => {
@@ -92,7 +92,7 @@ const handlePageChange = (p: string | number) => {
   <Loader v-if="isLoading" />
 
   <Pagination
-    v-show="shows.length > 0"
+    v-show="!isLoading && shows && shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"

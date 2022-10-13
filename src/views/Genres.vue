@@ -6,17 +6,17 @@ import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
 import type { Genre } from '../types'
 
-const isFetching = ref<boolean>(false),
+const isLoading = ref<boolean>(false),
   movieGenres = ref<Genre[]>(),
   seriesGenres = ref<Genre[]>()
 
 onMounted(async () => {
-  isFetching.value = true
+  isLoading.value = true
   let { data: movieList } = await useAxios({ url: 'genre/movie/list' })
   let { data: tvList } = await useAxios({ url: 'genre/tv/list' })
   movieGenres.value = movieList.genres
   seriesGenres.value = tvList.genres
-  isFetching.value = false
+  isLoading.value = false
 })
 </script>
 
@@ -28,7 +28,7 @@ onMounted(async () => {
     <VTitle title="Genres" />
   </div>
 
-  <Loader v-if="isFetching" />
+  <Loader v-if="isLoading" />
 
   <div class="relative mx-auto grid max-w-break gap-5 p-5 md:grid-cols-2">
     <div>

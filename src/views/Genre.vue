@@ -10,7 +10,7 @@ import Pagination from '../components/Pagination.vue'
 import LoginToContinue from '../components/LoginToContinue.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 
-const isFetching = ref<boolean>(false),
+const isLoading = ref<boolean>(false),
   genre = ref<Genre>(),
   shows = ref<Show[]>(),
   page = ref<number>(1),
@@ -27,7 +27,7 @@ onMounted(async () => {
 })
 
 const getShows = async () => {
-  isFetching.value = true
+  isLoading.value = true
   shows.value = []
 
   let { data: genreList } = await useAxios({
@@ -49,7 +49,7 @@ const getShows = async () => {
     show.media_type = resource.value === 'series' ? 'tv' : resource.value
     return show
   })
-  isFetching.value = false
+  isLoading.value = false
 }
 
 const handlePageChange = (p: number | string) => {
@@ -80,7 +80,7 @@ const handlePageChange = (p: number | string) => {
     <VTitle v-if="genre" :title="`${genre?.name}`" class="capitalize" />
   </div>
 
-  <Loader v-if="isFetching" />
+  <Loader v-if="isLoading" />
 
   <div
     class="mx-auto grid max-w-break grid-cols-1 gap-5 p-5 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
@@ -92,7 +92,7 @@ const handlePageChange = (p: number | string) => {
     </transition-group>
   </div>
   <Pagination
-    v-show="shows && shows.length > 0"
+    v-show="!isLoading && shows && shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"

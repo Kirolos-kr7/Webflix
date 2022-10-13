@@ -17,7 +17,7 @@ const shows = ref<Show[]>(),
   router = useRouter(),
   route: RouteLocationNormalized = useRoute(),
   litc = ref<boolean>(false),
-  isFetching = ref<boolean>(false)
+  isLoading = ref<boolean>(false)
 
 const props = defineProps<{
   name: string
@@ -40,7 +40,7 @@ onMounted(async () => {
 })
 
 const getShows = async () => {
-  isFetching.value = true
+  isLoading.value = true
   shows.value = []
 
   let { data } = await useAxios({
@@ -56,7 +56,7 @@ const getShows = async () => {
       return show
     })
   else shows.value = await data.results
-  isFetching.value = false
+  isLoading.value = false
 }
 
 const handlePageChange = (p: number | string) => {
@@ -106,7 +106,7 @@ const changeMode = (newMode: string) => {
     />
   </div>
 
-  <Loader v-if="isFetching" />
+  <Loader v-if="isLoading" />
 
   <div
     class="mx-auto grid max-w-break grid-cols-1 gap-5 p-5 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
@@ -118,7 +118,7 @@ const changeMode = (newMode: string) => {
     </transition-group>
   </div>
   <Pagination
-    v-show="shows && shows.length > 0"
+    v-show="!isLoading && shows && shows.length > 0"
     :currPage="page"
     :totalPages="totalPages"
     @pageChange="handlePageChange"
