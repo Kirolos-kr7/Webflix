@@ -36,10 +36,15 @@ onUnmounted(() => {
 
 const getTrailer = async () => {
   playingTrailer.value = true
-  let { data: showTrailer } = await useAxios({
+  let { data: videos } = await useAxios({
     url: `${props.type}/${route.params.id}/videos`
   })
-  trailer.value = await showTrailer.results[0]
+
+  let hasTrailer = await videos.results.find(
+    (vid: Trailer) => vid.type === 'Trailer'
+  )
+
+  trailer.value = hasTrailer ? hasTrailer : await videos.results[0]
 }
 
 watch(route, () => {
@@ -65,6 +70,7 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
+  console.log(data)
   useTitle(`${data?.name || data?.title} on Webflix`)
   isLoading.value = false
 
