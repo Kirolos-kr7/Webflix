@@ -12,7 +12,7 @@ import FOUROFOUR from './views/404.vue'
 import Search from './views/Search.vue'
 import Person from './views/Person.vue'
 import Auth from './views/Auth.vue'
-import User from './views/User/User.vue'
+import UserLayout from './layouts/UserLayout.vue'
 import Profile from './views/User/Profile.vue'
 import Favourite from './views/User/Favourite.vue'
 import { supabase } from './supabase'
@@ -45,7 +45,7 @@ const routes = [
     name: 'User',
     path: '/me',
     meta: { requiresAuth: true },
-    component: User,
+    component: UserLayout,
     children: [
       {
         name: 'Profile',
