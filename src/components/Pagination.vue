@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import useWindowWidth from '../composables/useWindowWidth'
 
 const props = defineProps(['currPage', 'totalPages'])
-
-let { width } = useWindowWidth()
 
 const pageRange = computed(() => {
   const LEN = 5
