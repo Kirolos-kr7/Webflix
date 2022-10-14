@@ -5,7 +5,10 @@ import Navbar from '../components/Navbar.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
+import useTitle from '../composables/useTitle'
 import type { Show } from '../types'
+
+useTitle('Searching on Webflix')
 
 const shows = ref<Show[]>([]),
   router = useRouter(),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import VButton from '../components/VButton.vue'
@@ -8,6 +8,9 @@ import VInput from '../components/VInput.vue'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VImage from '../components/VImage.vue'
+import useTitle from '../composables/useTitle'
+
+useTitle('Login to Webflix')
 
 const isNewUser = ref(false),
   err = ref<any>(''),
@@ -17,6 +20,10 @@ const isNewUser = ref(false),
   name = ref(''),
   email = ref(''),
   password = ref('')
+
+watch(isNewUser, () => {
+  isNewUser.value ? useTitle('Signin to Webflix') : useTitle('Login to Webflix')
+})
 
 const login = async () => {
   try {
@@ -111,9 +118,13 @@ const signup = async () => {
           />
           <VButton class="self-end" :disabled="isLoading">Submit</VButton>
 
-          <RouterLink to="/auth" class="link" @click="isNewUser = !isNewUser">{{
-            isNewUser ? 'Already have an account?' : 'New here?'
-          }}</RouterLink>
+          <button
+            type="button"
+            class="link !flex"
+            @click="isNewUser = !isNewUser"
+          >
+            {{ isNewUser ? 'Already have an account?' : 'New here?' }}
+          </button>
         </form>
       </div>
       <VImage src="/minions.jpg" class="hidden h-[inherit] !w-full md:block" />

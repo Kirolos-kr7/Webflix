@@ -5,6 +5,7 @@ import Loader from '../components/Loader.vue'
 import Navbar from '../components/Navbar.vue'
 import VImage from '../components/VImage.vue'
 import useAxios from '../composables/useAxios'
+import useTitle from '../composables/useTitle'
 import type { Person, Show } from '../types'
 
 const person = ref<Person>(),
@@ -35,6 +36,9 @@ const fetchData = async () => {
     if (error && !error.response.data.success) return router.replace('/404')
 
     person.value = data
+    useTitle(`${person.value?.name} on Webflix`)
+
+    isLoading.value = false
 
     let { data: work } = await useAxios({
       url: `person/${route.params.id}/combined_credits`
@@ -48,7 +52,6 @@ const fetchData = async () => {
       else return -1
     })
   }
-  isLoading.value = false
 }
 
 const clacAge = (birthday: string | null) => {

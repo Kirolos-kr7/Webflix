@@ -9,6 +9,7 @@ import VImage from './VImage.vue'
 import Seasons from './Seasons.vue'
 import type { ShowDetails, CastMember, Trailer } from '../types'
 import Collection from './Collection.vue'
+import useTitle from '../composables/useTitle'
 
 const route = useRoute(),
   router = useRouter(),
@@ -64,7 +65,7 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
-  document.title = `${data?.name || data?.title} - Webflix`
+  useTitle(`${data?.name || data?.title} on Webflix`)
   isLoading.value = false
 
   let { data: showCast } = await useAxios({

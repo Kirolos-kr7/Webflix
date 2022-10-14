@@ -4,11 +4,14 @@ import Loader from '../components/Loader.vue'
 import Navbar from '../components/Navbar.vue'
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
+import useTitle from '../composables/useTitle'
 import type { Genre } from '../types'
 
 const isLoading = ref<boolean>(false),
   movieGenres = ref<Genre[]>(),
   seriesGenres = ref<Genre[]>()
+
+useTitle(`Genres on Webflix`)
 
 onMounted(async () => {
   isLoading.value = true

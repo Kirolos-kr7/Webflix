@@ -8,6 +8,7 @@ import VImage from '../components/VImage.vue'
 import type { ShowDetails, Season } from '../types'
 import VSvg from '../components/VSvg.vue'
 import VDropDown from '../components/VDropDown.vue'
+import useTitle from '../composables/useTitle'
 
 const route = useRoute(),
   router = useRouter(),
@@ -44,7 +45,7 @@ const fetchData = async () => {
 
   show.value = showData
   season.value = data
-  document.title = `${showData?.name}: ${data?.name}  - Webflix`
+  useTitle(`${showData?.name}: ${data?.name}  - Webflix`)
   isLoading.value = false
   selectedSeason.value = showData.seasons.find(
     (season: Season) =>

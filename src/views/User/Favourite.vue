@@ -8,7 +8,10 @@ import useAxios from '../../composables/useAxios'
 import { useRoute, useRouter } from 'vue-router'
 import Pagination from '../../components/Pagination.vue'
 import Loader from '../../components/Loader.vue'
-import type { Show } from '@/src/types'
+import type { Show } from '../../types'
+import useTitle from '../../composables/useTitle'
+
+useTitle('Favourites on Webflix')
 
 const store = useStore()
 const router = useRouter()

@@ -9,6 +9,7 @@ import Pagination from '../components/Pagination.vue'
 import LoginToContinue from '../components/LoginToContinue.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VImage from '../components/VImage.vue'
+import useTitle from '../composables/useTitle'
 
 const isLoading = ref<boolean>(false),
   network = ref<Network>(),
@@ -28,10 +29,10 @@ const getShows = async () => {
   isLoading.value = true
   shows.value = []
 
-  let { data: _network } = await useAxios({
+  let { data: _network }: { data: Network } = await useAxios({
     url: `network/${route.params.id}`
   })
-
+  useTitle(`${_network.name} on Webflix`)
   network.value = _network
 
   let { data } = await useAxios({

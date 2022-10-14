@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import Navbar from '../components/Navbar.vue'
 import VImage from '../components/VImage.vue'
+import useTitle from '../composables/useTitle'
 
-onMounted(() => {
-  document.title = `404 - Webflix`
-})
+useTitle(`404 - Webflix`)
 </script>
 
 <template>
