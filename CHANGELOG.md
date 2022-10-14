@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.10...v1.7.0) (2022-10-14)
+
+
+### Features
+
+* added useTitle ([2c78762](https://github.com/Kirolos-kr7/Webflix/commit/2c787620ab339655ae842fa81e7663fc086bf857))
+* disabled overlay hiding on mobile ([29691cd](https://github.com/Kirolos-kr7/Webflix/commit/29691cdb073f4d93baca11f214dba6c38a82fc95))
+* UserLayout refactor ([491a090](https://github.com/Kirolos-kr7/Webflix/commit/491a090afe56a23b6043bdd905c6f3e769761a76))
+
+
+### Bug Fixes
+
+* pagination hidden on loading ([688e166](https://github.com/Kirolos-kr7/Webflix/commit/688e1660fe90d5912ef97cceffc3bf13918b15d1))
+* pagination showing on load ([ccbea3c](https://github.com/Kirolos-kr7/Webflix/commit/ccbea3c691518dbb8add71df9ae0ddc8591434fd))
+* trailer view ([e3eff97](https://github.com/Kirolos-kr7/Webflix/commit/e3eff971abe2d751039595976c2b26ae191acd02))
+
 ### [1.6.10](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.9...v1.6.10) (2022-10-13)
 
 
