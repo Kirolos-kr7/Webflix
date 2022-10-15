@@ -61,10 +61,10 @@ const getShows = async () => {
 }
 
 const handlePageChange = (p: number | string) => {
-  if (p === '+') return page.value++
-  else if (p === '-') return page.value--
+  if (p === '+') page.value++
+  else if (p === '-') page.value--
   else if (typeof p == 'number') {
-    page.value = p as number
+    page.value = p
   } else page.value = 1
 
   window.scrollTo({ top: 0, behavior: 'smooth' })

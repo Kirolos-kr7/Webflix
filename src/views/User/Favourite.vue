@@ -61,8 +61,8 @@ const getFavShows = async () => {
 const handlePageChange = (p: string | number) => {
   if (p === '+') page.value++
   else if (p === '-') page.value--
-  else if (typeof p === 'number') {
-    page.value = p as number
+  else if (typeof p == 'number') {
+    page.value = p
   } else page.value = 1
 
   window.scrollTo({ top: 0, behavior: 'smooth' })
