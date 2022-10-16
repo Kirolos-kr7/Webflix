@@ -7,9 +7,33 @@ interface UseAxios {
   body?: any
 }
 
-const useAxios = async ({ method = 'get', url = '', body = {} }: UseAxios) => {
+type UAReturn = Promise<{
+  data: any
+  error: any
+}>
+
+// eslint-disable-next-line no-unused-vars
+function useAxios(url: string): UAReturn
+// eslint-disable-next-line no-unused-vars
+function useAxios({ method, url, body }: UseAxios): UAReturn
+
+async function useAxios(arg1: unknown) {
   let data = null,
-    error: any = null
+    error: any = null,
+    method = 'get',
+    url = '',
+    body = null
+
+  if (typeof arg1 === 'string') {
+    url = arg1
+  } else {
+    const { url: x, method: y, body: z } = arg1 as UseAxios
+    url = x
+    method = y ? y : method
+    body = z
+  }
+
+  if (!url) throw new Error('Url is missing.\n Please enter a url.')
 
   try {
     const response: AxiosResponse = await axios({
