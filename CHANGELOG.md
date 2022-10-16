@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/Kirolos-kr7/Webflix/compare/v1.7.0...v1.7.1) (2022-10-16)
+
+
+### Features
+
+* add overload to useAxios ([910c837](https://github.com/Kirolos-kr7/Webflix/commit/910c83719c78077f251886e332bc6cdc3049d77d))
+* add tab navigation support ([183c92b](https://github.com/Kirolos-kr7/Webflix/commit/183c92bd1715a3ae1537b7967136f283267bba61))
+
+
+### Bug Fixes
+
+* pagination prev/next btns ([7d6e81d](https://github.com/Kirolos-kr7/Webflix/commit/7d6e81dabcd37019dfc1758f68612db421949079))
+
 ## [1.7.0](https://github.com/Kirolos-kr7/Webflix/compare/v1.6.10...v1.7.0) (2022-10-14)
 
 
