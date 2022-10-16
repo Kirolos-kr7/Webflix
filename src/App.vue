@@ -1,9 +1,11 @@
 <template>
+  <Navbar />
   <router-view v-slot="{ Component }">
     <transition name="fadeIn" mode="out-in" appear>
-      <div class="min-h-screen">
+      <main class="min-h-screen">
+        <button class="skipper absolute" tabindex="-1" />
         <component :is="Component"></component>
-      </div>
+      </main>
     </transition>
     <Footer />
     <Toast />
@@ -13,4 +15,5 @@
 <script setup lang="ts">
 import Footer from './components/Footer.vue'
 import Toast from './components/Toast.vue'
+import Navbar from './components/Navbar.vue'
 </script>

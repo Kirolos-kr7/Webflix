@@ -110,7 +110,7 @@ const exit = () => {
             @input="searchNow($event)"
             ref="autoFocusInput"
             type="text"
-            class="w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none focus:ring-2"
+            class="w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none focus-visible:ring-4"
             style="background-image: linear-gradient(#00000020, transparent)"
             placeholder="search a movie, series or a person..."
           />
@@ -119,7 +119,7 @@ const exit = () => {
           <router-link
             v-for="result in searchResult"
             :key="result.id"
-            class="flex w-full items-center overflow-hidden bg-wf-200/80 hover:bg-wf-300/80"
+            class="flex w-full items-center overflow-hidden bg-wf-200/80 outline-none ring-inset focus-within:ring hover:bg-wf-300/80"
             :to="
               result.media_type === 'person'
                 ? `/person/${result.id}`
@@ -148,7 +148,7 @@ const exit = () => {
           <router-link
             :to="{ name: 'Search', query: { query: inputSearch } }"
             v-if="searchResult?.length > 0"
-            class="block w-full rounded-b-md bg-wf-300 p-3 hover:bg-wf-100"
+            class="block w-full rounded-b-md bg-wf-300 p-3 outline-none ring-inset focus-within:ring hover:bg-wf-100"
           >
             Watch More
           </router-link>
@@ -156,7 +156,7 @@ const exit = () => {
       </div>
       <button
         @click="exit"
-        class="absolute right-5 top-5 rounded-sm bg-red-600 p-3 hover:bg-red-500"
+        class="absolute right-5 top-5 rounded-sm bg-red-600 p-3 outline-none ring-red-300 hover:bg-red-500 focus-visible:ring"
       >
         <svg
           class="h-5 w-5"

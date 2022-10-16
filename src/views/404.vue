@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Navbar from '../components/Navbar.vue'
 import VImage from '../components/VImage.vue'
 import useTitle from '../composables/useTitle'
 
@@ -7,7 +6,6 @@ useTitle(`404 - Webflix`)
 </script>
 
 <template>
-  <Navbar />
   <div class="relative min-h-screen w-full overflow-x-hidden bg-[#032c37]">
     <VImage
       class="absolute !left-1/2 z-0 max-h-screen min-h-[65vh] !-translate-x-1/2 object-cover xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Loader from '../components/Loader.vue'
-import Navbar from '../components/Navbar.vue'
+
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
 import useTitle from '../composables/useTitle'
@@ -24,7 +24,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Navbar />
   <div
     class="mx-auto flex w-full max-w-break items-center justify-between gap-8 px-5 pt-24"
   >
@@ -63,6 +62,6 @@ onMounted(async () => {
 
 <style scoped>
 .genre {
-  @apply flex items-center justify-center rounded-md bg-wf-200 py-4 px-2 transition-colors hover:bg-wf-200/80;
+  @apply flex items-center justify-center rounded-md bg-wf-200 py-4 px-2 outline-none transition-colors hover:bg-wf-200/80 focus-visible:ring;
 }
 </style>

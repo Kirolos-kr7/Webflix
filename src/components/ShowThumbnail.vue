@@ -84,7 +84,7 @@ const addToFav = async () => {
 <template>
   <div class="relative">
     <router-link
-      class="relative block aspect-[2/3]"
+      class="relative block aspect-[2/3] rounded-sm outline-none focus-visible:ring"
       :class="isFullWidth ? 'w-full' : 'w-[200px] sm:w-[260px]'"
       :to="`/${
         show.media_type === 'person'
@@ -99,15 +99,19 @@ const addToFav = async () => {
       <div class="relative cursor-pointer overflow-hidden rounded-sm bg-wf-200">
         <VImage
           v-if="show.poster_path"
-          class="relative z-0 aspect-[2/3]"
+          class="relative z-0 aspect-[2/3] rounded-sm"
           :src="`https://image.tmdb.org/t/p/w500/${show.poster_path}`"
         />
         <VImage
           v-else-if="show.profile_path"
-          class="relative z-0 aspect-[2/3]"
+          class="relative z-0 aspect-[2/3] rounded-sm"
           :src="`https://image.tmdb.org/t/p/w500/${show.profile_path}`"
         />
-        <VImage v-else src="/broken.png" class="relative z-0 aspect-[2/3]" />
+        <VImage
+          v-else
+          src="/broken.png"
+          class="relative z-0 aspect-[2/3] rounded-sm"
+        />
 
         <div
           :class="overlayHidden ? 'opacity-0' : ''"
@@ -148,7 +152,7 @@ const addToFav = async () => {
     >
       <button
         @click="addToFav()"
-        class="rounded-md bg-wf-200/70 p-2 shadow-2xl transition-colors hover:bg-wf-200/90"
+        class="rounded-md bg-wf-200/70 p-2 shadow-2xl outline-none transition-colors hover:bg-wf-200/90 focus-visible:ring-2"
       >
         <svg
           class="-m-0.5 h-6 w-6 transition-all"

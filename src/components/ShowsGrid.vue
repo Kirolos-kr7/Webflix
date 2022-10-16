@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter, type RouteLocationNormalized } from 'vue-router'
-import Navbar from '../components/Navbar.vue'
 import Pagination from '../components/Pagination.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VTitle from '../components/VTitle.vue'
@@ -92,7 +91,6 @@ const changeMode = (newMode: string) => {
 </script>
 
 <template>
-  <Navbar />
   <div
     class="mx-auto flex w-full max-w-break items-center justify-between gap-8 px-5 pt-24"
   >

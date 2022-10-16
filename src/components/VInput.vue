@@ -13,7 +13,7 @@ defineEmits(['valueChange'])
   <div class="relative w-full">
     <input
       :="$attrs"
-      class="peer w-full rounded-md border-2 border-wf-300 bg-transparent px-3 pb-2 pt-3.5 font-medium placeholder:text-transparent focus:outline-none sm:w-[350px]"
+      class="peer w-full rounded-md border-2 border-wf-300 bg-transparent px-3 pb-2 pt-3.5 font-medium outline-none placeholder:text-transparent focus-visible:ring-4 sm:w-[350px]"
       :id="placeholder"
       :placeholder="placeholder"
       :value="modelValue"

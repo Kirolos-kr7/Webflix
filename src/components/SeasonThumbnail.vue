@@ -53,7 +53,7 @@ onMounted(async () => {
 <template>
   <div class="relative">
     <router-link
-      class="relative block aspect-[2/3] w-[200px] sm:w-[260px]"
+      class="relative block aspect-[2/3] w-[200px] rounded-sm outline-none focus-visible:ring sm:w-[260px]"
       :to="`/series/${showId}/season/${season.season_number}`"
     >
       <div class="relative cursor-pointer overflow-hidden rounded-sm bg-wf-200">

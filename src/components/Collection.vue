@@ -46,7 +46,7 @@ const getRecommended = () => {
       {{ collection.name }}
     </h2>
     <div
-      class="scroller mt-4 flex gap-x-3 overflow-x-auto pb-2"
+      class="scroller mt-4 flex gap-x-3 overflow-x-auto p-1 pb-2"
       v-if="collection"
     >
       <transition-group name="fade" appear>

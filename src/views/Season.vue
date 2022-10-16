@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Navbar from '../components/Navbar.vue'
+
 import useAxios from '../composables/useAxios'
 import Loader from '../components/Loader.vue'
 import VImage from '../components/VImage.vue'
@@ -67,8 +67,6 @@ const getNumWZeros = (x: number) =>
 </script>
 
 <template>
-  <Navbar />
-
   <Loader v-if="isLoading" />
 
   <div class="mx-auto w-full max-w-break p-5 pt-24">

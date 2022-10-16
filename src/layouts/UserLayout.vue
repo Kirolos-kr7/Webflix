@@ -1,10 +1,6 @@
-<script setup lang="ts">
-import Navbar from '../components/Navbar.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <Navbar />
-
   <div class="mx-auto w-full max-w-break px-5 py-3 pt-24">
     <RouterView />
   </div>

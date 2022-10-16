@@ -42,7 +42,8 @@ const toggleMenu = () => {
     <button
       @click="toggleMenu()"
       ref="btn"
-      class="flex w-full cursor-pointer justify-between px-4 py-1.5 text-left"
+      class="flex w-full cursor-pointer justify-between rounded-md px-4 py-1.5 text-left outline-none ring-inset focus-visible:ring-2"
+      :class="{ 'rounded-b-none': isExpanded }"
     >
       {{ selected[textKey] }}
       <VSvg
@@ -60,19 +61,19 @@ const toggleMenu = () => {
       >
         <ul
           v-if="isExpanded"
-          class="diff flex max-h-72 cursor-pointer flex-col overflow-auto [&>li]:bg-wf-200 [&>li]:px-4 [&>li]:py-0.5 [&>li]:text-gray-400 [&>li]:transition-colors [&>li:hover]:bg-wf-100"
+          class="diff flex max-h-72 cursor-pointer flex-col overflow-auto [&>li]:bg-wf-200 [&>li]:text-gray-400 [&>li]:transition-colors [&>li:hover]:bg-wf-100 [&>li>button]:w-full [&>li>button]:rounded-[inherit] [&>li>button]:px-4 [&>li>button]:py-0.5 [&>li>button]:text-left [&>li>button]:outline-none [&>li>button]:ring-inset [&>li>button:focus]:ring-2 [&>li:last-of-type]:rounded-b-md"
         >
-          <li
-            v-for="opt in opts"
-            :key="opt[valueKey]"
-            @mousedown="
-              () => {
-                $emit('selectionChange', opt[valueKey])
-                isExpanded = false
-              }
-            "
-          >
-            {{ opt[textKey] }}
+          <li v-for="opt in opts" :key="opt[valueKey]">
+            <button
+              @click="
+                () => {
+                  $emit('selectionChange', opt[valueKey])
+                  isExpanded = false
+                }
+              "
+            >
+              {{ opt[textKey] }}
+            </button>
           </li>
         </ul>
       </div>

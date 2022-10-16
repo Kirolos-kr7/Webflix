@@ -40,26 +40,29 @@ watch(navOpen, () => {
   else document.body.style.overflow = 'overlay'
 })
 
-onMounted(() => {
+const handleNavbarScroll = () => {
   if (route.name !== 'AMovie' && route.name !== 'ASeries') {
     nav.value?.classList.add('bg-wf-300/80')
     nav.value?.classList.add('backdrop-blur-lg')
-  } else {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 500) {
-        nav.value?.classList.add('bg-wf-300/80')
-        nav.value?.classList.add('backdrop-blur-lg')
-      } else {
-        nav.value?.classList.remove('bg-wf-300/80')
-        nav.value?.classList.remove('backdrop-blur-lg')
-      }
-    })
+    return
   }
 
+  if (window.scrollY > 500) {
+    nav.value?.classList.add('bg-wf-300/80')
+    nav.value?.classList.add('backdrop-blur-lg')
+  } else {
+    nav.value?.classList.remove('bg-wf-300/80')
+    nav.value?.classList.remove('backdrop-blur-lg')
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', () => handleNavbarScroll())
   window.addEventListener('keydown', (e) => handleSearchShortcuts(e))
 })
 
 onUnmounted(() => {
+  window.removeEventListener('scroll', () => handleNavbarScroll())
   window.removeEventListener('keydown', (e) => handleSearchShortcuts(e))
 })
 
@@ -99,16 +102,28 @@ const logout = () => {
   supabase.auth.signOut()
   store.user = null
 }
+
+const skipNav = () => {
+  let skipper = document.querySelector('.skipper') as HTMLButtonElement
+  skipper.focus()
+}
 </script>
 
 <template>
   <nav class="fixed top-0 z-30 w-full px-5 pt-3 pb-2 transition-all" ref="nav">
     <div class="mx-auto flex w-full max-w-break items-center justify-between">
+      <button
+        class="absolute -top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-sm bg-wf-100 px-3 py-2 outline-none transition-all focus-visible:top-1/2 focus-visible:ring"
+        @click="skipNav"
+      >
+        Skip Navigation
+      </button>
+
       <div class="flex items-center gap-5">
         <ul class="flex items-center gap-2">
           <li class="-mb-2 md:hidden">
             <button
-              class="mb-2 text-green-300 transition-colors hover:text-green-500"
+              class="mb-2 rounded-sm text-green-300 outline-none transition-colors hover:text-green-500 focus-visible:ring-2"
               ref="hamButton"
               @click="navOpen = !navOpen"
             >
@@ -130,18 +145,18 @@ const logout = () => {
           </li>
           <router-link
             to="/"
-            class="clear font-bebasNeue text-5xl text-green-300 transition-colors hover:text-green-400 md:text-6xl"
+            class="clear -mx-1 -mt-1 rounded-sm px-1.5 pt-1.5 font-bebasNeue text-5xl text-green-300 outline-none transition-colors hover:text-green-400 focus-visible:ring-2 md:text-6xl"
             >WEBFLIX</router-link
           >
           <li
             v-for="item in listItems"
             :key="item.title"
-            class="ml-2 hidden md:flex"
+            class="ml-2 mb-1 hidden md:flex"
           >
             <router-link
               @click="navOpen = false"
               :to="`/${item.path}`"
-              class="green-link text-xl"
+              class="green-link -mx-1 rounded-sm px-1 text-xl outline-none focus-visible:ring-2"
               >{{ item.title }}</router-link
             >
           </li>
@@ -155,7 +170,7 @@ const logout = () => {
         >
           <button
             @click="showSearchDialog"
-            class="group mb-2 flex items-center gap-2 p-2"
+            class="group mb-2 flex items-center gap-2 rounded-md p-1 outline-none focus-visible:ring-2 md:p-2"
           >
             <svg
               class="h-7 w-7 text-green-300 md:h-5 md:w-5 md:text-gray-300"
@@ -181,11 +196,11 @@ const logout = () => {
         </li>
 
         <li v-if="store.user">
-          <div class="relative">
+          <div class="relative -mb-2">
             <button
               data-optionsMenu="x"
               @click="toggleOptionsMenu()"
-              class="h-12 w-12 rounded-full shadow-lg outline-none focus:outline-none focus:ring-2"
+              class="h-12 w-12 rounded-full shadow-lg outline-none focus:ring-2"
             >
               <VImage
                 class="h-12 w-12 rounded-full"
@@ -237,7 +252,11 @@ const logout = () => {
           </div>
         </li>
         <li v-else>
-          <VButton to="/auth">Login</VButton>
+          <VButton
+            to="/auth"
+            class="outline-none ring-emerald-600 ring-offset-1 ring-offset-wf-300 focus-within:ring"
+            >Login</VButton
+          >
         </li>
       </ul>
       <div
@@ -260,9 +279,11 @@ const logout = () => {
               :key="item.title"
               class="w-full text-2xl font-medium text-green-300 transition-colors hover:bg-wf-300 hover:text-green-500"
             >
-              <router-link class="block px-5 py-3" :to="`/${item.path}`">{{
-                item.title
-              }}</router-link>
+              <router-link
+                class="block px-5 py-3 outline-none ring-inset focus-visible:ring-2"
+                :to="`/${item.path}`"
+                >{{ item.title }}</router-link
+              >
             </li>
           </ul>
         </div>

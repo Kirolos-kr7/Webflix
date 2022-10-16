@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Loader from '../components/Loader.vue'
-import Navbar from '../components/Navbar.vue'
+
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
 import type { Genre, Show } from '../types'
@@ -76,7 +76,6 @@ const handlePageChange = (p: number | string) => {
 </script>
 
 <template>
-  <Navbar />
   <div class="mx-auto flex w-full max-w-break flex-col gap-8 px-5 pt-24">
     <h2
       class="relative z-[2] -mb-8 font-bebasNeue text-lg capitalize tracking-widest text-gray-300"

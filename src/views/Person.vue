@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Loader from '../components/Loader.vue'
-import Navbar from '../components/Navbar.vue'
+
 import VImage from '../components/VImage.vue'
 import useAxios from '../composables/useAxios'
 import useTitle from '../composables/useTitle'
@@ -64,8 +64,6 @@ const clacAge = (birthday: string | null) => {
 </script>
 
 <template>
-  <Navbar />
-
   <Loader v-if="isLoading" />
 
   <div class="mx-auto w-full max-w-break p-5 pt-24">

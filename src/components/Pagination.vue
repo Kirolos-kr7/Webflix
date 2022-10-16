@@ -39,7 +39,7 @@ const pageRange = computed(() => {
   >
     <button
       v-if="currPage != 1"
-      class="flex h-10 w-auto items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-8 hover:bg-[#04232c] sm:h-14 sm:w-20"
+      class="flex h-10 w-auto items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-8 outline-none hover:bg-[#04232c] focus-visible:ring sm:h-14 sm:w-20"
       @click="$emit('pageChange', '-')"
     >
       {{ 'Prev' }}
@@ -49,7 +49,7 @@ const pageRange = computed(() => {
         <span v-if="page === '..'"> .. </span>
         <button
           v-else
-          class="flex h-10 w-10 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 text-xs hover:bg-[#04232c] sm:h-14 sm:w-14"
+          class="flex h-10 w-10 items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-1.5 text-xs outline-none hover:bg-[#04232c] focus-visible:ring sm:h-14 sm:w-14"
           :class="{
             'border-green-400': page === currPage
           }"
@@ -61,7 +61,7 @@ const pageRange = computed(() => {
     </div>
     <button
       v-if="currPage != totalPages"
-      class="flex h-10 w-auto items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-8 hover:bg-[#04232c] sm:h-14 sm:w-20"
+      class="flex h-10 w-auto items-center justify-center rounded-md border-4 border-[#07232e] bg-[#012a35] px-8 outline-none hover:bg-[#04232c] focus-visible:ring sm:h-14 sm:w-20"
       @click="$emit('pageChange', '+')"
     >
       {{ 'Next' }}
