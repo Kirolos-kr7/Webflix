@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useAxios from '../composables/useAxios'
 import Loader from './Loader.vue'
-import Recomendations from './Recomendations.vue'
+import Recommendations from './Recommendations.vue'
 import VImage from './VImage.vue'
 import Seasons from './Seasons.vue'
 import type { ShowDetails, CastMember, Trailer } from '../types'
@@ -374,7 +374,7 @@ watch(complementary, () => {
       :collectionId="show?.belongs_to_collection.id"
     />
 
-    <Recomendations :type="type" />
+    <Recommendations :type="type" />
   </div>
 
   <Loader v-if="isLoading" />
