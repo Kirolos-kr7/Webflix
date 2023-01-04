@@ -65,7 +65,7 @@ const toggleMenu = () => {
         >
           <li v-for="opt in opts" :key="opt[valueKey]">
             <button
-              @click="
+              @mouseup="
                 () => {
                   $emit('selectionChange', opt[valueKey])
                   isExpanded = false
