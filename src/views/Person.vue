@@ -7,6 +7,7 @@ import VImage from '../components/VImage.vue'
 import useAxios from '../composables/useAxios'
 import useTitle from '../composables/useTitle'
 import type { Person, Show } from '../types'
+import useMeta from '../composables/useMeta'
 
 const person = ref<Person>(),
   credits = ref<Show[]>(),
@@ -37,6 +38,13 @@ const fetchData = async () => {
 
     person.value = data
     useTitle(`${person.value?.name} on Webflix`)
+    useMeta([
+      [
+        'og:image',
+        `https://image.tmdb.org/t/p/w500/${person.value?.profile_path}`
+      ],
+      ['og:title', person.value?.name + 'on Webflix']
+    ])
 
     isLoading.value = false
 
