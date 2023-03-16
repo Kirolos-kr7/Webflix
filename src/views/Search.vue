@@ -5,10 +5,10 @@ import { useRoute, useRouter } from 'vue-router'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 import type { Show } from '../types'
 
-useTitle('Searching on Webflix')
+useHead({ title: 'Searching on Webflix' })
 
 const shows = ref<Show[]>([]),
   router = useRouter(),
@@ -57,7 +57,7 @@ const searchNow = async () => {
       v-model="inputSearch"
       @input="searchNow"
       type="text"
-      class="relative z-10 w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none outline-none focus-visible:ring-4 sm:w-[400px] md:w-[500px] lg:w-[600px]"
+      class="relative z-10 w-full rounded-sm border-0 px-3 py-2.5 text-base font-light text-black outline-none focus-visible:ring-4 sm:w-[400px] md:w-[500px] lg:w-[600px]"
       style="background-image: linear-gradient(#00000020, transparent)"
       placeholder="search a movie, series or a person..."
     />

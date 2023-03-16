@@ -9,9 +9,9 @@ import { useRoute, useRouter } from 'vue-router'
 import Pagination from '../../components/Pagination.vue'
 import Loader from '../../components/Loader.vue'
 import type { Show } from '../../types'
-import useTitle from '../../composables/useTitle'
+import useHead from '../../composables/useHead'
 
-useTitle('Favourites on Webflix')
+useHead({ title: 'Favourites on Webflix' })
 
 const store = useStore()
 const router = useRouter()

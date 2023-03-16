@@ -8,7 +8,7 @@ import VImage from './VImage.vue'
 import Seasons from './Seasons.vue'
 import type { ShowDetails, CastMember, Trailer } from '../types'
 import Collection from './Collection.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
 const route = useRoute(),
   router = useRouter(),
@@ -63,14 +63,17 @@ const fetchData = async () => {
   nowAt.value = route.params.id as string
   isLoading.value = true
 
-  let { data, error } = await useAxios({
+  let { data, error }: { data: ShowDetails; error: any } = await useAxios({
     url: `${props.type}/${route.params.id}`
   })
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
-  console.log(data)
-  useTitle(`${data?.name || data?.title} on Webflix`)
+  useHead({
+    title: `${data.name || data.title} on Webflix`,
+    description: `${data.overview}`,
+    image: `https://image.tmdb.org/t/p/w300${data.poster_path}`
+  })
   isLoading.value = false
 
   let { data: showCast } = await useAxios({
@@ -157,7 +160,7 @@ watch(complementary, () => {
       v-if="show.backdrop_path"
       data-backdrop=""
       class="fixed top-0 z-[0] max-h-screen min-h-[65vh] translate-x-0 overflow-hidden object-cover transition-all xs:min-h-[75vh] md:!min-h-screen md:translate-x-40 lg:translate-x-60 xl:translate-x-72 2xl:translate-x-80"
-      :src="`https://image.tmdb.org/t/p/original/${show.backdrop_path}`"
+      :src="`https://image.tmdb.org/t/p/original${show.backdrop_path}`"
     />
     <div
       ref="overlay"
@@ -267,7 +270,7 @@ watch(complementary, () => {
                 <VImage
                   v-if="member.profile_path"
                   class="h-52 w-36 rounded-t-md object-cover transition-opacity hover:opacity-75"
-                  :src="`https://image.tmdb.org/t/p/w200/${member.profile_path}`"
+                  :src="`https://image.tmdb.org/t/p/w200${member.profile_path}`"
                   :alt="member.name"
                 />
                 <VImage
@@ -355,7 +358,7 @@ watch(complementary, () => {
                 class="-m-1 w-fit rounded-sm p-1 outline-none ring-offset-1 ring-offset-slate-800 focus-visible:ring-1"
                 :to="`/network/${id}`"
               >
-                <VImage :src="`https://image.tmdb.org/t/p/h30/${logo_path}`" />
+                <VImage :src="`https://image.tmdb.org/t/p/h30${logo_path}`" />
               </router-link>
             </p>
           </div>

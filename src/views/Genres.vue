@@ -4,14 +4,14 @@ import Loader from '../components/Loader.vue'
 
 import VTitle from '../components/VTitle.vue'
 import useAxios from '../composables/useAxios'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 import type { Genre } from '../types'
 
 const isLoading = ref<boolean>(false),
   movieGenres = ref<Genre[]>(),
   seriesGenres = ref<Genre[]>()
 
-useTitle(`Genres on Webflix`)
+useHead({ title: `Genres on Webflix` })
 
 onMounted(async () => {
   isLoading.value = true
@@ -59,9 +59,3 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.genre {
-  @apply flex items-center justify-center rounded-md bg-wf-200 py-4 px-2 outline-none transition-colors hover:bg-wf-200/80 focus-visible:ring;
-}
-</style>

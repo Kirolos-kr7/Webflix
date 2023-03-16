@@ -24,6 +24,10 @@ body {
   @apply !text-green-300;
 }
 
+.genre {
+  @apply flex items-center justify-center rounded-md bg-wf-200 py-4 px-2 outline-none transition-colors hover:bg-wf-200/80 focus-visible:ring;
+}
+
 ::-webkit-scrollbar {
   @apply h-2 w-2;
 }

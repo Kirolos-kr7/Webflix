@@ -133,12 +133,12 @@ const exit = () => {
           >
             <VImage
               v-if="result.media_type === 'person' && result.profile_path"
-              :src="`https://image.tmdb.org/t/p/w200/${result.profile_path}`"
+              :src="`https://image.tmdb.org/t/p/w200${result.profile_path}`"
               class="h-16 w-[43px] object-cover"
             />
             <VImage
               v-else-if="result.poster_path"
-              :src="`https://image.tmdb.org/t/p/w200/${result.poster_path}`"
+              :src="`https://image.tmdb.org/t/p/w200${result.poster_path}`"
               class="h-16 w-[43px] object-cover"
             />
             <VImage v-else src="/broken.png" class="h-16 object-cover" />

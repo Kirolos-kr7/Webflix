@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import VImage from '../components/VImage.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
-useTitle(`404 - Webflix`)
+useHead({
+  title: '404 - Page not found',
+  description: "The page you requested wasn't found."
+})
 </script>
 
 <template>

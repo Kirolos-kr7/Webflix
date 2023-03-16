@@ -9,7 +9,7 @@ import LoginToContinue from './LoginToContinue.vue'
 import Loader from './Loader.vue'
 import type { ShowMode, Show } from '../types'
 import VDropDown from './VDropDown.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
 const shows = ref<Show[]>(),
   page = ref<number>(1),
@@ -34,7 +34,10 @@ const currmode = computed(() => {
 watch(route, () => getShows())
 
 onMounted(async () => {
-  useTitle(`${props.name} on Webflix`)
+  useHead({
+    title: `${props.name} on Webflix`,
+    description: 'Discover shows on the site.'
+  })
   page.value = !isNaN(route.query.p as any) ? parseInt(route.query.p as any) : 1
   getShows()
 })

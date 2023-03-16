@@ -60,7 +60,7 @@ onMounted(async () => {
         <VImage
           v-if="season.poster_path"
           class="relative z-0 aspect-[2/3]"
-          :src="`https://image.tmdb.org/t/p/w500/${season.poster_path}`"
+          :src="`https://image.tmdb.org/t/p/w500${season.poster_path}`"
         />
         <VImage v-else src="/broken.png" class="relative z-0" />
 

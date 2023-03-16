@@ -8,9 +8,9 @@ import VInput from '../components/VInput.vue'
 import { useStore } from '../store'
 import { supabase } from '../supabase'
 import VImage from '../components/VImage.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
-useTitle('Login to Webflix')
+useHead({ title: 'Login to Webflix' })
 
 const isNewUser = ref(false),
   err = ref<any>(''),
@@ -22,7 +22,9 @@ const isNewUser = ref(false),
   password = ref('')
 
 watch(isNewUser, () => {
-  isNewUser.value ? useTitle('Signin to Webflix') : useTitle('Login to Webflix')
+  isNewUser.value
+    ? useHead({ title: 'Signin to Webflix' })
+    : useHead({ title: 'Login to Webflix' })
 })
 
 const login = async () => {

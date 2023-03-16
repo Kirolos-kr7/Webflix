@@ -5,9 +5,8 @@ import Loader from '../components/Loader.vue'
 
 import VImage from '../components/VImage.vue'
 import useAxios from '../composables/useAxios'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 import type { Person, Show } from '../types'
-import useMeta from '../composables/useMeta'
 
 const person = ref<Person>(),
   credits = ref<Show[]>(),
@@ -37,14 +36,12 @@ const fetchData = async () => {
     if (error && !error.response.data.success) return router.replace('/404')
 
     person.value = data
-    useTitle(`${person.value?.name} on Webflix`)
-    useMeta([
-      [
-        'og:image',
-        `https://image.tmdb.org/t/p/w500/${person.value?.profile_path}`
-      ],
-      ['og:title', person.value?.name + 'on Webflix']
-    ])
+    console.log(data)
+    useHead({
+      title: `${person.value?.name} on Webflix`,
+      description: person.value?.biography,
+      image: `https://image.tmdb.org/t/pw300${person.value?.profile_path}`
+    })
 
     isLoading.value = false
 
@@ -80,7 +77,7 @@ const clacAge = (birthday: string | null) => {
         <VImage
           v-if="person.profile_path"
           class="mx-auto rounded-md object-cover xs:max-w-[300px] md:mx-px"
-          :src="`https://image.tmdb.org/t/p/w500/${person.profile_path}`"
+          :src="`https://image.tmdb.org/t/p/w500${person.profile_path}`"
         />
         <h1 class="mt-5 text-4xl font-semibold md:hidden">
           {{ person.name }}
@@ -143,7 +140,7 @@ const clacAge = (birthday: string | null) => {
               <VImage
                 v-if="credit.poster_path"
                 class="w-36 rounded-md object-cover hover:opacity-70"
-                :src="`https://image.tmdb.org/t/p/w150_and_h225_bestv2/${credit.poster_path}`"
+                :src="`https://image.tmdb.org/t/p/w150_and_h225_bestv2${credit.poster_path}`"
               />
               <VImage
                 v-else

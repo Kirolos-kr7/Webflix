@@ -9,7 +9,7 @@ import Pagination from '../components/Pagination.vue'
 import LoginToContinue from '../components/LoginToContinue.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
 import VImage from '../components/VImage.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
 const isLoading = ref<boolean>(false),
   network = ref<Network>(),
@@ -32,7 +32,11 @@ const getShows = async () => {
   let { data: _network }: { data: Network } = await useAxios({
     url: `network/${route.params.id}`
   })
-  useTitle(`${_network.name} on Webflix`)
+  console.log(_network)
+  useHead({
+    title: `${_network.name} on Webflix`,
+    image: `https://image.tmdb.org/t/p/w300${_network.logo_path}`
+  })
   network.value = _network
 
   let { data } = await useAxios({
@@ -74,7 +78,7 @@ const handlePageChange = (p: number | string) => {
     <VImage
       v-if="network && network.logo_path"
       class="mt-2 w-[230px] sm:w-[300px]"
-      :src="`https://image.tmdb.org/t/p/w300/${network.logo_path}`"
+      :src="`https://image.tmdb.org/t/p/w300${network.logo_path}`"
       :title="network.name"
     />
   </div>

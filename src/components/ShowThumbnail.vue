@@ -100,12 +100,12 @@ const addToFav = async () => {
         <VImage
           v-if="show.poster_path"
           class="relative z-0 aspect-[2/3] rounded-sm"
-          :src="`https://image.tmdb.org/t/p/w500/${show.poster_path}`"
+          :src="`https://image.tmdb.org/t/p/w500${show.poster_path}`"
         />
         <VImage
           v-else-if="show.profile_path"
           class="relative z-0 aspect-[2/3] rounded-sm"
-          :src="`https://image.tmdb.org/t/p/w500/${show.profile_path}`"
+          :src="`https://image.tmdb.org/t/p/w500${show.profile_path}`"
         />
         <VImage
           v-else

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import useTitle from '../../composables/useTitle'
+import useHead from '../../composables/useHead'
 import { onMounted, ref } from 'vue'
 import VImage from '../../components/VImage.vue'
 import { useStore } from '../../store'
 import { supabase } from '../../supabase'
 const store = useStore()
 
-useTitle('Profile on Webflix')
+useHead({ title: 'Profile on Webflix' })
 
 const favShowsCount = ref<string | number>('..')
 

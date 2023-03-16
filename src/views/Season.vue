@@ -8,7 +8,7 @@ import VImage from '../components/VImage.vue'
 import type { ShowDetails, Season } from '../types'
 import VSvg from '../components/VSvg.vue'
 import VDropDown from '../components/VDropDown.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
 const route = useRoute(),
   router = useRouter(),
@@ -43,9 +43,15 @@ const fetchData = async () => {
   )
     return router.replace('/404')
 
+  console.log(data)
+
   show.value = showData
   season.value = data
-  useTitle(`${showData?.name}: ${data?.name}  - Webflix`)
+  useHead({
+    title: `${showData?.name}: ${data?.name}  - Webflix`,
+    description: data.overview,
+    image: `https://image.tmdb.org/t/p/w300${data.poster_path}`
+  })
   isLoading.value = false
   selectedSeason.value = showData.seasons.find(
     (season: Season) =>
@@ -96,7 +102,7 @@ const getNumWZeros = (x: number) =>
         <VImage
           v-if="season.poster_path"
           class="mx-auto rounded-md object-cover xs:max-w-[220px] md:mx-px"
-          :src="`https://image.tmdb.org/t/p/w300/${season.poster_path}`"
+          :src="`https://image.tmdb.org/t/p/w300${season.poster_path}`"
         />
         <div class="flex flex-1 flex-col py-2 md:px-3">
           <h1 class="text-4xl font-semibold">
@@ -124,7 +130,7 @@ const getNumWZeros = (x: number) =>
             <VImage
               v-if="episode.still_path"
               class="w-full rounded-md object-cover hover:opacity-70 xs:w-[25%]"
-              :src="`https://image.tmdb.org/t/p/w500/${episode.still_path}`"
+              :src="`https://image.tmdb.org/t/p/w500${episode.still_path}`"
             />
             <div class="relative z-[1] p-3">
               <h1 class="text-lg font-semibold">{{ episode.name }}</h1>

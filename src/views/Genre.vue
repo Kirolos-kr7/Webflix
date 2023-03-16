@@ -9,7 +9,7 @@ import type { Genre, Show } from '../types'
 import Pagination from '../components/Pagination.vue'
 import LoginToContinue from '../components/LoginToContinue.vue'
 import ShowThumbnail from '../components/ShowThumbnail.vue'
-import useTitle from '../composables/useTitle'
+import useHead from '../composables/useHead'
 
 const isLoading = ref<boolean>(false),
   genre = ref<Genre>(),
@@ -38,11 +38,11 @@ const getShows = async () => {
   genre.value = genreList.genres.find(
     (genre: Genre) => genre.id.toString() == route.params.id
   )
-  useTitle(
-    `${genre.value?.name} ${
+  useHead({
+    title: `${genre.value?.name} ${
       resource.value[0].toUpperCase() + resource.value.slice(1)
     } on Webflix`
-  )
+  })
 
   let { data } = await useAxios({
     url: `discover/${
