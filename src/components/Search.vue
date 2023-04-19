@@ -5,14 +5,14 @@ import useAxios from '../composables/useAxios'
 import type { Show } from '../types'
 import VImage from './VImage.vue'
 
-const props = defineProps<{ searchDialog: boolean }>(),
-  emits = defineEmits(['hideSearchDialog']),
+const emits = defineEmits(['hideSearchDialog']),
   router = useRouter(),
   inputSearch = ref<string>(''),
   autoFocusInput = ref<HTMLInputElement>(),
   resContainer = ref<HTMLElement>(),
   currIndex = ref<number>(0),
-  searchResult = ref<Show[]>([])
+  searchResult = ref<Show[]>([]),
+  props = defineProps<{ searchDialog: boolean }>()
 
 watch(props, () => {
   if (props.searchDialog) {
