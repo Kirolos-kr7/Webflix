@@ -148,7 +148,7 @@ const addToFav = async () => {
     </router-link>
     <div
       class="absolute right-0 top-0 z-[11] p-2"
-      v-tooltip.right="`Search Shows`"
+      v-tooltip.right="`Add To Fav`"
     >
       <button
         @click="addToFav()"
