@@ -29,6 +29,7 @@ const listItems: Ref<ListItem[]> = ref([
       path: 'genres'
     }
   ]),
+  isNavTransparent = ref(true),
   navOpen = ref(false),
   optionsMenu = ref(false),
   nav = ref<HTMLInputElement | null>(null),
@@ -41,19 +42,11 @@ watch(navOpen, () => {
 })
 
 const handleNavbarScroll = () => {
-  if (route.name !== 'AMovie' && route.name !== 'ASeries') {
-    nav.value?.classList.add('bg-wf-300/80')
-    nav.value?.classList.add('backdrop-blur-lg')
-    return
-  }
+  if (route.name !== 'AMovie' && route.name !== 'ASeries')
+    isNavTransparent.value = false
 
-  if (window.scrollY > 500) {
-    nav.value?.classList.add('bg-wf-300/80')
-    nav.value?.classList.add('backdrop-blur-lg')
-  } else {
-    nav.value?.classList.remove('bg-wf-300/80')
-    nav.value?.classList.remove('backdrop-blur-lg')
-  }
+  if (window.scrollY > 500) isNavTransparent.value = false
+  else isNavTransparent.value = true
 }
 
 onMounted(() => {
@@ -110,7 +103,11 @@ const skipNav = () => {
 </script>
 
 <template>
-  <nav class="fixed top-0 z-30 w-full px-5 pt-3 pb-2 transition-all" ref="nav">
+  <nav
+    class="fixed top-0 z-30 w-full px-5 pt-3 pb-2 transition-all"
+    ref="nav"
+    :class="!isNavTransparent ? 'bg-wf-300/80 backdrop-blur-lg' : ''"
+  >
     <div class="mx-auto flex w-full max-w-break items-center justify-between">
       <button
         class="absolute -top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-sm bg-wf-100 px-3 py-2 outline-none transition-all focus-visible:top-1/2 focus-visible:ring"
