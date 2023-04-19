@@ -75,10 +75,12 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   document.body.style.overflow = 'overlay'
   const store = useStore()
-  const user = supabase.auth.user()
+  const { data } = await supabase.auth.getUser()
+  const { user } = data
+
   if (user) store.user = user
 
   if ((to.meta.requiresAuth && !user) || (to.meta.requiresUnAuth && user))
