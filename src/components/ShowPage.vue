@@ -9,6 +9,9 @@ import Seasons from './Seasons.vue'
 import type { ShowDetails, CastMember, Trailer } from '../types'
 import Collection from './Collection.vue'
 import useHead from '../composables/useHead'
+import Rate from './Rate.vue'
+import Facts from './Facts.vue'
+import Cast from './Cast.vue'
 
 const route = useRoute(),
   router = useRouter(),
@@ -19,8 +22,7 @@ const route = useRoute(),
   isLoading = ref(false),
   nowAt = ref(''),
   playingTrailer = ref(false),
-  props = defineProps<{ type: string }>(),
-  castToShow = ref<number>(12)
+  props = defineProps<{ type: string }>()
 
 onMounted(() => {
   fetchData()
@@ -69,6 +71,8 @@ const fetchData = async () => {
   if (error && !error.response.data.success) return router.replace('/404')
 
   show.value = data
+  console.log(data)
+
   useHead({
     title: `${data.name || data.title} on Webflix`,
     description: `${data.overview}`,
@@ -80,15 +84,6 @@ const fetchData = async () => {
     url: `${props.type}/${route.params.id}/credits`
   })
   cast.value = showCast.cast
-}
-
-const showMoreCast = () => {
-  if (!cast.value) return
-
-  const diff = cast.value.length - castToShow.value
-  if (Math.sign(diff) != 1) return
-  if (diff > 12) castToShow.value += 12
-  else castToShow.value += diff
 }
 
 const getReleaseDate = (d: Date) => {
@@ -120,14 +115,6 @@ const getDuration = (n: number | null) => {
   if (n === 60) return '1hr '
 
   if (n < 60) return n + 'mins'
-}
-
-const getCompactCurrency = (currency: number) => {
-  return new Intl.NumberFormat('us-EN', {
-    style: 'currency',
-    notation: 'compact',
-    currency: 'USD'
-  }).format(currency)
 }
 
 const handleComplenetarysize = () => {
@@ -164,7 +151,7 @@ watch(complementary, () => {
     />
     <div
       ref="overlay"
-      class="overlay pointer-events-none absolute top-0 left-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
+      class="overlay pointer-events-none absolute left-0 top-0 z-10 h-full max-h-screen w-full p-3 transition-opacity"
     />
     <div class="absolute bottom-0 w-full bg-[#032c37]" ref="complementary" />
 
@@ -188,44 +175,39 @@ watch(complementary, () => {
         >
           {{ show.name || show.title }}
         </h2>
-        <p class="mt-4 flex flex-wrap items-center" v-if="type === 'movie'">
-          <span>
-            {{ getReleaseDate(show.release_date) }}
-          </span>
-          <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
-          </span>
-          <span>
-            {{ getDuration(show.runtime) }}
-          </span>
-          <span
-            class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
-          ></span>
-          <span>
-            {{ getLanguage(show.original_language) }}
-          </span>
-        </p>
-        <p class="mt-4 flex flex-wrap items-center" v-else>
-          <span>
-            {{ getReleaseDate(show.first_air_date) }}
-          </span>
-          <span class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white">
-          </span>
-          <span>
-            {{ getNumebrOf(show.number_of_seasons, 'Season') }}
-          </span>
-          <span
-            class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
-          ></span>
-          <span>
-            {{ getNumebrOf(show.number_of_episodes, 'Episode') }}
-          </span>
-          <span
-            class="mx-1.5 inline-block h-1 w-1 rounded-full bg-white"
-          ></span>
-          <span>
-            {{ getLanguage(show.original_language) }}
-          </span>
-        </p>
+
+        <ul
+          class="mt-4 flex flex-wrap items-center [&>*]:mr-2 [&>*]:flex [&>*]:gap-2 [&>*]:before:my-auto [&>*]:before:block [&>*]:before:h-1 [&>*]:before:w-1 [&>*]:before:rounded-full [&>*]:before:bg-white [&>li:first-of-type]:before:hidden"
+        >
+          <template v-if="type === 'movie'">
+            <li>
+              {{ getReleaseDate(show.release_date) }}
+            </li>
+            <li>
+              {{ getDuration(show.runtime) }}
+            </li>
+            <li>
+              {{ getLanguage(show.original_language) }}
+            </li>
+          </template>
+          <template v-else>
+            <li>
+              {{ getReleaseDate(show.first_air_date) }}
+            </li>
+            <li>
+              {{ getNumebrOf(show.number_of_seasons, 'Season') }}
+            </li>
+            <li>
+              {{ getNumebrOf(show.number_of_episodes, 'Episode') }}
+            </li>
+            <li>
+              {{ getLanguage(show.original_language) }}
+            </li>
+          </template>
+
+          <Rate :rate="show.vote_average.toFixed(1)" />
+        </ul>
+
         <p class="mt-2 text-gray-300">
           {{ show.overview }}
         </p>
@@ -255,115 +237,9 @@ watch(complementary, () => {
     <div
       class="mx-auto grid w-full max-w-break gap-x-5 px-5 py-10 md:grid-cols-4"
     >
-      <div class="order-2 col-span-3 md:order-1" v-if="cast && cast.length > 0">
-        <h2 class="text-3xl font-semibold">Cast</h2>
-        <div class="!relative">
-          <div
-            class="mt-4 flex max-w-[calc(100vw-2.5rem)] gap-x-3 overflow-x-auto p-1 pb-2"
-          >
-            <div
-              v-for="member in cast.slice(0, castToShow)"
-              :key="member.credit_id"
-              class="min-w-[9rem] max-w-[9rem] rounded-md bg-wf-200"
-            >
-              <router-link :to="`/person/${member.id}`" tabindex="-1">
-                <VImage
-                  v-if="member.profile_path"
-                  class="h-52 w-36 rounded-t-md object-cover transition-opacity hover:opacity-75"
-                  :src="`https://image.tmdb.org/t/p/w200${member.profile_path}`"
-                  :alt="member.name"
-                />
-                <VImage
-                  v-else
-                  class="h-52 w-36 rounded-t-md object-cover"
-                  :src="
-                    member.gender === 1
-                      ? '/female-placeholder.jpeg'
-                      : '/male-placeholder.jpg'
-                  "
-                  :alt="member.name"
-                />
-              </router-link>
-              <div class="p-2">
-                <router-link
-                  :to="`/person/${member.id}`"
-                  class="-mx-1 inline-block rounded-sm px-1 font-semibold outline-none hover:text-gray-400 focus-visible:ring-2"
-                  >{{ member.name }}</router-link
-                >
-                <span class="block text-green-400">AS</span>
-                <h4 class="text-gray-400">{{ member.character }}</h4>
-              </div>
-            </div>
-            <button
-              v-if="cast.length > castToShow"
-              @click="showMoreCast()"
-              class="relative rounded-md bg-wf-200 px-10 outline-none transition-colors hover:bg-wf-200/60 focus-visible:ring"
-            >
-              <span
-                class="absolute -translate-x-1/2 -translate-y-1/2 rotate-90 text-5xl font-black text-wf-300"
-                >More</span
-              >
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="order-1 mb-8 md:order-2">
-        <h2 class="text-3xl font-semibold">Facts</h2>
-        <div class="mt-3 grid gap-3">
-          <div v-if="show?.status">
-            <h3 class="text-lg font-medium">Status</h3>
-            <p class="text-sm text-gray-400">{{ show?.status }}</p>
-          </div>
-          <div v-if="show?.budget">
-            <h3 class="text-lg font-medium">Budget</h3>
-            <p class="text-sm text-gray-400">
-              {{ getCompactCurrency(show?.budget) }}
-            </p>
-          </div>
-          <div v-if="show?.revenue">
-            <h3 class="text-lg font-medium">Revenue</h3>
-            <p class="text-sm text-gray-400">
-              {{ getCompactCurrency(show?.revenue) }}
-            </p>
-          </div>
-          <div v-if="show?.type">
-            <h3 class="text-lg font-medium">Type</h3>
-            <p class="text-sm text-gray-400">
-              {{ show?.type }}
-            </p>
-          </div>
-          <div v-if="show?.genres">
-            <h3 class="text-lg font-medium">
-              Genre{{ show.genres.length == 1 ? '' : 's' }}
-            </h3>
-            <p class="flex flex-wrap gap-1 text-sm text-wf-200">
-              <router-link
-                v-for="{ name, id } in show.genres"
-                :key="id"
-                class="rounded-sm bg-gray-200 px-0.5 py-[1px] text-xs font-semibold outline-none ring-slate-300 ring-offset-2 ring-offset-slate-800 focus-visible:ring-1"
-                :to="`/genre/${type == 'movie' ? 'movies' : 'series'}/${id}`"
-              >
-                {{ name }}
-              </router-link>
-            </p>
-          </div>
-          <div v-if="show?.networks">
-            <h3 class="mb-1 text-lg font-medium">
-              Network{{ show.networks.length == 1 ? '' : 's' }}
-            </h3>
-            <p class="flex flex-col gap-3">
-              <router-link
-                v-for="{ id, logo_path } in show.networks"
-                :key="id"
-                class="-m-1 w-fit rounded-sm p-1 outline-none ring-offset-1 ring-offset-slate-800 focus-visible:ring-1"
-                :to="`/network/${id}`"
-              >
-                <VImage :src="`https://image.tmdb.org/t/p/h30${logo_path}`" />
-              </router-link>
-            </p>
-          </div>
-        </div>
-      </div>
+      <Cast :cast="cast" v-if="cast && cast.length > 0" />
+
+      <Facts :show="show" :type="type" class="order-1 mb-8 md:order-2" />
     </div>
 
     <Seasons
@@ -393,8 +269,7 @@ watch(complementary, () => {
           class="absolute inset-1/2 w-9/12 -translate-x-1/2 -translate-y-1/2 pb-[56.25%] xl:h-[600px] xl:pb-0"
         >
           <iframe
-            class="absolute top-1/2 left-0 h-full w-full -translate-y-1/2"
-            style="aspect-ratio: 16/9"
+            class="absolute left-0 top-1/2 aspect-video h-full w-full -translate-y-1/2"
             :src="`https://www.youtube.com/embed/${trailer?.key}`"
             title="YouTube video player"
             frameborder="0"
