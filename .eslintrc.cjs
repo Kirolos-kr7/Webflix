@@ -24,6 +24,12 @@ module.exports = {
     $ref: 'readonly'
   },
   rules: {
+    'prettier/prettier': [
+      0,
+      {
+        endOfLine: 'auto'
+      }
+    ],
     'vue/multi-word-component-names': 0,
     'no-unused-vars': 'warn'
   }
