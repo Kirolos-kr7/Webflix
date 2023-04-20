@@ -31,13 +31,13 @@ const login = async () => {
   try {
     err.value = ''
     isLoading.value = true
-    const { user, error } = await supabase.auth.signIn({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value
     })
     if (error) err.value = error
-    if (user) {
-      store.user = user
+    if (data.user) {
+      store.user = data.user
       router.push('/')
     }
   } catch (error) {
@@ -50,18 +50,18 @@ const signup = async () => {
   try {
     err.value = ''
     isLoading.value = true
-    const { user, error } = await supabase.auth.signUp(
-      {
-        email: email.value,
-        password: password.value
-      },
-      {
-        data: { name }
+    const { data, error } = await supabase.auth.signUp({
+      email: email.value,
+      password: password.value,
+      options: {
+        data: {
+          name
+        }
       }
-    )
+    })
     if (error) err.value = error
-    if (user) {
-      store.user = user
+    if (data.user) {
+      store.user = data.user
       router.push('/')
     }
   } catch (error) {
