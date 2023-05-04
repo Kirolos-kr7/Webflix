@@ -25,21 +25,21 @@ const getTooltip = (
   if (binding?.modifiers.right) origin = 'r'
   if (binding?.modifiers.center) origin = 'c'
 
-  if (!origin)
-    throw new Error(
-      'One of these modifiers (Left, Right or Center) is required.'
-    )
+  if (!origin) origin = 'c'
 
   if (!el || !binding || navigator.userAgentData?.mobile) return
   const rect = el.getBoundingClientRect()
 
-  const styles = `v-tooltip bg-[#00141a] p-2 rounded-md z-[100] absolute text-xs shadow-xl border border-wf-200/80 transition-opacity opacity-0`
+  const styles = `v-tooltip top-0 left-0 bg-[#00141a] p-2 duration-200 rounded-md z-[100] absolute text-xs shadow-xl border border-wf-200/80 transition-opacity opacity-0`
 
   const tooltip = document.createElement('div')
   styles.split(' ').forEach((cls) => {
     tooltip.classList.add(cls)
   })
   tooltip.textContent = binding.value
+
+  const isExisting = document.body.querySelectorAll('.v-tooltip')
+  if (isExisting) Array.from(isExisting).forEach((elem) => elem.remove())
   document.body.append(tooltip)
 
   const cords = {
@@ -50,18 +50,21 @@ const getTooltip = (
         : window.scrollY + rect.top + rect.height
   }
 
-  if (origin === 'r') cords.x = rect.x - tooltip.offsetWidth / 2 - 2
-  if (origin === 'l') cords.x = rect.right - tooltip.offsetWidth / 2 + 2
+  if (origin === 'r') cords.x = rect.x - tooltip.offsetWidth / 2 + 5
+  if (origin === 'l') cords.x = rect.right - tooltip.offsetWidth / 2 - 5
 
-  tooltip.style.top = cords.y + 'px'
-  tooltip.style.left = cords.x + 'px'
+  tooltip.style.transformOrigin = 'center'
+  tooltip.style.transform = `translate(${cords.x}px,${cords.y}px)`
 
   setTimeout(() => {
     tooltip.classList.remove('opacity-0')
-  }, 250)
+  }, 200)
 }
 
 const removeTooltip = () => {
   const tooltip: HTMLElement | null = document.body.querySelector('.v-tooltip')
-  if (tooltip) tooltip.remove()
+  if (tooltip) {
+    tooltip.classList.add('opacity-0')
+    setTimeout(() => tooltip.remove(), 200)
+  }
 }
