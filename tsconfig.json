@@ -1,11 +1,11 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": [
-    "src/**/*",
-    "src/**/*.vue"
-  ],
+  "include": ["src/**/*", "src/**/*.vue"],
+  "ignoreDeprecations": "5.0",
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "composite": true,
     "jsx": "preserve",
@@ -16,9 +16,7 @@
       "./node_modules/user-agent-data-types"
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   }
 }

@@ -18,54 +18,52 @@ import Favourite from './views/User/Favourite.vue'
 import { supabase } from './supabase'
 import { useStore } from './store'
 
-const routes = [
-  { name: 'Trending', path: '/', component: Trending },
-  { name: 'Movies', path: '/movies', component: Movies },
-  { name: 'AMovie', path: '/movie/:id', component: AMovie },
-  { name: 'Series', path: '/series', component: Series },
-  { name: 'ASeries', path: '/series/:id', component: ASeries },
-  {
-    name: 'Season',
-    path: '/series/:showId/season/:seasonNum',
-    component: Season
-  },
-  { name: 'Genres', path: '/genres', component: Genres },
-  { name: 'MovieGenre', path: '/genre/movies/:id', component: Genre },
-  { name: 'SeriesGenre', path: '/genre/series/:id', component: Genre },
-  { name: 'Network', path: '/network/:id', component: Network },
-  { name: 'Search', path: '/search', component: Search },
-  { name: 'Person', path: '/person/:id', component: Person },
-  {
-    name: 'Auth',
-    path: '/auth',
-    meta: { requiresUnAuth: true },
-    component: Auth
-  },
-  {
-    name: 'User',
-    path: '/me',
-    meta: { requiresAuth: true },
-    component: UserLayout,
-    children: [
-      {
-        name: 'Profile',
-        path: '',
-        component: Profile
-      },
-      {
-        name: 'Favourite',
-        path: 'fav',
-        component: Favourite
-      }
-    ]
-  },
-  { name: '404', path: '/404', component: FOUROFOUR },
-  { path: '/:catchAll(.*)', redirect: '/404' }
-]
-
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: [
+    { name: 'Trending', path: '/', component: Trending },
+    { name: 'Movies', path: '/movies', component: Movies },
+    { name: 'AMovie', path: '/movie/:id', component: AMovie },
+    { name: 'Series', path: '/series', component: Series },
+    { name: 'ASeries', path: '/series/:id', component: ASeries },
+    {
+      name: 'Season',
+      path: '/series/:showId/season/:seasonNum',
+      component: Season
+    },
+    { name: 'Genres', path: '/genres', component: Genres },
+    { name: 'MovieGenre', path: '/genre/movies/:id', component: Genre },
+    { name: 'SeriesGenre', path: '/genre/series/:id', component: Genre },
+    { name: 'Network', path: '/network/:id', component: Network },
+    { name: 'Search', path: '/search', component: Search },
+    { name: 'Person', path: '/person/:id', component: Person },
+    {
+      name: 'Auth',
+      path: '/auth',
+      meta: { requiresUnAuth: true },
+      component: Auth
+    },
+    {
+      name: 'User',
+      path: '/me',
+      meta: { requiresAuth: true },
+      component: UserLayout,
+      children: [
+        {
+          name: 'Profile',
+          path: '',
+          component: Profile
+        },
+        {
+          name: 'Favourite',
+          path: 'fav',
+          component: Favourite
+        }
+      ]
+    },
+    { name: '404', path: '/404', component: FOUROFOUR },
+    { path: '/:catchAll(.*)', redirect: '/404' }
+  ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
